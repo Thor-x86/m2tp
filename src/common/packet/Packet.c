@@ -11,7 +11,7 @@ m2tp_bytes Packet_serialize(const Packet *packet)
   // return ...;
 }
 
-Packet Packet_parse(m2tp_bytes rawBytes)
+Packet Packet_parse(const m2tp_bytes rawBytes)
 {
   // TODO: Write stuffs here...
   // return ...;

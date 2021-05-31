@@ -27,6 +27,6 @@ typedef struct
 extern m2tp_bytes Packet_serialize(const Packet *packet);
 
 // Convert: Raw Bytes => Packet Object
-extern Packet Packet_parse(m2tp_bytes rawBytes);
+extern Packet Packet_parse(const m2tp_bytes rawBytes);
 
 #endif // #ifndef IS_PACKET_DEFINED

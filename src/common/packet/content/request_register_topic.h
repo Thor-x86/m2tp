@@ -23,6 +23,6 @@ extern m2tp_bytes packet_content_RequestRegisterTopic_serialize(
 
 // Convert: Raw Bytes => Packet Object
 extern packet_content_RequestRegisterTopic packet_content_RequestRegisterTopic_parse(
-    m2tp_bytes rawBytes);
+    const m2tp_bytes rawBytes);
 
 #endif // #ifndef IS_REQUEST_REGISTER_TOPIC_PACKET_DEFINED

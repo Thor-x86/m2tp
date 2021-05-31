@@ -16,17 +16,17 @@ typedef void (*m2tp_driver_TimerFinishCallback)();
 /**
  * @brief Set device's brand, it's optional
  */
-extern void m2tp_driver_setDeviceBrand(char *value);
+extern void m2tp_driver_setDeviceBrand(const char *value);
 
 /**
  * @brief Set device's manufacturer, it's optional
  */
-extern void m2tp_driver_setDeviceVendor(char *value);
+extern void m2tp_driver_setDeviceVendor(const char *value);
 
 /**
  * @brief Set the device's role, required to inform other device
  */
-extern void m2tp_driver_setDeviceClass(char *value);
+extern void m2tp_driver_setDeviceClass(const char *value);
 
 /**
  * @brief Notify library if connected from network
@@ -44,7 +44,7 @@ extern void m2tp_driver_disconnected();
  * @param contentSize In bytes
  * @param content Serialized packet content
  */
-extern void m2tp_driver_receive(m2tp_byte command, unsigned short int contentSize, m2tp_bytes content);
+extern void m2tp_driver_receive(m2tp_byte command, unsigned short int contentSize, const m2tp_bytes content);
 
 /**
  * @brief Report if driver cannot receive packet correctly
@@ -59,7 +59,7 @@ extern void m2tp_driver_receiveFailed(m2tp_byte errorCode, m2tp_channel where);
  * @param contentSize In bytes
  * @param content Serialized packet content
  */
-extern void (*m2tp_driver_sendListener)(m2tp_byte command, unsigned short int contentSize, m2tp_bytes content);
+extern void (*m2tp_driver_sendListener)(m2tp_byte command, unsigned short int contentSize, const m2tp_bytes content);
 
 /**
  * @brief Report if driver cannot send packet

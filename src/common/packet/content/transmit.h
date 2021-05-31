@@ -29,6 +29,6 @@ extern m2tp_bytes packet_content_Transmit_serialize(
 
 // Convert: Raw Bytes => Packet Object
 extern packet_content_Transmit packet_content_Transmit_parse(
-    m2tp_bytes rawBytes);
+    const m2tp_bytes rawBytes);
 
 #endif // #ifndef IS_TRANSMIT_PACKET_DEFINED

@@ -11,7 +11,7 @@ m2tp_bytes packet_content_ResponseRegisterTopic_serialize(const packet_content_R
   //return ...;
 }
 
-packet_content_ResponseRegisterTopic packet_content_ResponseRegisterTopic_parse(m2tp_bytes rawBytes)
+packet_content_ResponseRegisterTopic packet_content_ResponseRegisterTopic_parse(const m2tp_bytes rawBytes)
 {
   // TODO: Write stuffs here...
   //return ...;

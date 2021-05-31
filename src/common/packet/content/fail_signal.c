@@ -11,7 +11,7 @@ m2tp_bytes packet_content_FailSignal_serialize(const packet_content_FailSignal *
   //return ...;
 }
 
-packet_content_FailSignal packet_content_FailSignal_parse(m2tp_bytes rawBytes)
+packet_content_FailSignal packet_content_FailSignal_parse(const m2tp_bytes rawBytes)
 {
   // TODO: Write stuffs here...
   //return ...;

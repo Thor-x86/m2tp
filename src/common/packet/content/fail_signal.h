@@ -23,6 +23,6 @@ extern m2tp_bytes packet_content_FailSignal_serialize(
 
 // Convert: Raw Bytes => Packet Object
 extern packet_content_FailSignal packet_content_FailSignal_parse(
-    m2tp_bytes rawBytes);
+    const m2tp_bytes rawBytes);
 
 #endif // #ifndef IS_FAIL_SIGNAL_PACKET_DEFINED

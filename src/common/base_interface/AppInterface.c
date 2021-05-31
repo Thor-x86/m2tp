@@ -11,10 +11,10 @@
 void (*m2tp_receivedListener)(
     m2tp_channel sourceAddress,
     unsigned short int dataSize,
-    m2tp_bytes data) = NULL;
+    const m2tp_bytes data) = NULL;
 
 void (*m2tp_onNewMemberListener)(
-    char *memberClass,
+    const char *memberClass,
     m2tp_channel assignedAddress) = NULL;
 
 void (*m2tp_onAnotherMemberQuitListener)(
@@ -27,7 +27,7 @@ void (*m2tp_onAnotherMemberQuitListener)(
 void m2tp_send(
     m2tp_channel targetAddress,
     unsigned short int dataSize,
-    m2tp_bytes data)
+    const m2tp_bytes data)
 {
   // TODO: Write stuffs here...
 }
@@ -35,7 +35,7 @@ void m2tp_send(
 void m2tp_sendWithCallback(
     m2tp_channel targetAddress,
     unsigned short int dataSize,
-    m2tp_bytes data,
+    const m2tp_bytes data,
     m2tp_OnSuccessCallback successCallback,
     m2tp_OnErrorCallback errorCallback)
 {
@@ -43,14 +43,14 @@ void m2tp_sendWithCallback(
 }
 
 void m2tp_createTopic(
-    char *topicName,
+    const char *topicName,
     m2tp_OnRegisteredCallback successCallback,
     m2tp_OnErrorCallback failedCallback)
 {
   // TODO: Write stuffs here...
 }
 
-void m2tp_publish(m2tp_channel topicID, unsigned short int dataSize, m2tp_bytes data)
+void m2tp_publish(m2tp_channel topicID, unsigned short int dataSize, const m2tp_bytes data)
 {
   // TODO: Write stuffs here...
 }
@@ -58,7 +58,7 @@ void m2tp_publish(m2tp_channel topicID, unsigned short int dataSize, m2tp_bytes 
 void m2tp_publishWithCallback(
     m2tp_channel topicID,
     unsigned short int dataSize,
-    m2tp_bytes data,
+    const m2tp_bytes data,
     m2tp_OnSuccessCallback successCallback,
     m2tp_OnErrorCallback errorCallback)
 {
@@ -66,7 +66,7 @@ void m2tp_publishWithCallback(
 }
 
 void m2tp_subscribe(
-    char *topicName,
+    const char *topicName,
     m2tp_TopicListener listener)
 {
   // TODO: Write stuffs here...
@@ -82,17 +82,17 @@ m2tp_byte m2tp_isConnected()
   return isReady();
 }
 
-char *m2tp_getDeviceBrand()
+const char *m2tp_getDeviceBrand()
 {
   return deviceBrand;
 }
 
-char *m2tp_getDeviceVendor()
+const char *m2tp_getDeviceVendor()
 {
   return deviceVendor;
 }
 
-char *m2tp_getDeviceClass()
+const char *m2tp_getDeviceClass()
 {
   return deviceClass;
 }

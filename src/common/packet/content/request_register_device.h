@@ -27,6 +27,6 @@ extern m2tp_bytes packet_content_RequestRegisterDevice_serialize(
 
 // Convert: Raw Bytes => Packet Object
 extern packet_content_RequestRegisterDevice packet_content_RequestRegisterDevice_parse(
-    m2tp_bytes rawBytes);
+    const m2tp_bytes rawBytes);
 
 #endif // #ifndef IS_REQUEST_REGISTER_DEVICE_PACKET_DEFINED

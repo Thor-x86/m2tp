@@ -26,6 +26,6 @@ extern m2tp_bytes packet_content_ChannelTurnSignal_serialize(
 
 // Convert: Raw Bytes => Packet Object
 extern packet_content_ChannelTurnSignal packet_content_ChannelTurnSignal_parse(
-    m2tp_bytes rawBytes);
+    const m2tp_bytes rawBytes);
 
 #endif // #ifndef IS_CHANNEL_TURN_SIGNAL_PACKET_DEFINED

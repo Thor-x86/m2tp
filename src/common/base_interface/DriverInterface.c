@@ -13,7 +13,7 @@
 void (*m2tp_driver_sendListener)(
     m2tp_byte command,
     unsigned short int packetSize,
-    m2tp_bytes rawData) = NULL;
+    const m2tp_bytes rawData) = NULL;
 
 void (*m2tp_driver_startTimerListener)(
     unsigned long int duration,
@@ -25,17 +25,17 @@ void (*m2tp_driver_stopTimerListener)() = NULL;
 
 //////// Functions /////////////////////////////////////
 
-void m2tp_driver_setDeviceBrand(char *value)
+void m2tp_driver_setDeviceBrand(const char *value)
 {
   deviceBrand = value;
 }
 
-void m2tp_driver_setDeviceVendor(char *value)
+void m2tp_driver_setDeviceVendor(const char *value)
 {
   deviceVendor = value;
 }
 
-void m2tp_driver_setDeviceClass(char *value)
+void m2tp_driver_setDeviceClass(const char *value)
 {
   deviceClass = value;
 }
@@ -56,7 +56,7 @@ void m2tp_driver_disconnected()
 void m2tp_driver_receive(
     m2tp_byte command,
     unsigned short int contentSize,
-    m2tp_bytes content)
+    const m2tp_bytes content)
 {
   Packet packet;
   packet.command = command;

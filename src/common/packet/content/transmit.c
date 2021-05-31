@@ -11,7 +11,7 @@ m2tp_bytes packet_content_Transmit_serialize(const packet_content_Transmit *pack
   //return ...;
 }
 
-packet_content_Transmit packet_content_Transmit_parse(m2tp_bytes rawBytes)
+packet_content_Transmit packet_content_Transmit_parse(const m2tp_bytes rawBytes)
 {
   // TODO: Write stuffs here...
   //return ...;

@@ -26,6 +26,6 @@ extern m2tp_bytes packet_content_AnnouncementQuit_serialize(
 
 // Convert: Raw Bytes => Packet Object
 extern packet_content_AnnouncementQuit packet_content_AnnouncementQuit_parse(
-    m2tp_bytes rawBytes);
+    const m2tp_bytes rawBytes);
 
 #endif // #ifndef IS_ANNOUNCEMENT_QUIT_PACKET_DEFINED

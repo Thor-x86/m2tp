@@ -12,7 +12,7 @@ m2tp_bytes packet_content_AnnouncementJoin_serialize(const packet_content_Announ
 }
 
 packet_content_AnnouncementQuit packet_content_AnnouncementJoin_parse(
-    m2tp_bytes rawBytes)
+    const m2tp_bytes rawBytes)
 {
   // TODO: Write stuffs here...
   //return ...;

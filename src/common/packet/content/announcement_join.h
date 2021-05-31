@@ -26,6 +26,6 @@ extern m2tp_bytes packet_content_AnnouncementJoin_serialize(
 
 // Convert: Raw Bytes => Packet Object
 extern packet_content_AnnouncementQuit packet_content_AnnouncementJoin_parse(
-    m2tp_bytes rawBytes);
+    const m2tp_bytes rawBytes);
 
 #endif // #ifndef IS_ANNOUNCEMENT_JOIN_PACKET_DEFINED

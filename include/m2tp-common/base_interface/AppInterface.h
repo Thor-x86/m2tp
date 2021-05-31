@@ -30,7 +30,7 @@ typedef void (*m2tp_OnRegisteredCallback)(m2tp_channel assignedAs);
  * @param dataSize In bytes
  * @param data Retreived message data
  */
-typedef void (*m2tp_TopicListener)(unsigned short int dataSize, m2tp_bytes data);
+typedef void (*m2tp_TopicListener)(unsigned short int dataSize, const m2tp_bytes data);
 
 /**
  * @brief Send data to a device, in peer-to-peer mode
@@ -38,7 +38,7 @@ typedef void (*m2tp_TopicListener)(unsigned short int dataSize, m2tp_bytes data)
  * @param dataSize Unit in bytes
  * @param data Raw bytes of data to be sent
  */
-extern void m2tp_send(m2tp_channel targetAddress, unsigned short int dataSize, m2tp_bytes data);
+extern void m2tp_send(m2tp_channel targetAddress, unsigned short int dataSize, const m2tp_bytes data);
 
 /**
  * @brief Send data to a device, in peer-to-peer mode
@@ -48,7 +48,7 @@ extern void m2tp_send(m2tp_channel targetAddress, unsigned short int dataSize, m
  * @param successCallback Pointer to a function, will be called on success
  * @param failedCallback Pointer to a function, will be called on failed
  */
-extern void m2tp_sendWithCallback(m2tp_channel targetAddress, unsigned short int dataSize, m2tp_bytes data, m2tp_OnSuccessCallback successCallback, m2tp_OnErrorCallback errorCallback);
+extern void m2tp_sendWithCallback(m2tp_channel targetAddress, unsigned short int dataSize, const m2tp_bytes data, m2tp_OnSuccessCallback successCallback, m2tp_OnErrorCallback errorCallback);
 
 /**
  * @brief Pointer to a function, will be called when receiving something in peer-to-peer
@@ -56,7 +56,7 @@ extern void m2tp_sendWithCallback(m2tp_channel targetAddress, unsigned short int
  * @param dataSize In bytes
  * @param data Received raw bytes of data
  */
-extern void (*m2tp_receivedListener)(m2tp_channel sourceAddress, unsigned short int dataSize, m2tp_bytes data);
+extern void (*m2tp_receivedListener)(m2tp_channel sourceAddress, unsigned short int dataSize, const m2tp_bytes data);
 
 /**
  * @brief Creates a topic for the network, use this before publish
@@ -64,7 +64,7 @@ extern void (*m2tp_receivedListener)(m2tp_channel sourceAddress, unsigned short 
  * @param successCallback Pointer to a function, you will get topic ID from here
  * @param failedCallback Pointer to a function, will be called on failed
  */
-extern void m2tp_createTopic(char *topicName, m2tp_OnRegisteredCallback successCallback, m2tp_OnErrorCallback failedCallback);
+extern void m2tp_createTopic(const char *topicName, m2tp_OnRegisteredCallback successCallback, m2tp_OnErrorCallback failedCallback);
 
 /**
  * @brief Broadcast data to a topic
@@ -72,7 +72,7 @@ extern void m2tp_createTopic(char *topicName, m2tp_OnRegisteredCallback successC
  * @param dataSize Unit in bytes
  * @param data Raw bytes of data to be broadcasted
  */
-extern void m2tp_publish(m2tp_channel topicID, unsigned short int dataSize, m2tp_bytes data);
+extern void m2tp_publish(m2tp_channel topicID, unsigned short int dataSize, const m2tp_bytes data);
 
 /**
  * @brief Broadcast data to a topic
@@ -82,21 +82,21 @@ extern void m2tp_publish(m2tp_channel topicID, unsigned short int dataSize, m2tp
  * @param successCallback Pointer to a function, will be called on success
  * @param failedCallback Pointer to a function, will be called on failed
  */
-extern void m2tp_publishWithCallback(m2tp_channel topicID, unsigned short int dataSize, m2tp_bytes data, m2tp_OnSuccessCallback successCallback, m2tp_OnErrorCallback errorCallback);
+extern void m2tp_publishWithCallback(m2tp_channel topicID, unsigned short int dataSize, const m2tp_bytes data, m2tp_OnSuccessCallback successCallback, m2tp_OnErrorCallback errorCallback);
 
 /**
  * @brief Listen to data coming from a topic
  * @param topicName An identity that meant to be shared among other programmers
  * @param listener Will be called everytime received data
  */
-extern void m2tp_subscribe(char *topicName, m2tp_TopicListener listener);
+extern void m2tp_subscribe(const char *topicName, m2tp_TopicListener listener);
 
 /**
  * @brief Pointer to a function, will be called when new member registered
  * @param memberClass Type of device, came from that device's driver interface
  * @param assignedAddress New member's address
  */
-extern void (*m2tp_onNewMemberListener)(char *memberClass, m2tp_channel assignedAddress);
+extern void (*m2tp_onNewMemberListener)(const char *memberClass, m2tp_channel assignedAddress);
 
 /**
  * @brief Pointer to a function, will be called when new member registered
@@ -122,18 +122,18 @@ extern m2tp_byte m2tp_isConnected();
  * @brief Get current device name, from driver interface
  * @return char* (Primitive String)
  */
-extern char *m2tp_getDeviceBrand();
+extern const char *m2tp_getDeviceBrand();
 
 /**
  * @brief Get current device manufacturer, from driver interface
  * @return char* (Primitive String)
  */
-extern char *m2tp_getDeviceVendor();
+extern const char *m2tp_getDeviceVendor();
 
 /**
  * @brief Get current device class, from driver interface
  * @return char* (Primitive String)
  */
-extern char *m2tp_getDeviceClass();
+extern const char *m2tp_getDeviceClass();
 
 #endif // #ifndef IS_M2TP_COMMON_APP_INTERFACE_DEFINED
