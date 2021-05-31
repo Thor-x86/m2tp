@@ -1,0 +1,19 @@
+{
+    "cmake.buildDirectory": "${workspaceFolder}/.cmake",
+    "C_Cpp.default.includePath": [
+      "${workspaceFolder}/include",
+      "${workspaceFolder}/.cmake/googletest-src/googletest/include"
+    ],
+    "files.associations": {
+      "*.jsx": "javascriptreact",
+      "gtest.h": "c",
+      "errors.h": "c",
+      "channel_turn_signal.h": "c",
+      "request_register_device.h": "c",
+      "devicestate.h": "c",
+      "driverinterface.h": "c",
+      "appinterface.h": "c",
+      "transmittask.h": "c",
+      "taskrouter.h": "c"
+    }
+}
