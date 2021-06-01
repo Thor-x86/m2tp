@@ -13,7 +13,7 @@ typedef struct
 {
 
   // Random number 0-255,
-  // just in case two device register at same time
+  // just in case two devices register at same time
   m2tp_byte dice;
 
   // What role of the device?
