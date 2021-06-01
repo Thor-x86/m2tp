@@ -12,6 +12,12 @@
 typedef struct
 {
 
+  // Sender's device address
+  m2tp_channel source;
+
+  // Receiver device address or topicID
+  m2tp_channel target;
+
   // Multiple bytes of data, intented for application
   m2tp_bytes data;
 
