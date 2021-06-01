@@ -1,6 +1,6 @@
 /**
  * @file IntParse.test.cpp
- * @brief Test unit for IntParse.h
+ * @brief Unit test for IntParse.h
 **/
 
 #include "IntParse.h"

@@ -1,6 +1,6 @@
 /**
  * @file UintSerialize.test.cpp
- * @brief Test unit for UintSerialize.h
+ * @brief Unit test for UintSerialize.h
 **/
 
 #include "UintSerialize.h"
