@@ -14,7 +14,7 @@ void (*m2tp_receivedListener)(
     const m2tp_bytes data) = NULL;
 
 void (*m2tp_onNewMemberListener)(
-    const char *memberClass,
+    char *memberClass,
     m2tp_channel assignedAddress) = NULL;
 
 void (*m2tp_onAnotherMemberQuitListener)(
@@ -43,7 +43,7 @@ void m2tp_sendWithCallback(
 }
 
 void m2tp_createTopic(
-    const char *topicName,
+    char *topicName,
     m2tp_OnRegisteredCallback successCallback,
     m2tp_OnErrorCallback failedCallback)
 {
@@ -66,7 +66,7 @@ void m2tp_publishWithCallback(
 }
 
 void m2tp_subscribe(
-    const char *topicName,
+    char *topicName,
     m2tp_TopicListener listener)
 {
   // TODO: Write stuffs here...

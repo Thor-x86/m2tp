@@ -64,7 +64,7 @@ extern void (*m2tp_receivedListener)(m2tp_channel sourceAddress, unsigned short 
  * @param successCallback Pointer to a function, you will get topic ID from here
  * @param failedCallback Pointer to a function, will be called on failed
  */
-extern void m2tp_createTopic(const char *topicName, m2tp_OnRegisteredCallback successCallback, m2tp_OnErrorCallback failedCallback);
+extern void m2tp_createTopic(char *topicName, m2tp_OnRegisteredCallback successCallback, m2tp_OnErrorCallback failedCallback);
 
 /**
  * @brief Broadcast data to a topic
@@ -89,14 +89,14 @@ extern void m2tp_publishWithCallback(m2tp_channel topicID, unsigned short int da
  * @param topicName An identity that meant to be shared among other programmers
  * @param listener Will be called everytime received data
  */
-extern void m2tp_subscribe(const char *topicName, m2tp_TopicListener listener);
+extern void m2tp_subscribe(char *topicName, m2tp_TopicListener listener);
 
 /**
  * @brief Pointer to a function, will be called when new member registered
  * @param memberClass Type of device, came from that device's driver interface
  * @param assignedAddress New member's address
  */
-extern void (*m2tp_onNewMemberListener)(const char *memberClass, m2tp_channel assignedAddress);
+extern void (*m2tp_onNewMemberListener)(char *memberClass, m2tp_channel assignedAddress);
 
 /**
  * @brief Pointer to a function, will be called when new member registered

@@ -25,17 +25,17 @@ void (*m2tp_driver_stopTimerListener)() = NULL;
 
 //////// Functions /////////////////////////////////////
 
-void m2tp_driver_setDeviceBrand(const char *value)
+void m2tp_driver_setDeviceBrand(char *value)
 {
   deviceBrand = value;
 }
 
-void m2tp_driver_setDeviceVendor(const char *value)
+void m2tp_driver_setDeviceVendor(char *value)
 {
   deviceVendor = value;
 }
 
-void m2tp_driver_setDeviceClass(const char *value)
+void m2tp_driver_setDeviceClass(char *value)
 {
   deviceClass = value;
 }
