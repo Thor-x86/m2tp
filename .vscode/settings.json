@@ -5,7 +5,6 @@
       "${workspaceFolder}/.cmake/googletest-src/googletest/include"
     ],
     "files.associations": {
-      "*.jsx": "javascriptreact",
       "gtest.h": "c",
       "errors.h": "c",
       "channel_turn_signal.h": "c",
@@ -14,6 +13,8 @@
       "driverinterface.h": "c",
       "appinterface.h": "c",
       "transmittask.h": "c",
-      "taskrouter.h": "c"
+      "taskrouter.h": "c",
+      "request_register_topic.h": "c",
+      "fail_signal.h": "c"
     }
 }
