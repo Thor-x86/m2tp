@@ -5,14 +5,15 @@
 
 #include "fail_signal.h"
 
-m2tp_bytes packet_content_FailSignal_serialize(const packet_content_FailSignal *packet)
+m2tp_bytes packet_content_FailSignal_serialize(
+    const packet_content_FailSignal *input, unsigned short *outputSizePtr)
 {
   // TODO: Write stuffs here...
   //return ...;
 }
 
-packet_content_FailSignal packet_content_FailSignal_parse(const m2tp_bytes rawBytes)
+void packet_content_FailSignal_parse(
+    const m2tp_bytes input, unsigned short inputSize, packet_content_FailSignal *output)
 {
   // TODO: Write stuffs here...
-  //return ...;
 }

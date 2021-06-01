@@ -5,14 +5,15 @@
 
 #include "transmit.h"
 
-m2tp_bytes packet_content_Transmit_serialize(const packet_content_Transmit *packet)
+m2tp_bytes packet_content_Transmit_serialize(
+    const packet_content_Transmit *input, unsigned short *outputSizePtr)
 {
   // TODO: Write stuffs here...
   //return ...;
 }
 
-packet_content_Transmit packet_content_Transmit_parse(const m2tp_bytes rawBytes)
+void packet_content_Transmit_parse(
+    const m2tp_bytes input, unsigned short inputSize, packet_content_Transmit *output)
 {
   // TODO: Write stuffs here...
-  //return ...;
 }

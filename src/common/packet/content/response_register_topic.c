@@ -5,14 +5,15 @@
 
 #include "response_register_topic.h"
 
-m2tp_bytes packet_content_ResponseRegisterTopic_serialize(const packet_content_ResponseRegisterTopic *packet)
+m2tp_bytes packet_content_ResponseRegisterTopic_serialize(
+    const packet_content_ResponseRegisterTopic *input, unsigned short *outputSizePtr)
 {
   // TODO: Write stuffs here...
   //return ...;
 }
 
-packet_content_ResponseRegisterTopic packet_content_ResponseRegisterTopic_parse(const m2tp_bytes rawBytes)
+void packet_content_ResponseRegisterTopic_parse(
+    const m2tp_bytes input, unsigned short inputSize, packet_content_ResponseRegisterTopic *output)
 {
   // TODO: Write stuffs here...
-  //return ...;
 }

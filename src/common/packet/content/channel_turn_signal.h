@@ -17,15 +17,13 @@ typedef struct
 
 } packet_content_ChannelTurnSignal;
 
-// CHANNEL_TURN_SIGNAL Packet has fixed size
-#define PACKET_CONTENT_SIZE_CHANNEL_TURN_SIGNAL 1
-
 // Convert: Packet Object => Raw Bytes
+// returns serialized packet
 extern m2tp_bytes packet_content_ChannelTurnSignal_serialize(
-    const packet_content_ChannelTurnSignal *packet);
+    const packet_content_ChannelTurnSignal *input, unsigned short *outputSizePtr);
 
 // Convert: Raw Bytes => Packet Object
-extern packet_content_ChannelTurnSignal packet_content_ChannelTurnSignal_parse(
-    const m2tp_bytes rawBytes);
+extern void packet_content_ChannelTurnSignal_parse(
+    const m2tp_bytes input, unsigned short inputSize, packet_content_ChannelTurnSignal *output);
 
 #endif // #ifndef IS_CHANNEL_TURN_SIGNAL_PACKET_DEFINED

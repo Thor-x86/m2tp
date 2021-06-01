@@ -5,13 +5,13 @@
 
 #include "Packet.h"
 
-m2tp_bytes Packet_serialize(const Packet *packet)
+m2tp_bytes Packet_serialize(const Packet *input, unsigned short *outputSizePtr)
 {
   // TODO: Write stuffs here...
   // return ...;
 }
 
-Packet Packet_parse(const m2tp_bytes rawBytes)
+void Packet_parse(const m2tp_bytes input, Packet *output)
 {
   // TODO: Write stuffs here...
   // return ...;

@@ -18,11 +18,12 @@ typedef struct
 } packet_content_RequestRegisterTopic;
 
 // Convert: Packet Object => Raw Bytes
+// returns serialized packet
 extern m2tp_bytes packet_content_RequestRegisterTopic_serialize(
-    const packet_content_RequestRegisterTopic *packet);
+    const packet_content_RequestRegisterTopic *input, unsigned short *outputSizePtr);
 
 // Convert: Raw Bytes => Packet Object
-extern packet_content_RequestRegisterTopic packet_content_RequestRegisterTopic_parse(
-    const m2tp_bytes rawBytes);
+extern void packet_content_RequestRegisterTopic_parse(
+    const m2tp_bytes input, unsigned short inputSize, packet_content_RequestRegisterTopic *output);
 
 #endif // #ifndef IS_REQUEST_REGISTER_TOPIC_PACKET_DEFINED

@@ -21,11 +21,12 @@ typedef struct
 } packet_content_ResponseRegisterDevice;
 
 // Convert: Packet Object => Raw Bytes
-extern m2tp_bytes packet_content_ResponseRegisterDevice_serialize(
-    const packet_content_ResponseRegisterDevice *packet);
+// returns serialized packet
+extern unsigned int packet_content_ResponseRegisterDevice_serialize(
+    const packet_content_ResponseRegisterDevice *input, unsigned short *outputSizePtr);
 
 // Convert: Raw Bytes => Packet Object
-extern packet_content_ResponseRegisterDevice packet_content_ResponseRegisterDevice_parse(
-    const m2tp_bytes rawBytes);
+extern void packet_content_ResponseRegisterDevice_parse(
+    const m2tp_bytes input, unsigned short inputSize, packet_content_ResponseRegisterDevice *output);
 
 #endif // #ifndef IS_RESPONSE_REGISTER_DEVICE_PACKET_DEFINED

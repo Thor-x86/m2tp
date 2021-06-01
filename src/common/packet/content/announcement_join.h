@@ -21,11 +21,12 @@ typedef struct
 } packet_content_AnnouncementQuit;
 
 // Convert: Packet Object => Raw Bytes
+// returns serialized packet
 extern m2tp_bytes packet_content_AnnouncementJoin_serialize(
-    const packet_content_AnnouncementQuit *packet);
+    const packet_content_AnnouncementQuit *input, unsigned short *outputSizePtr);
 
 // Convert: Raw Bytes => Packet Object
-extern packet_content_AnnouncementQuit packet_content_AnnouncementJoin_parse(
-    const m2tp_bytes rawBytes);
+extern void packet_content_AnnouncementJoin_parse(
+    const m2tp_bytes input, unsigned short inputSize, packet_content_AnnouncementQuit *output);
 
 #endif // #ifndef IS_ANNOUNCEMENT_JOIN_PACKET_DEFINED
