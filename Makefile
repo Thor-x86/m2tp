@@ -33,9 +33,9 @@ endif
 
 clean:
 ifeq ($(detected_OS),Windows)
-	rm out\libm2tp-member.dll; rm out\libm2tp-leader.dll
+	rm out\libm2tp-member.dll; rm out\libm2tp-leader.dll; rmdir .cmake\CMakeFiles
 else
-	rm -f out/libm2tp-*
+	rm -rf out/libm2tp-* .cmake/CMakeFiles
 endif
 .PHONY: clean
 
