@@ -21,6 +21,10 @@ typedef struct
   // Multiple bytes of data, intented for application
   m2tp_bytes data;
 
+  // Won't included on serialization,
+  // just to inform serializer about how big data is
+  unsigned short int dataSize;
+
   // Won't included on serialization, NULL value if no callback needed
   void (*successCallback)();
 
