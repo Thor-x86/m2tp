@@ -5,7 +5,7 @@
 
 #include "response_register_device.h"
 
-unsigned int packet_content_ResponseRegisterDevice_serialize(
+m2tp_bytes packet_content_ResponseRegisterDevice_serialize(
     const packet_content_ResponseRegisterDevice *input, unsigned short *outputSizePtr)
 {
   // TODO: Write stuffs here...

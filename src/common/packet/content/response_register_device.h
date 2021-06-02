@@ -22,7 +22,7 @@ typedef struct
 
 // Convert: Packet Object => Raw Bytes
 // returns serialized packet
-extern unsigned int packet_content_ResponseRegisterDevice_serialize(
+extern m2tp_bytes packet_content_ResponseRegisterDevice_serialize(
     const packet_content_ResponseRegisterDevice *input, unsigned short *outputSizePtr);
 
 // Convert: Raw Bytes => Packet Object
