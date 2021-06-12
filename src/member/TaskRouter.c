@@ -13,3 +13,11 @@ void TaskRouter_nextTask()
 {
   // TODO: Write stuffs here...
 }
+
+void TaskRouter_reset()
+{
+  TaskRouter_clearFunctions();
+  TaskRouter_currentTask = NULL;
+
+  // TODO: Stop all tasks here...
+}

@@ -35,10 +35,4 @@ void TaskRouter_clearFunctions()
   TaskRouter_reportSendFail = NULL;
 }
 
-void TaskRouter_reset()
-{
-  TaskRouter_clearFunctions();
-  TaskRouter_currentTask = NULL;
-}
-
-// NOTE: TaskRouter_nextTask function implemented at member and leader
+// NOTE: TaskRouter_nextTask and TaskRouter_reset function implemented at member and leader
