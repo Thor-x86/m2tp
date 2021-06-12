@@ -41,4 +41,4 @@ void TaskRouter_reset()
   TaskRouter_currentTask = NULL;
 }
 
-// NOTE: nextTask function implemented at member and leader
+// NOTE: TaskRouter_nextTask function implemented at member and leader
