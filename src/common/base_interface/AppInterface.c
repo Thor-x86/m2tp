@@ -10,7 +10,7 @@
 
 void (*m2tp_receivedListener)(
     m2tp_channel sourceAddress,
-    unsigned short int dataSize,
+    m2tp_byte dataSize,
     const m2tp_bytes data) = NULL;
 
 void (*m2tp_onNewMemberListener)(
@@ -26,7 +26,7 @@ void (*m2tp_onAnotherMemberQuitListener)(
 
 void m2tp_send(
     m2tp_channel targetAddress,
-    unsigned short int dataSize,
+    m2tp_byte dataSize,
     const m2tp_bytes data)
 {
   // TODO: Write stuffs here...
@@ -34,7 +34,7 @@ void m2tp_send(
 
 void m2tp_sendWithCallback(
     m2tp_channel targetAddress,
-    unsigned short int dataSize,
+    m2tp_byte dataSize,
     const m2tp_bytes data,
     m2tp_OnSuccessCallback successCallback,
     m2tp_OnErrorCallback errorCallback)
@@ -50,14 +50,14 @@ void m2tp_createTopic(
   // TODO: Write stuffs here...
 }
 
-void m2tp_publish(m2tp_channel topicID, unsigned short int dataSize, const m2tp_bytes data)
+void m2tp_publish(m2tp_channel topicID, m2tp_byte dataSize, const m2tp_bytes data)
 {
   // TODO: Write stuffs here...
 }
 
 void m2tp_publishWithCallback(
     m2tp_channel topicID,
-    unsigned short int dataSize,
+    m2tp_byte dataSize,
     const m2tp_bytes data,
     m2tp_OnSuccessCallback successCallback,
     m2tp_OnErrorCallback errorCallback)

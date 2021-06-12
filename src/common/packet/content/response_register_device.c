@@ -11,7 +11,7 @@
 #define _SIZE 2
 
 m2tp_bytes packet_content_ResponseRegisterDevice_serialize(
-    const packet_content_ResponseRegisterDevice *input, unsigned short *outputSizePtr)
+    const packet_content_ResponseRegisterDevice *input, m2tp_byte *outputSizePtr)
 {
   // Send output size thru pointer, if it isn't null
   if (outputSizePtr != NULL)
@@ -28,7 +28,7 @@ m2tp_bytes packet_content_ResponseRegisterDevice_serialize(
 }
 
 void packet_content_ResponseRegisterDevice_parse(
-    const m2tp_bytes input, unsigned short inputSize, packet_content_ResponseRegisterDevice *output)
+    const m2tp_bytes input, m2tp_byte inputSize, packet_content_ResponseRegisterDevice *output)
 {
   // Abort if input size is too small
   if (inputSize < _SIZE)

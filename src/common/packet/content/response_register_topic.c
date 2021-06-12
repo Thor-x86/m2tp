@@ -8,7 +8,7 @@
 #include "response_register_topic.h"
 
 m2tp_bytes packet_content_ResponseRegisterTopic_serialize(
-    const packet_content_ResponseRegisterTopic *input, unsigned short *outputSizePtr)
+    const packet_content_ResponseRegisterTopic *input, m2tp_byte *outputSizePtr)
 {
   // Resolve topic name size
   m2tp_byte nameSize = 0;
@@ -19,7 +19,7 @@ m2tp_bytes packet_content_ResponseRegisterTopic_serialize(
   }
 
   // Resolve output size
-  unsigned short outputSize = 1 + nameSize;
+  m2tp_byte outputSize = 1 + nameSize;
 
   // Allocate memory with fixed size
   m2tp_bytes output = (m2tp_bytes)malloc(outputSize);
@@ -39,7 +39,7 @@ m2tp_bytes packet_content_ResponseRegisterTopic_serialize(
 }
 
 void packet_content_ResponseRegisterTopic_parse(
-    const m2tp_bytes input, unsigned short inputSize, packet_content_ResponseRegisterTopic *output)
+    const m2tp_bytes input, m2tp_byte inputSize, packet_content_ResponseRegisterTopic *output)
 {
   // Abort if input size is too small
   if (inputSize < 1)

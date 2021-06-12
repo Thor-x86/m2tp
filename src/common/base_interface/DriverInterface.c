@@ -12,7 +12,7 @@
 
 void (*m2tp_driver_sendListener)(
     m2tp_byte command,
-    unsigned short int packetSize,
+    m2tp_byte packetSize,
     const m2tp_bytes rawData) = NULL;
 
 void (*m2tp_driver_startTimerListener)(
@@ -55,7 +55,7 @@ void m2tp_driver_disconnected()
 
 void m2tp_driver_receive(
     m2tp_byte command,
-    unsigned short int contentSize,
+    m2tp_byte contentSize,
     const m2tp_bytes content)
 {
   Packet packet;

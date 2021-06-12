@@ -30,7 +30,7 @@ typedef void (*m2tp_OnRegisteredCallback)(m2tp_channel assignedAs);
  * @param dataSize In bytes
  * @param data Retreived message data
  */
-typedef void (*m2tp_TopicListener)(unsigned short int dataSize, const m2tp_bytes data);
+typedef void (*m2tp_TopicListener)(m2tp_byte dataSize, const m2tp_bytes data);
 
 /**
  * @brief Send data to a device, in peer-to-peer mode
@@ -38,7 +38,7 @@ typedef void (*m2tp_TopicListener)(unsigned short int dataSize, const m2tp_bytes
  * @param dataSize Unit in bytes
  * @param data Raw bytes of data to be sent
  */
-extern void m2tp_send(m2tp_channel targetAddress, unsigned short int dataSize, const m2tp_bytes data);
+extern void m2tp_send(m2tp_channel targetAddress, m2tp_byte dataSize, const m2tp_bytes data);
 
 /**
  * @brief Send data to a device, in peer-to-peer mode
@@ -48,7 +48,7 @@ extern void m2tp_send(m2tp_channel targetAddress, unsigned short int dataSize, c
  * @param successCallback Pointer to a function, will be called on success
  * @param failedCallback Pointer to a function, will be called on failed
  */
-extern void m2tp_sendWithCallback(m2tp_channel targetAddress, unsigned short int dataSize, const m2tp_bytes data, m2tp_OnSuccessCallback successCallback, m2tp_OnErrorCallback errorCallback);
+extern void m2tp_sendWithCallback(m2tp_channel targetAddress, m2tp_byte dataSize, const m2tp_bytes data, m2tp_OnSuccessCallback successCallback, m2tp_OnErrorCallback errorCallback);
 
 /**
  * @brief Pointer to a function, will be called when receiving something in peer-to-peer
@@ -56,7 +56,7 @@ extern void m2tp_sendWithCallback(m2tp_channel targetAddress, unsigned short int
  * @param dataSize In bytes
  * @param data Received raw bytes of data
  */
-extern void (*m2tp_receivedListener)(m2tp_channel sourceAddress, unsigned short int dataSize, const m2tp_bytes data);
+extern void (*m2tp_receivedListener)(m2tp_channel sourceAddress, m2tp_byte dataSize, const m2tp_bytes data);
 
 /**
  * @brief Creates a topic for the network, use this before publish
@@ -72,7 +72,7 @@ extern void m2tp_createTopic(char *topicName, m2tp_OnRegisteredCallback successC
  * @param dataSize Unit in bytes
  * @param data Raw bytes of data to be broadcasted
  */
-extern void m2tp_publish(m2tp_channel topicID, unsigned short int dataSize, const m2tp_bytes data);
+extern void m2tp_publish(m2tp_channel topicID, m2tp_byte dataSize, const m2tp_bytes data);
 
 /**
  * @brief Broadcast data to a topic
@@ -82,7 +82,7 @@ extern void m2tp_publish(m2tp_channel topicID, unsigned short int dataSize, cons
  * @param successCallback Pointer to a function, will be called on success
  * @param failedCallback Pointer to a function, will be called on failed
  */
-extern void m2tp_publishWithCallback(m2tp_channel topicID, unsigned short int dataSize, const m2tp_bytes data, m2tp_OnSuccessCallback successCallback, m2tp_OnErrorCallback errorCallback);
+extern void m2tp_publishWithCallback(m2tp_channel topicID, m2tp_byte dataSize, const m2tp_bytes data, m2tp_OnSuccessCallback successCallback, m2tp_OnErrorCallback errorCallback);
 
 /**
  * @brief Listen to data coming from a topic

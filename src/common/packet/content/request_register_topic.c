@@ -8,7 +8,7 @@
 #include "request_register_topic.h"
 
 m2tp_bytes packet_content_RequestRegisterTopic_serialize(
-    const packet_content_RequestRegisterTopic *input, unsigned short *outputSizePtr)
+    const packet_content_RequestRegisterTopic *input, m2tp_byte *outputSizePtr)
 {
   // Resolve topic name size
   m2tp_byte nameSize = 0;
@@ -33,7 +33,7 @@ m2tp_bytes packet_content_RequestRegisterTopic_serialize(
 }
 
 void packet_content_RequestRegisterTopic_parse(
-    const m2tp_bytes input, unsigned short inputSize, packet_content_RequestRegisterTopic *output)
+    const m2tp_bytes input, m2tp_byte inputSize, packet_content_RequestRegisterTopic *output)
 {
   // Allocate for topic name string
   // NOTE: output size equals name size

@@ -8,10 +8,10 @@
 #include "transmit.h"
 
 m2tp_bytes packet_content_Transmit_serialize(
-    const packet_content_Transmit *input, unsigned short *outputSizePtr)
+    const packet_content_Transmit *input, m2tp_byte *outputSizePtr)
 {
   // Resolve output size
-  unsigned short outputSize = 2 + input->dataSize;
+  m2tp_byte outputSize = 2 + input->dataSize;
 
   // Allocate memory with fixed size
   m2tp_bytes output = (m2tp_bytes)malloc(outputSize);
@@ -25,14 +25,14 @@ m2tp_bytes packet_content_Transmit_serialize(
   output[1] = input->target;
 
   // Insert the data
-  for (unsigned short i = 0; i < input->dataSize; i++)
+  for (m2tp_byte i = 0; i < input->dataSize; i++)
     output[i + 2] = input->data[i];
 
   return output;
 }
 
 void packet_content_Transmit_parse(
-    const m2tp_bytes input, unsigned short inputSize, packet_content_Transmit *output)
+    const m2tp_bytes input, m2tp_byte inputSize, packet_content_Transmit *output)
 {
   // Abort if input size is too small
   if (inputSize < 2)
@@ -47,6 +47,6 @@ void packet_content_Transmit_parse(
   output->data = (m2tp_bytes)malloc(output->dataSize);
 
   // Insert data to output
-  for (unsigned short i = 0; i < output->dataSize; i++)
+  for (m2tp_byte i = 0; i < output->dataSize; i++)
     output->data[i] = input[i + 2];
 }

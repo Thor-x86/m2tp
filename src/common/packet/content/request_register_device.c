@@ -8,7 +8,7 @@
 #include "request_register_device.h"
 
 m2tp_bytes packet_content_RequestRegisterDevice_serialize(
-    const packet_content_RequestRegisterDevice *input, unsigned short *outputSizePtr)
+    const packet_content_RequestRegisterDevice *input, m2tp_byte *outputSizePtr)
 {
   // Resolve deviceClass size
   m2tp_byte deviceClassSize = 0;
@@ -19,7 +19,7 @@ m2tp_bytes packet_content_RequestRegisterDevice_serialize(
   }
 
   // Resolve output size
-  unsigned short outputSize = 1 + deviceClassSize;
+  m2tp_byte outputSize = 1 + deviceClassSize;
 
   // Allocate memory with fixed size
   m2tp_bytes output = (m2tp_bytes)malloc(outputSize);
@@ -39,7 +39,7 @@ m2tp_bytes packet_content_RequestRegisterDevice_serialize(
 }
 
 void packet_content_RequestRegisterDevice_parse(
-    const m2tp_bytes input, unsigned short inputSize, packet_content_RequestRegisterDevice *output)
+    const m2tp_bytes input, m2tp_byte inputSize, packet_content_RequestRegisterDevice *output)
 {
   // Abort if input size is too small
   if (inputSize < 1)

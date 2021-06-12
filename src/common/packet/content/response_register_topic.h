@@ -23,10 +23,10 @@ typedef struct
 // Convert: Packet Object => Raw Bytes
 // returns serialized packet
 extern m2tp_bytes packet_content_ResponseRegisterTopic_serialize(
-    const packet_content_ResponseRegisterTopic *input, unsigned short *outputSizePtr);
+    const packet_content_ResponseRegisterTopic *input, m2tp_byte *outputSizePtr);
 
 // Convert: Raw Bytes => Packet Object
 extern void packet_content_ResponseRegisterTopic_parse(
-    const m2tp_bytes input, unsigned short inputSize, packet_content_ResponseRegisterTopic *output);
+    const m2tp_bytes input, m2tp_byte inputSize, packet_content_ResponseRegisterTopic *output);
 
 #endif // #ifndef IS_RESPONSE_REGISTER_TOPIC_PACKET_DEFINED

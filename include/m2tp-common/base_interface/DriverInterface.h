@@ -44,7 +44,7 @@ extern void m2tp_driver_disconnected();
  * @param contentSize In bytes
  * @param content Serialized packet content
  */
-extern void m2tp_driver_receive(m2tp_byte command, unsigned short int contentSize, const m2tp_bytes content);
+extern void m2tp_driver_receive(m2tp_byte command, m2tp_byte contentSize, const m2tp_bytes content);
 
 /**
  * @brief Report if driver cannot receive packet correctly
@@ -59,7 +59,7 @@ extern void m2tp_driver_receiveFailed(m2tp_byte errorCode, m2tp_channel where);
  * @param contentSize In bytes
  * @param content Serialized packet content
  */
-extern void (*m2tp_driver_sendListener)(m2tp_byte command, unsigned short int contentSize, const m2tp_bytes content);
+extern void (*m2tp_driver_sendListener)(m2tp_byte command, m2tp_byte contentSize, const m2tp_bytes content);
 
 /**
  * @brief Report if driver cannot send packet

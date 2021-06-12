@@ -20,10 +20,10 @@ typedef struct
 // Convert: Packet Object => Raw Bytes
 // returns serialized packet
 extern m2tp_bytes packet_content_FailSignal_serialize(
-    const packet_content_FailSignal *input, unsigned short *outputSizePtr);
+    const packet_content_FailSignal *input, m2tp_byte *outputSizePtr);
 
 // Convert: Raw Bytes => Packet Object
 extern void packet_content_FailSignal_parse(
-    const m2tp_bytes input, unsigned short inputSize, packet_content_FailSignal *output);
+    const m2tp_bytes input, m2tp_byte inputSize, packet_content_FailSignal *output);
 
 #endif // #ifndef IS_FAIL_SIGNAL_PACKET_DEFINED

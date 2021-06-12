@@ -13,7 +13,7 @@ TEST(PacketContent_AnnouncementQuit, Serialize)
   packet_content_AnnouncementQuit input;
   input.address = 0x7f;
 
-  unsigned short outputSize = 0;
+  m2tp_byte outputSize = 0;
   m2tp_bytes output = packet_content_AnnouncementQuit_serialize(&input, &outputSize);
 
   ASSERT_EQ(outputSize, 1);

@@ -24,10 +24,10 @@ typedef struct
 // Convert: Packet Object => Raw Bytes
 // returns serialized packet
 extern m2tp_bytes packet_content_RequestRegisterDevice_serialize(
-    const packet_content_RequestRegisterDevice *input, unsigned short *outputSizePtr);
+    const packet_content_RequestRegisterDevice *input, m2tp_byte *outputSizePtr);
 
 // Convert: Raw Bytes => Packet Object
 extern void packet_content_RequestRegisterDevice_parse(
-    const m2tp_bytes input, unsigned short inputSize, packet_content_RequestRegisterDevice *output);
+    const m2tp_bytes input, m2tp_byte inputSize, packet_content_RequestRegisterDevice *output);
 
 #endif // #ifndef IS_REQUEST_REGISTER_DEVICE_PACKET_DEFINED

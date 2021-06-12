@@ -14,7 +14,7 @@ TEST(PacketContent_AnnouncementJoin, Serialize)
   input.address = 0x7F;
   input.deviceClass = "Lorem Ipsum";
 
-  unsigned short outputSize = 0;
+  m2tp_byte outputSize = 0;
   m2tp_bytes output = packet_content_AnnouncementJoin_serialize(&input, &outputSize);
 
   ASSERT_EQ(outputSize, 12) << "Invalid output size";

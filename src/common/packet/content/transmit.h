@@ -19,11 +19,12 @@ typedef struct
   m2tp_channel target;
 
   // Multiple bytes of data, intented for application
+  // Maximum size: 253 Bytes
   m2tp_bytes data;
 
   // Won't included on serialization,
   // just to inform serializer about how big data is
-  unsigned short int dataSize;
+  m2tp_byte dataSize;
 
   // Won't included on serialization, NULL value if no callback needed
   void (*successCallback)();
@@ -36,10 +37,10 @@ typedef struct
 // Convert: Packet Object => Raw Bytes
 // returns serialized packet
 extern m2tp_bytes packet_content_Transmit_serialize(
-    const packet_content_Transmit *input, unsigned short *outputSizePtr);
+    const packet_content_Transmit *input, m2tp_byte *outputSizePtr);
 
 // Convert: Raw Bytes => Packet Object
 extern void packet_content_Transmit_parse(
-    const m2tp_bytes input, unsigned short inputSize, packet_content_Transmit *output);
+    const m2tp_bytes input, m2tp_byte inputSize, packet_content_Transmit *output);
 
 #endif // #ifndef IS_TRANSMIT_PACKET_DEFINED

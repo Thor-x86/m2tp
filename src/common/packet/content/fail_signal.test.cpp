@@ -14,7 +14,7 @@ TEST(PacketContent_FailSignal, Serialize)
   packet_content_FailSignal input;
   input.errorCode = M2TP_ERROR_DATA_CORRUPT;
 
-  unsigned short outputSize = 0;
+  m2tp_byte outputSize = 0;
   m2tp_bytes output = packet_content_FailSignal_serialize(&input, &outputSize);
 
   ASSERT_EQ(outputSize, 1);

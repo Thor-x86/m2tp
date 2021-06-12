@@ -13,7 +13,7 @@ TEST(PacketContent_ChannelTurnSignal, Serialize)
   packet_content_ChannelTurnSignal input;
   input.channel = 0x7F;
 
-  unsigned short outputSize = 0;
+  m2tp_byte outputSize = 0;
   m2tp_bytes output = packet_content_ChannelTurnSignal_serialize(&input, &outputSize);
 
   ASSERT_EQ(outputSize, 1);

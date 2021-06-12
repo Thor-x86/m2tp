@@ -16,7 +16,7 @@ TEST(PacketContent_RequestRegisterDevice, Serialize)
   input.dice = dice;
   input.deviceClass = "Lorem Ipsum";
 
-  unsigned short outputSize = 0;
+  m2tp_byte outputSize = 0;
   m2tp_bytes output = packet_content_RequestRegisterDevice_serialize(&input, &outputSize);
 
   ASSERT_EQ(outputSize, 12) << "Invalid output size";

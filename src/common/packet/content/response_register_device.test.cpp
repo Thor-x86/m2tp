@@ -16,7 +16,7 @@ TEST(PacketContent_ResponseRegisterDevice, Serialize)
   input.dice = dice;
   input.address = 0x7F;
 
-  unsigned short outputSize = 0;
+  m2tp_byte outputSize = 0;
   m2tp_bytes output = packet_content_ResponseRegisterDevice_serialize(&input, &outputSize);
 
   ASSERT_EQ(outputSize, 2) << "Invalid output size";

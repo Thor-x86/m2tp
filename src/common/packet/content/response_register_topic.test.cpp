@@ -14,7 +14,7 @@ TEST(PacketContent_ResponseRegisterTopic, Serialize)
   input.ID = 0xF2;
   input.name = "Lorem Ipsum";
 
-  unsigned short outputSize = 0;
+  m2tp_byte outputSize = 0;
   m2tp_bytes output = packet_content_ResponseRegisterTopic_serialize(&input, &outputSize);
 
   ASSERT_EQ(outputSize, 12) << "Invalid output size";

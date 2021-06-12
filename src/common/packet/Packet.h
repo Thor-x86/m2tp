@@ -15,8 +15,8 @@ typedef struct
   // See "include/commands.h"
   m2tp_byte command;
 
-  // Maximum content size: 64KB
-  unsigned short contentSize;
+  // Maximum content size: 255 Bytes
+  m2tp_byte contentSize;
 
   // Serialized packet content
   m2tp_bytes content;
@@ -25,7 +25,7 @@ typedef struct
 
 // Convert: Packet Object => Raw Bytes
 // returns serialized packet
-extern m2tp_bytes Packet_serialize(const Packet *input, unsigned short *outputSizePtr);
+extern m2tp_bytes Packet_serialize(const Packet *input, m2tp_byte *outputSizePtr);
 
 // Convert: Raw Bytes => Packet Object
 // WARNING! input must AT LEAST has 3 bytes length

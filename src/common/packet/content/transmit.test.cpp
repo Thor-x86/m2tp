@@ -17,10 +17,10 @@ TEST(PacketContent_Transmit, Serialize)
   const char data[] = "{\r\n\"id\":7,\r\n\t\"name\":\"Athaariq A.\",\r\n\t\"logged\":true\r\n}";
   input.data = (m2tp_bytes)data;
 
-  unsigned short dataSize = sizeof(data);
+  m2tp_byte dataSize = sizeof(data);
   input.dataSize = dataSize;
 
-  unsigned short outputSize = 0;
+  m2tp_byte outputSize = 0;
   m2tp_bytes output = packet_content_Transmit_serialize(&input, &outputSize);
 
   ASSERT_EQ(outputSize, dataSize + 2) << "Invalid output size";
@@ -35,15 +35,15 @@ TEST(PacketContent_Transmit, Serialize)
 TEST(PacketContent_Transmit, Parse)
 {
   const char data[] = "{\r\n\"id\":7,\r\n\t\"name\":\"Athaariq A.\",\r\n\t\"logged\":true\r\n}";
-  unsigned short dataSize = sizeof(data);
+  m2tp_byte dataSize = sizeof(data);
 
-  unsigned short inputSize = dataSize + 2;
+  m2tp_byte inputSize = dataSize + 2;
   m2tp_bytes input = (m2tp_bytes)malloc(inputSize);
 
   input[0] = 0x03;
   input[1] = 0x81;
 
-  for (unsigned short i = 0; i < dataSize; i++)
+  for (m2tp_byte i = 0; i < dataSize; i++)
     input[i + 2] = data[i];
 
   packet_content_Transmit output;
