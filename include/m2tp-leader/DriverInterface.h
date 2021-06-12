@@ -12,7 +12,7 @@
 #ifndef IS_M2TP_LEADER_DRIVER_INTERFACE_DEFINED
 #define IS_M2TP_LEADER_DRIVER_INTERFACE_DEFINED
 
-#include "m2tp-common/base_interface/DriverInterface.h"
+#include "../m2tp-common/base_interface/DriverInterface.h"
 
 // TODO: Write stuffs here...
 
