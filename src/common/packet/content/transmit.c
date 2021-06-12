@@ -44,7 +44,7 @@ void packet_content_Transmit_parse(
 
   // Resolve data size, then allocate
   output->dataSize = inputSize - 2;
-  output->data = (m2tp_bytes) malloc(output->dataSize);
+  output->data = (m2tp_bytes)malloc(output->dataSize);
 
   // Insert data to output
   for (unsigned short i = 0; i < output->dataSize; i++)
