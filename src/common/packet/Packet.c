@@ -1,6 +1,6 @@
 /**
  * @file Packet.c
- * @brief Implements Packet.h functionality
+ * @brief Implementation of Packet.h
 **/
 
 #include <stdlib.h>
