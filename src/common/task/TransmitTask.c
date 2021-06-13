@@ -57,4 +57,9 @@ void TransmitTask_stop()
   // TODO: Write stuffs here...
 }
 
+void TransmitTask_send(m2tp_channel target, m2tp_byte dataSize, const m2tp_bytes data)
+{
+  // TODO: Write stuffs here...
+}
+
 ////////////////////////////////////////////////////////
