@@ -3,11 +3,13 @@
  * @brief Unit test for fail_signal.h
 **/
 
-#include "fail_signal.h"
-#include "fail_signal.c"
-#include "m2tp-common/errors.h"
-
 #include "gtest/gtest.h"
+
+extern "C"
+{
+#include "fail_signal.h"
+#include "m2tp-common/errors.h"
+}
 
 TEST(PacketContent_FailSignal, Serialize)
 {

@@ -3,12 +3,13 @@
  * @brief Unit test for Packet.h
 **/
 
-#include "Packet.h"
-#include "Packet.c"
-
 #include "gtest/gtest.h"
 
+extern "C"
+{
+#include "Packet.h"
 #include "m2tp-common/commands.h"
+}
 
 TEST(Packet, Serialize)
 {

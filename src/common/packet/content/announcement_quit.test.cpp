@@ -3,10 +3,12 @@
  * @brief Unit test for announcement_quit.h
 **/
 
-#include "announcement_quit.h"
-#include "announcement_quit.c"
-
 #include "gtest/gtest.h"
+
+extern "C"
+{
+#include "announcement_quit.h"
+}
 
 TEST(PacketContent_AnnouncementQuit, Serialize)
 {

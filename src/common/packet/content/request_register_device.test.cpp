@@ -3,10 +3,12 @@
  * @brief Unit test for request_register_device.h
 **/
 
-#include "request_register_device.h"
-#include "request_register_device.c"
-
 #include "gtest/gtest.h"
+
+extern "C"
+{
+#include "request_register_device.h"
+}
 
 TEST(PacketContent_RequestRegisterDevice, Serialize)
 {

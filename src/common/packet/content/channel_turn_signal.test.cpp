@@ -3,10 +3,12 @@
  * @brief Unit test for channel_turn_signal.h
 **/
 
-#include "channel_turn_signal.h"
-#include "channel_turn_signal.c"
-
 #include "gtest/gtest.h"
+
+extern "C"
+{
+#include "channel_turn_signal.h"
+}
 
 TEST(PacketContent_ChannelTurnSignal, Serialize)
 {

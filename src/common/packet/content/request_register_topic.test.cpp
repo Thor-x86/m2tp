@@ -3,10 +3,12 @@
  * @brief Unit test for request_register_topic.h
 **/
 
-#include "request_register_topic.h"
-#include "request_register_topic.c"
-
 #include "gtest/gtest.h"
+
+extern "C"
+{
+#include "request_register_topic.h"
+}
 
 TEST(PacketContent_RequestRegisterTopic, Serialize)
 {

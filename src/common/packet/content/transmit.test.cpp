@@ -3,10 +3,12 @@
  * @brief Unit test for response_register_topic.h
 **/
 
-#include "transmit.h"
-#include "transmit.c"
-
 #include "gtest/gtest.h"
+
+extern "C"
+{
+#include "transmit.h"
+}
 
 TEST(PacketContent_Transmit, Serialize)
 {

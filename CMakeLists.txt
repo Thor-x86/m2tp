@@ -69,15 +69,16 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
                  EXCLUDE_FROM_ALL)
 
 # Test target
-file(GLOB_RECURSE M2TP_COMMON_TEST_SOURCE_PATH "src/common/*")
-file(GLOB_RECURSE M2TP_MEMBER_TEST_SOURCE_PATH "src/member/*")
-file(GLOB_RECURSE M2TP_LEADER_TEST_SOURCE_PATH "src/leader/*")
+file(GLOB_RECURSE M2TP_COMMON_TEST_SOURCE_PATH "src/common/*.test.cpp")
+file(GLOB_RECURSE M2TP_MEMBER_TEST_SOURCE_PATH "src/member/*.test.cpp")
+file(GLOB_RECURSE M2TP_LEADER_TEST_SOURCE_PATH "src/leader/*.test.cpp")
 
 # Common Unit Test
 add_executable(
   ${PROJECT_NAME}-common-test-unit
-  ${M2TP_COMMON_TEST_SOURCE_PATH}
+  ${M2TP_COMMON_SOURCE_PATH}
   ${M2TP_MEMBER_SOURCE_PATH}
+  ${M2TP_COMMON_TEST_SOURCE_PATH}
 )
 include_directories(
   ${PROJECT_NAME}-common-test-unit PUBLIC
@@ -96,6 +97,7 @@ add_test(
 add_executable(
   ${PROJECT_NAME}-member-test-unit
   ${M2TP_COMMON_SOURCE_PATH}
+  ${M2TP_MEMBER_SOURCE_PATH}
   ${M2TP_MEMBER_TEST_SOURCE_PATH}
 )
 include_directories(
@@ -115,6 +117,7 @@ add_test(
 add_executable(
   ${PROJECT_NAME}-leader-test-unit
   ${M2TP_COMMON_SOURCE_PATH}
+  ${M2TP_LEADER_SOURCE_PATH}
   ${M2TP_LEADER_TEST_SOURCE_PATH}
 )
 include_directories(

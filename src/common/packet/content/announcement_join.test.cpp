@@ -3,10 +3,12 @@
  * @brief Unit test for announcement_join.h
 **/
 
-#include "announcement_join.h"
-#include "announcement_join.c"
-
 #include "gtest/gtest.h"
+
+extern "C"
+{
+#include "announcement_join.h"
+}
 
 TEST(PacketContent_AnnouncementJoin, Serialize)
 {
