@@ -1,6 +1,6 @@
 /**
  * @file AppInterface.h
- * @brief Allows your program to "talk" with M2TP, via C++
+ * @brief Allows your program to "talk" with M2TP
 **/
 
 // Making sure m2tp-leader and m2tp-member are

@@ -15,7 +15,7 @@ typedef void (*m2tp_OnSuccessCallback)();
 
 /**
  * @brief Universal callback, will be called when something goes wrong
- * @param errorCode See `m2tp-common/errors.hpp` for details
+ * @param errorCode See "m2tp-common/errors.h" for details
  */
 typedef void (*m2tp_OnErrorCallback)(m2tp_byte errorCode);
 
@@ -27,7 +27,7 @@ typedef void (*m2tp_OnRegisteredCallback)(m2tp_channel assignedAs);
 
 /**
  * @brief Will be called everytime data published at that topic from other device
- * @param dataSize In bytes
+ * @param dataSize In bytes, at most 253 bytes
  * @param data Retreived message data
  */
 typedef void (*m2tp_TopicListener)(m2tp_byte dataSize, const m2tp_bytes data);
@@ -65,7 +65,7 @@ extern void m2tp_writeFinishAsync(m2tp_OnSuccessCallback successCallback, m2tp_O
 /**
  * @brief Pointer to a function, will be called when receiving something in peer-to-peer
  * @param sourceAddress Identity of the sender
- * @param dataSize In bytes
+ * @param dataSize In bytes, at most 253 bytes
  * @param data Received raw bytes of data
  */
 extern void (*m2tp_receivedListener)(m2tp_channel sourceAddress, m2tp_byte dataSize, const m2tp_bytes data);

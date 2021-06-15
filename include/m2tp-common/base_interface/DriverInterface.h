@@ -1,6 +1,6 @@
 /**
  * @file DriverInterface.h
- * @brief Basic functionality of Driver Interface, written in plain C
+ * @brief Basic functionality of Driver Interface
 **/
 
 #ifndef IS_M2TP_COMMON_DRIVER_INTERFACE_DEFINED
@@ -58,14 +58,14 @@ extern void m2tp_driver_receiveEnd();
 
 /**
  * @brief Report if driver cannot receive packet correctly
- * @param errorCode See errors.hpp for details
+ * @param errorCode See "m2tp-common/errors.h"
  * @param where Address / Topic causes error
  */
 extern void m2tp_driver_receiveFailed(m2tp_byte errorCode, m2tp_channel where);
 
 /**
  * @brief Pointer to a function, will be called if app need to send something
- * @param command See commands.h for details
+ * @param command See "m2tp-common/commands.h"
  * @param contentSize In bytes
  * @param content Serialized packet content
  */
@@ -73,7 +73,7 @@ extern void (*m2tp_driver_sendListener)(m2tp_byte command, m2tp_byte contentSize
 
 /**
  * @brief Report if driver cannot send packet
- * @param errorCode See errors.hpp for details
+ * @param errorCode See "m2tp-common/errors.h"
  * @param where Address / TopicID causes error
  */
 extern void m2tp_driver_sendFailed(m2tp_byte errorCode, m2tp_channel where);
