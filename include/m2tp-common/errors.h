@@ -42,7 +42,7 @@
 #define M2TP_ERROR_DATA_CORRUPT 7
 
 /**
- * @brief Thrown if data size bigger than 64KB
+ * @brief Thrown if data size bigger than 253 bytes
  */
 #define M2TP_ERROR_DATA_SIZE_TOO_BIG 8
 
