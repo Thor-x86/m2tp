@@ -53,18 +53,21 @@ void m2tp_driver_disconnected()
   TaskRouter_reset();
 }
 
-void m2tp_driver_receive(
+void m2tp_driver_receiveStart(
     m2tp_byte command,
-    m2tp_byte contentSize,
-    const m2tp_bytes content)
+    m2tp_byte contentSize)
 {
-  Packet packet;
-  packet.command = command;
-  packet.contentSize = contentSize;
-  packet.content = content;
+  // TODO: Write stuffs here...
+}
 
-  if (TaskRouter_receiveInterrupt != NULL)
-    TaskRouter_receiveInterrupt(&packet);
+void m2tp_driver_receiveWrite(m2tp_byte value)
+{
+  // TODO: Write stuffs here...
+}
+
+void m2tp_driver_receiveEnd()
+{
+  // TODO: Write stuffs here...
 }
 
 void m2tp_driver_receiveFailed(

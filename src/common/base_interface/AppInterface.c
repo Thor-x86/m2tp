@@ -24,18 +24,27 @@ void (*m2tp_onAnotherMemberQuitListener)(
 
 //////// Functions /////////////////////////////////////
 
-void m2tp_send(
-    m2tp_channel targetAddress,
-    m2tp_byte dataSize,
-    const m2tp_bytes data)
+void m2tp_startSend(m2tp_channel targetAddress)
 {
   // TODO: Write stuffs here...
 }
 
-void m2tp_sendWithCallback(
-    m2tp_channel targetAddress,
-    m2tp_byte dataSize,
-    const m2tp_bytes data,
+void m2tp_startBroadcast(m2tp_channel topicID)
+{
+  // TODO: Write stuffs here...
+}
+
+void m2tp_write(m2tp_byte eachByte)
+{
+  // TODO: Write stuffs here...
+}
+
+void m2tp_writeFinish()
+{
+  // TODO: Write stuffs here...
+}
+
+void m2tp_writeFinishAsync(
     m2tp_OnSuccessCallback successCallback,
     m2tp_OnErrorCallback errorCallback)
 {
@@ -46,21 +55,6 @@ void m2tp_createTopic(
     char *topicName,
     m2tp_OnRegisteredCallback successCallback,
     m2tp_OnErrorCallback failedCallback)
-{
-  // TODO: Write stuffs here...
-}
-
-void m2tp_publish(m2tp_channel topicID, m2tp_byte dataSize, const m2tp_bytes data)
-{
-  // TODO: Write stuffs here...
-}
-
-void m2tp_publishWithCallback(
-    m2tp_channel topicID,
-    m2tp_byte dataSize,
-    const m2tp_bytes data,
-    m2tp_OnSuccessCallback successCallback,
-    m2tp_OnErrorCallback errorCallback)
 {
   // TODO: Write stuffs here...
 }

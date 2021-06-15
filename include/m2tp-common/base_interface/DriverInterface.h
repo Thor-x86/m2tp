@@ -39,12 +39,22 @@ extern void m2tp_driver_connected();
 extern void m2tp_driver_disconnected();
 
 /**
- * @brief Notify library if receive something from network
- * @param command See commands.h for details
- * @param contentSize In bytes
- * @param content Serialized packet content
+ * @brief Ask M2TP to prepare packet buffer
+ * @param command See "m2tp-common/commands.h"
+ * @param contentSize Size of packet content, maximum 255 bytes
  */
-extern void m2tp_driver_receive(m2tp_byte command, m2tp_byte contentSize, const m2tp_bytes content);
+extern void m2tp_driver_receiveStart(m2tp_byte command, m2tp_byte contentSize);
+
+/**
+ * @brief Put each byte to packet buffer
+ * @param value a Single byte of packet content
+ */
+extern void m2tp_driver_receiveWrite(m2tp_byte value);
+
+/**
+ * @brief Ask M2TP to mark it done and do something with that packet
+ */
+extern void m2tp_driver_receiveEnd();
 
 /**
  * @brief Report if driver cannot receive packet correctly

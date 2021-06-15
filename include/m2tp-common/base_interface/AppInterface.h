@@ -33,22 +33,34 @@ typedef void (*m2tp_OnRegisteredCallback)(m2tp_channel assignedAs);
 typedef void (*m2tp_TopicListener)(m2tp_byte dataSize, const m2tp_bytes data);
 
 /**
- * @brief Send data to a device, in peer-to-peer mode
- * @param targetAddress Intended device
- * @param dataSize Unit in bytes
- * @param data Raw bytes of data to be sent
+ * @brief Prepare to send data in peer-to-peer mode
+ * @param targetAddress Audience device's address
  */
-extern void m2tp_send(m2tp_channel targetAddress, m2tp_byte dataSize, const m2tp_bytes data);
+extern void m2tp_startSend(m2tp_channel targetAddress);
 
 /**
- * @brief Send data to a device, in peer-to-peer mode
- * @param targetAddress Intended device
- * @param dataSize Unit in bytes
- * @param data Raw bytes of data to be sent
- * @param successCallback Pointer to a function, will be called on success
- * @param failedCallback Pointer to a function, will be called on failed
+ * @brief Prepare to send data in broadcast mode
+ * @param topicID From success callback of `m2tp_createTopic(...)`
  */
-extern void m2tp_sendWithCallback(m2tp_channel targetAddress, m2tp_byte dataSize, const m2tp_bytes data, m2tp_OnSuccessCallback successCallback, m2tp_OnErrorCallback errorCallback);
+extern void m2tp_startBroadcast(m2tp_channel topicID);
+
+/**
+ * @brief When finished, call m2tp_writeFinish() or m2tp_writeFinishAsync(...)
+ * @param eachByte from data
+ */
+extern void m2tp_write(m2tp_byte eachByte);
+
+/**
+ * @brief Send written bytes of data
+ */
+extern void m2tp_writeFinish();
+
+/**
+ * @brief Use this to prevent thread-blocking because of repetitive send/broadcast
+ * @param successCallback Pointer to the next function
+ * @param errorCallback Pointer to a function, has a byte paramater represents error code
+ */
+extern void m2tp_writeFinishAsync(m2tp_OnSuccessCallback successCallback, m2tp_OnErrorCallback errorCallback);
 
 /**
  * @brief Pointer to a function, will be called when receiving something in peer-to-peer
@@ -65,24 +77,6 @@ extern void (*m2tp_receivedListener)(m2tp_channel sourceAddress, m2tp_byte dataS
  * @param failedCallback Pointer to a function, will be called on failed
  */
 extern void m2tp_createTopic(char *topicName, m2tp_OnRegisteredCallback successCallback, m2tp_OnErrorCallback failedCallback);
-
-/**
- * @brief Broadcast data to a topic
- * @param topicID You got this from result of `createTopic(...)` function
- * @param dataSize Unit in bytes
- * @param data Raw bytes of data to be broadcasted
- */
-extern void m2tp_publish(m2tp_channel topicID, m2tp_byte dataSize, const m2tp_bytes data);
-
-/**
- * @brief Broadcast data to a topic
- * @param topicID You got this from result of `createTopic(...)` function
- * @param dataSize Unit in bytes
- * @param data Raw bytes of data to be broadcasted
- * @param successCallback Pointer to a function, will be called on success
- * @param failedCallback Pointer to a function, will be called on failed
- */
-extern void m2tp_publishWithCallback(m2tp_channel topicID, m2tp_byte dataSize, const m2tp_bytes data, m2tp_OnSuccessCallback successCallback, m2tp_OnErrorCallback errorCallback);
 
 /**
  * @brief Listen to data coming from a topic
