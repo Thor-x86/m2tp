@@ -59,9 +59,8 @@ extern void m2tp_driver_receiveEnd();
 /**
  * @brief Report if driver cannot receive packet correctly
  * @param errorCode See "m2tp-common/errors.h"
- * @param where Address / Topic causes error
  */
-extern void m2tp_driver_receiveFailed(m2tp_byte errorCode, m2tp_channel where);
+extern void m2tp_driver_receiveFailed(m2tp_byte errorCode);
 
 /**
  * @brief Pointer to a function, will be called if app need to send something
@@ -74,9 +73,8 @@ extern void (*m2tp_driver_sendListener)(m2tp_byte command, m2tp_byte contentSize
 /**
  * @brief Report if driver cannot send packet
  * @param errorCode See "m2tp-common/errors.h"
- * @param where Address / TopicID causes error
  */
-extern void m2tp_driver_sendFailed(m2tp_byte errorCode, m2tp_channel where);
+extern void m2tp_driver_sendFailed(m2tp_byte errorCode);
 
 /**
  * @brief Pointer to a function, driver decides how delay behaves

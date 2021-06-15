@@ -24,12 +24,12 @@ void RegistrationTask_timeoutInterrupt()
   // TODO: Write Stuffs here...
 }
 
-void RegistrationTask_reportReceiveFail(m2tp_byte errorCode, m2tp_channel where)
+void RegistrationTask_reportReceiveFail(m2tp_byte errorCode)
 {
   // TODO: Write Stuffs here...
 }
 
-void RegistrationTask_reportSendFail(m2tp_byte errorCode, m2tp_channel where)
+void RegistrationTask_reportSendFail(m2tp_byte errorCode)
 {
   // TODO: Write Stuffs here...
 }

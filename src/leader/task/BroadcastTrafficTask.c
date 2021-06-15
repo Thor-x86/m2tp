@@ -24,12 +24,12 @@ void BroadcastTrafficTask_timeoutInterrupt()
   // TODO: Write Stuffs here...
 }
 
-void BroadcastTrafficTask_reportReceiveFail(m2tp_byte errorCode, m2tp_channel where)
+void BroadcastTrafficTask_reportReceiveFail(m2tp_byte errorCode)
 {
   // TODO: Write Stuffs here...
 }
 
-void BroadcastTrafficTask_reportSendFail(m2tp_byte errorCode, m2tp_channel where)
+void BroadcastTrafficTask_reportSendFail(m2tp_byte errorCode)
 {
   // TODO: Write Stuffs here...
 }

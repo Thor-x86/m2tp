@@ -20,10 +20,10 @@ extern void (*TaskRouter_receiveInterrupt)(Packet *packet);
 extern void (*TaskRouter_timeoutInterrupt)();
 
 // Pointer to reportReceiveFail function, depends on current task
-extern void (*TaskRouter_reportReceiveFail)(m2tp_byte errorCode, m2tp_channel where);
+extern void (*TaskRouter_reportReceiveFail)(m2tp_byte errorCode);
 
 // Pointer to reportSendFail function, depends on current task
-extern void (*TaskRouter_reportSendFail)(m2tp_byte errorCode, m2tp_channel where);
+extern void (*TaskRouter_reportSendFail)(m2tp_byte errorCode);
 
 // Ask for the next task
 extern void TaskRouter_nextTask();

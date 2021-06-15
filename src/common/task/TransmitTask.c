@@ -24,12 +24,12 @@ void TransmitTask_timeoutInterrupt()
   // TODO: Write Stuffs here...
 }
 
-void TransmitTask_reportReceiveFail(m2tp_byte errorCode, m2tp_channel where)
+void TransmitTask_reportReceiveFail(m2tp_byte errorCode)
 {
   // TODO: Write Stuffs here...
 }
 
-void TransmitTask_reportSendFail(m2tp_byte errorCode, m2tp_channel where)
+void TransmitTask_reportSendFail(m2tp_byte errorCode)
 {
   // TODO: Write Stuffs here...
 }

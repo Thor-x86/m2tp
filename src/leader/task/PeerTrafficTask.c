@@ -24,12 +24,12 @@ void PeerTrafficTask_timeoutInterrupt()
   // TODO: Write Stuffs here...
 }
 
-void PeerTrafficTask_reportReceiveFail(m2tp_byte errorCode, m2tp_channel where)
+void PeerTrafficTask_reportReceiveFail(m2tp_byte errorCode)
 {
   // TODO: Write Stuffs here...
 }
 
-void PeerTrafficTask_reportSendFail(m2tp_byte errorCode, m2tp_channel where)
+void PeerTrafficTask_reportSendFail(m2tp_byte errorCode)
 {
   // TODO: Write Stuffs here...
 }
