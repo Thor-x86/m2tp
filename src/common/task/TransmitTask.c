@@ -4,6 +4,8 @@
 **/
 
 #include "TransmitTask.h"
+
+#include "m2tp-common/typedef.h"
 #include "../TaskRouter.h"
 
 //////// Variables /////////////////////////////////////
@@ -57,7 +59,7 @@ void TransmitTask_stop()
   // TODO: Write stuffs here...
 }
 
-void TransmitTask_send(m2tp_channel target, m2tp_byte dataSize, const m2tp_bytes data)
+void TransmitTask_send(Packet *packet)
 {
   // TODO: Write stuffs here...
 }
