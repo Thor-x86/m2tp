@@ -3,35 +3,25 @@
  * @brief Implementation of request_register_device.h
 **/
 
-#include <stdlib.h>
-
 #include "response_register_device.h"
 
-// RESPONSE_REGISTER_DEVICE has fixed size
-#define _SIZE 2
-
-m2tp_bytes packet_content_ResponseRegisterDevice_serialize(
-    const packet_content_ResponseRegisterDevice *input, m2tp_byte *outputSizePtr)
+void packet_content_ResponseRegisterDevice_serialize(
+    const packet_content_ResponseRegisterDevice *input, m2tp_bytes output, m2tp_byte *outputSizePtr)
 {
   // Send output size thru pointer, if it isn't null
   if (outputSizePtr != NULL)
-    *outputSizePtr = _SIZE;
-
-  // Allocate memory for output
-  m2tp_bytes output = (m2tp_bytes)malloc(_SIZE);
+    *outputSizePtr = RESPONSE_REGISTER_DEVICE_SIZE;
 
   // Insert dice and address to output
   output[0] = input->dice;
   output[1] = input->address;
-
-  return output;
 }
 
 void packet_content_ResponseRegisterDevice_parse(
     const m2tp_bytes input, m2tp_byte inputSize, packet_content_ResponseRegisterDevice *output)
 {
   // Abort if input size is too small
-  if (inputSize < _SIZE)
+  if (inputSize < RESPONSE_REGISTER_DEVICE_SIZE)
     return;
 
   // Insert dice and address to output

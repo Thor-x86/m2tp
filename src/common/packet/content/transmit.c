@@ -7,14 +7,11 @@
 
 #include "transmit.h"
 
-m2tp_bytes packet_content_Transmit_serialize(
-    const packet_content_Transmit *input, m2tp_byte *outputSizePtr)
+void packet_content_Transmit_serialize(
+    const packet_content_Transmit *input, m2tp_bytes output, m2tp_byte *outputSizePtr)
 {
   // Resolve output size
   m2tp_byte outputSize = 2 + input->dataSize;
-
-  // Allocate memory with fixed size
-  m2tp_bytes output = (m2tp_bytes)malloc(outputSize);
 
   // Send output size thru pointer, if it isn't null
   if (outputSizePtr != NULL)
@@ -27,8 +24,6 @@ m2tp_bytes packet_content_Transmit_serialize(
   // Insert the data
   for (m2tp_byte i = 0; i < input->dataSize; i++)
     output[i + 2] = input->data[i];
-
-  return output;
 }
 
 void packet_content_Transmit_parse(
@@ -42,9 +37,12 @@ void packet_content_Transmit_parse(
   output->source = input[0];
   output->target = input[1];
 
-  // Resolve data size, then allocate
+  // Resolve data size
   output->dataSize = inputSize - 2;
-  output->data = (m2tp_bytes)malloc(output->dataSize);
+
+  // Allocate the data if not yet allocated
+  if (output->data == NULL)
+    output->data = (m2tp_bytes)malloc(output->dataSize);
 
   // Insert data to output
   for (m2tp_byte i = 0; i < output->dataSize; i++)

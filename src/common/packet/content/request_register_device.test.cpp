@@ -19,7 +19,8 @@ TEST(PacketContent_RequestRegisterDevice, Serialize)
   input.deviceClass = "Lorem Ipsum";
 
   m2tp_byte outputSize = 0;
-  m2tp_bytes output = packet_content_RequestRegisterDevice_serialize(&input, &outputSize);
+  m2tp_byte output[255];
+  packet_content_RequestRegisterDevice_serialize(&input, output, &outputSize);
 
   ASSERT_EQ(outputSize, 12) << "Invalid output size";
 
@@ -35,15 +36,13 @@ TEST(PacketContent_RequestRegisterDevice, Serialize)
   EXPECT_EQ(output[9], 's');
   EXPECT_EQ(output[10], 'u');
   EXPECT_EQ(output[11], 'm');
-
-  free(output);
 }
 
 TEST(PacketContent_RequestRegisterDevice, Parse)
 {
   m2tp_byte dice = 255 * (rand() / RAND_MAX);
 
-  m2tp_bytes input = (m2tp_bytes)malloc(12);
+  m2tp_byte input[255];
   input[0] = dice;
   input[1] = 'L';
   input[2] = 'o';
@@ -57,11 +56,11 @@ TEST(PacketContent_RequestRegisterDevice, Parse)
   input[10] = 'u';
   input[11] = 'm';
 
+  char deviceClass[254];
   packet_content_RequestRegisterDevice output;
+  output.deviceClass = deviceClass;
   packet_content_RequestRegisterDevice_parse(input, 12, &output);
-  free(input);
 
   EXPECT_EQ(output.dice, dice);
   EXPECT_STREQ(output.deviceClass, "Lorem Ipsum");
-  free(output.deviceClass);
 }

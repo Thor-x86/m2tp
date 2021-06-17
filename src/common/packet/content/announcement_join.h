@@ -22,8 +22,8 @@ typedef struct
 
 // Convert: Packet Object => Raw Bytes
 // returns serialized packet
-extern m2tp_bytes packet_content_AnnouncementJoin_serialize(
-    const packet_content_AnnouncementJoin *input, m2tp_byte *outputSizePtr);
+extern void packet_content_AnnouncementJoin_serialize(
+    const packet_content_AnnouncementJoin *input, m2tp_bytes output, m2tp_byte *outputSizePtr);
 
 // Convert: Raw Bytes => Packet Object
 extern void packet_content_AnnouncementJoin_parse(

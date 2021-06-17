@@ -17,10 +17,13 @@ typedef struct
 
 } packet_content_AnnouncementQuit;
 
+// ANNOUNCEMENT_QUIT Packet Content has fixed size
+#define ANNOUNCEMENT_QUIT_SIZE 1
+
 // Convert: Packet Object => Raw Bytes
 // returns serialized packet
-extern m2tp_bytes packet_content_AnnouncementQuit_serialize(
-    const packet_content_AnnouncementQuit *input, m2tp_byte *outputSizePtr);
+extern void packet_content_AnnouncementQuit_serialize(
+    const packet_content_AnnouncementQuit *input, m2tp_bytes output, m2tp_byte *outputSizePtr);
 
 // Convert: Raw Bytes => Packet Object
 extern void packet_content_AnnouncementQuit_parse(

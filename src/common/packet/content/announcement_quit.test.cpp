@@ -16,22 +16,19 @@ TEST(PacketContent_AnnouncementQuit, Serialize)
   input.address = 0x7f;
 
   m2tp_byte outputSize = 0;
-  m2tp_bytes output = packet_content_AnnouncementQuit_serialize(&input, &outputSize);
+  m2tp_byte output[ANNOUNCEMENT_QUIT_SIZE];
+  packet_content_AnnouncementQuit_serialize(&input, output, &outputSize);
 
-  ASSERT_EQ(outputSize, 1);
+  ASSERT_EQ(outputSize, ANNOUNCEMENT_QUIT_SIZE);
   EXPECT_EQ(output[0], 0x7F);
-
-  free(output);
 }
 
 TEST(PacketContent_AnnouncementQuit, Parse)
 {
-  m2tp_bytes input = (m2tp_bytes)malloc(1);
-  input[0] = 0x7F;
+  m2tp_byte input[1] = {0x7F};
 
   packet_content_AnnouncementQuit output;
   packet_content_AnnouncementQuit_parse(input, 1, &output);
-  free(input);
 
   EXPECT_EQ(output.address, 0x7F);
 }

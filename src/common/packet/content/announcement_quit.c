@@ -3,34 +3,24 @@
  * @brief Implementation of announcement_quit.h
 **/
 
-#include <stdlib.h>
-
 #include "announcement_quit.h"
 
-// ANNOUNCEMENT_QUIT has fixed size
-#define _SIZE 1
-
-m2tp_bytes packet_content_AnnouncementQuit_serialize(
-    const packet_content_AnnouncementQuit *input, m2tp_byte *outputSizePtr)
+void packet_content_AnnouncementQuit_serialize(
+    const packet_content_AnnouncementQuit *input, m2tp_bytes output, m2tp_byte *outputSizePtr)
 {
   // Send output size thru pointer, if it isn't null
   if (outputSizePtr != NULL)
-    *outputSizePtr = _SIZE;
-
-  // Allocate memory for output
-  m2tp_bytes output = (m2tp_bytes)malloc(_SIZE);
+    *outputSizePtr = ANNOUNCEMENT_QUIT_SIZE;
 
   // Insert address to output
   output[0] = input->address;
-
-  return output;
 }
 
 void packet_content_AnnouncementQuit_parse(
     const m2tp_bytes input, m2tp_byte inputSize, packet_content_AnnouncementQuit *output)
 {
   // Abort if input size is too small
-  if (inputSize < _SIZE)
+  if (inputSize < ANNOUNCEMENT_QUIT_SIZE)
     return;
 
   // Insert address to output

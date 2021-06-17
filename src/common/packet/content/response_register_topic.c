@@ -7,8 +7,8 @@
 
 #include "response_register_topic.h"
 
-m2tp_bytes packet_content_ResponseRegisterTopic_serialize(
-    const packet_content_ResponseRegisterTopic *input, m2tp_byte *outputSizePtr)
+void packet_content_ResponseRegisterTopic_serialize(
+    const packet_content_ResponseRegisterTopic *input, m2tp_bytes output, m2tp_byte *outputSizePtr)
 {
   // Resolve topic name size
   m2tp_byte nameSize = 0;
@@ -21,9 +21,6 @@ m2tp_bytes packet_content_ResponseRegisterTopic_serialize(
   // Resolve output size
   m2tp_byte outputSize = 1 + nameSize;
 
-  // Allocate memory with fixed size
-  m2tp_bytes output = (m2tp_bytes)malloc(outputSize);
-
   // Send output size thru pointer, if it isn't null
   if (outputSizePtr != NULL)
     *outputSizePtr = outputSize;
@@ -34,8 +31,6 @@ m2tp_bytes packet_content_ResponseRegisterTopic_serialize(
   // Insert topic name to output
   for (m2tp_byte i = 0; i < nameSize; i++)
     output[i + 1] = input->name[i];
-
-  return output;
 }
 
 void packet_content_ResponseRegisterTopic_parse(
@@ -48,9 +43,12 @@ void packet_content_ResponseRegisterTopic_parse(
   // Insert topicID to output
   output->ID = input[0];
 
-  // Resolve topic name size, then allocate
+  // Resolve topic name size
   m2tp_byte nameSize = inputSize - 1;
-  output->name = (char *)malloc(nameSize + 1);
+
+  // Allocate if not allocated yet
+  if (output->name == NULL)
+    output->name = (char *)malloc(nameSize + 1);
 
   // Insert topic name to output
   for (m2tp_byte i = 0; i < nameSize; i++)

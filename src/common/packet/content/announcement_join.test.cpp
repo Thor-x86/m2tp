@@ -17,7 +17,8 @@ TEST(PacketContent_AnnouncementJoin, Serialize)
   input.deviceClass = "Lorem Ipsum";
 
   m2tp_byte outputSize = 0;
-  m2tp_bytes output = packet_content_AnnouncementJoin_serialize(&input, &outputSize);
+  m2tp_byte output[255];
+  packet_content_AnnouncementJoin_serialize(&input, output, &outputSize);
 
   ASSERT_EQ(outputSize, 12) << "Invalid output size";
 
@@ -33,13 +34,11 @@ TEST(PacketContent_AnnouncementJoin, Serialize)
   EXPECT_EQ(output[9], 's');
   EXPECT_EQ(output[10], 'u');
   EXPECT_EQ(output[11], 'm');
-
-  free(output);
 }
 
 TEST(PacketContent_AnnouncementJoin, Parse)
 {
-  m2tp_bytes input = (m2tp_bytes)malloc(12);
+  m2tp_byte input[255];
   input[0] = 0x7f;
   input[1] = 'L';
   input[2] = 'o';
@@ -53,11 +52,11 @@ TEST(PacketContent_AnnouncementJoin, Parse)
   input[10] = 'u';
   input[11] = 'm';
 
+  char deviceClass[254];
   packet_content_AnnouncementJoin output;
+  output.deviceClass = deviceClass;
   packet_content_AnnouncementJoin_parse(input, 12, &output);
-  free(input);
 
   EXPECT_EQ(output.address, 0x7f);
   EXPECT_STREQ(output.deviceClass, "Lorem Ipsum");
-  free(output.deviceClass);
 }

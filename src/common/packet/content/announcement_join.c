@@ -7,8 +7,8 @@
 
 #include "announcement_join.h"
 
-m2tp_bytes packet_content_AnnouncementJoin_serialize(
-    const packet_content_AnnouncementJoin *input, m2tp_byte *outputSizePtr)
+void packet_content_AnnouncementJoin_serialize(
+    const packet_content_AnnouncementJoin *input, m2tp_bytes output, m2tp_byte *outputSizePtr)
 {
   // Resolve deviceClass size
   m2tp_byte deviceClassSize = 0;
@@ -21,9 +21,6 @@ m2tp_bytes packet_content_AnnouncementJoin_serialize(
   // Resolve output size
   m2tp_byte outputSize = 1 + deviceClassSize;
 
-  // Allocate memory with fixed size
-  m2tp_bytes output = (m2tp_bytes)malloc(outputSize);
-
   // Send output size thru pointer, if it isn't null
   if (outputSizePtr != NULL)
     *outputSizePtr = outputSize;
@@ -34,8 +31,6 @@ m2tp_bytes packet_content_AnnouncementJoin_serialize(
   // Insert deviceClass to output
   for (m2tp_byte i = 0; i < deviceClassSize; i++)
     output[i + 1] = input->deviceClass[i];
-
-  return output;
 }
 
 void packet_content_AnnouncementJoin_parse(
@@ -48,9 +43,12 @@ void packet_content_AnnouncementJoin_parse(
   // Insert address to output
   output->address = input[0];
 
-  // Resolve deviceClass size, then allocate
+  // Resolve deviceClass size
   m2tp_byte deviceClassSize = inputSize - 1;
-  output->deviceClass = (char *)malloc(deviceClassSize + 1);
+
+  // Allocate deviceClass if not yet allocated
+  if (output->deviceClass == NULL)
+    output->deviceClass = (char *)malloc(deviceClassSize + 1);
 
   // Insert deviceClass to output
   for (m2tp_byte i = 0; i < deviceClassSize; i++)

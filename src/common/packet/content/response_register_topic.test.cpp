@@ -17,7 +17,8 @@ TEST(PacketContent_ResponseRegisterTopic, Serialize)
   input.name = "Lorem Ipsum";
 
   m2tp_byte outputSize = 0;
-  m2tp_bytes output = packet_content_ResponseRegisterTopic_serialize(&input, &outputSize);
+  m2tp_byte output[255];
+  packet_content_ResponseRegisterTopic_serialize(&input, output, &outputSize);
 
   ASSERT_EQ(outputSize, 12) << "Invalid output size";
 
@@ -33,13 +34,11 @@ TEST(PacketContent_ResponseRegisterTopic, Serialize)
   EXPECT_EQ(output[9], 's');
   EXPECT_EQ(output[10], 'u');
   EXPECT_EQ(output[11], 'm');
-
-  free(output);
 }
 
 TEST(PacketContent_ResponseRegisterTopic, Parse)
 {
-  m2tp_bytes input = (m2tp_bytes)malloc(12);
+  m2tp_byte input[12];
   input[0] = 0xF2;
   input[1] = 'L';
   input[2] = 'o';
@@ -53,11 +52,11 @@ TEST(PacketContent_ResponseRegisterTopic, Parse)
   input[10] = 'u';
   input[11] = 'm';
 
+  char name[254];
   packet_content_ResponseRegisterTopic output;
+  output.name = name;
   packet_content_ResponseRegisterTopic_parse(input, 12, &output);
-  free(input);
 
   EXPECT_EQ(output.ID, 0xF2);
   EXPECT_STREQ(output.name, "Lorem Ipsum");
-  free(output.name);
 }

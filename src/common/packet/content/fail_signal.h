@@ -17,10 +17,13 @@ typedef struct
 
 } packet_content_FailSignal;
 
+// FAIL_SIGNAL Packet Content has fixed size
+#define FAIL_SIGNAL_SIZE 1
+
 // Convert: Packet Object => Raw Bytes
 // returns serialized packet
-extern m2tp_bytes packet_content_FailSignal_serialize(
-    const packet_content_FailSignal *input, m2tp_byte *outputSizePtr);
+extern void packet_content_FailSignal_serialize(
+    const packet_content_FailSignal *input, m2tp_bytes output, m2tp_byte *outputSizePtr);
 
 // Convert: Raw Bytes => Packet Object
 extern void packet_content_FailSignal_parse(

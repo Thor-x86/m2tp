@@ -17,17 +17,18 @@ TEST(Packet, Serialize)
   input.command = M2TP_COMMAND_ANNOUNCEMENT_JOIN;
   input.contentSize = 6;
 
-  input.content = (m2tp_bytes)malloc(input.contentSize);
-  input.content[0] = 0x7F;
-  input.content[1] = 'L';
-  input.content[2] = 'o';
-  input.content[3] = 'r';
-  input.content[4] = 'e';
-  input.content[5] = 'm';
+  m2tp_byte inputContent[input.contentSize];
+  inputContent[0] = 0x7F;
+  inputContent[1] = 'L';
+  inputContent[2] = 'o';
+  inputContent[3] = 'r';
+  inputContent[4] = 'e';
+  inputContent[5] = 'm';
+  input.content = inputContent;
 
   m2tp_byte outputSize = 0;
-  m2tp_bytes output = Packet_serialize(&input, &outputSize);
-  free(input.content);
+  m2tp_byte output[255];
+  Packet_serialize(&input, output, &outputSize);
 
   ASSERT_EQ(outputSize, 8) << "Invalid output size";
 
@@ -39,13 +40,11 @@ TEST(Packet, Serialize)
   EXPECT_EQ(output[5], 'r');
   EXPECT_EQ(output[6], 'e');
   EXPECT_EQ(output[7], 'm');
-
-  free(output);
 }
 
 TEST(Packet, Parse)
 {
-  m2tp_bytes input = (m2tp_bytes)malloc(8);
+  m2tp_byte input[8];
   input[0] = M2TP_COMMAND_ANNOUNCEMENT_JOIN;
   input[1] = 6;
   input[2] = 0x7F;
@@ -55,9 +54,10 @@ TEST(Packet, Parse)
   input[6] = 'e';
   input[7] = 'm';
 
+  m2tp_byte outputContent[255];
   Packet output;
+  output.content = outputContent;
   Packet_parse(input, &output);
-  free(input);
 
   EXPECT_EQ(output.command, M2TP_COMMAND_ANNOUNCEMENT_JOIN);
   ASSERT_EQ(output.contentSize, 6) << "Invalid content size";
@@ -67,5 +67,4 @@ TEST(Packet, Parse)
   EXPECT_EQ(output.content[3], 'r');
   EXPECT_EQ(output.content[4], 'e');
   EXPECT_EQ(output.content[5], 'm');
-  free(output.content);
 }

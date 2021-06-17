@@ -25,7 +25,7 @@ typedef struct
 
 // Convert: Packet Object => Raw Bytes
 // returns serialized packet
-extern m2tp_bytes Packet_serialize(const Packet *input, m2tp_byte *outputSizePtr);
+extern void Packet_serialize(const Packet *input, m2tp_bytes output, m2tp_byte *outputSizePtr);
 
 // Convert: Raw Bytes => Packet Object
 // WARNING! input must AT LEAST has 3 bytes length
