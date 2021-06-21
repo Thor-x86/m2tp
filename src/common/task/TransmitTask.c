@@ -10,7 +10,7 @@
 
 //////// Variables /////////////////////////////////////
 
-// TODO: Write stuffs here...
+Packet *pendingPacket = NULL;
 
 ////////////////////////////////////////////////////////
 
@@ -62,6 +62,11 @@ void TransmitTask_stop()
 void TransmitTask_send(Packet *packet)
 {
   // TODO: Write stuffs here...
+}
+
+bool TransmitTask_hasPendingPacket()
+{
+  return (pendingPacket != NULL);
 }
 
 ////////////////////////////////////////////////////////
