@@ -52,7 +52,7 @@ bool TransmitBuffer_isTopicID(m2tp_channel channel)
 {
   // TopicID has 1 at the leftmost,
   // device address not.
-  return ((channel & 0b10000000) == 0b10000000);
+  return (channel & 0b10000000);
 }
 
 ////////////////////////////////////////////////////////
