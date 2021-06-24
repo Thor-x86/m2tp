@@ -11,15 +11,27 @@
 #define TASK_TRAFFIC_PEER 3
 #define TASK_TRAFFIC_BROADCAST 4
 
+void TaskRouter_start()
+{
+  // TODO: Write stuffs here...
+}
+
 void TaskRouter_nextTask()
 {
   // TODO: Write stuffs here...
 }
 
-void TaskRouter_reset()
+void TaskRouter_stop()
 {
-  TaskRouter_clearFunctions();
-  TaskRouter_currentTask = NULL;
+  // TODO: Write stuffs here...
+}
 
-  // TODO: Stop all tasks here...
+void TaskRouter_sendPacket(Packet *packet)
+{
+  // TODO: Write stuffs here...
+}
+
+bool TaskRouter_hasPendingData()
+{
+  // TODO: Write stuffs here...
 }

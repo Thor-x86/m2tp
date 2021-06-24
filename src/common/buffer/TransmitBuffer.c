@@ -7,7 +7,8 @@
 
 #include "m2tp-common/errors.h"
 #include "m2tp-common/commands.h"
-#include "../task/TransmitTask.h"
+
+#include "../TaskRouter.h"
 
 //////// Compile-time Constants ////////////////////////
 
@@ -23,7 +24,7 @@ m2tp_byte TransmitBuffer_buffer[253];
 m2tp_byte TransmitBuffer_errorCode = NULL;
 
 // TransmitBuffer holds the real pending packet
-// whereas TransmitTask only holds its pointer
+// whereas MainTask or TransmitTask only holds its pointer
 Packet TransmitBuffer_packet = {
     M2TP_COMMAND_TRANSMIT,
     POSITION_UNINITIALIZED,
@@ -61,9 +62,10 @@ bool TransmitBuffer_isTopicID(m2tp_channel channel)
 
 void TransmitBuffer_startPeer(m2tp_channel targetAddress)
 {
-  while (TransmitTask_hasPendingPacket())
+  while (TaskRouter_hasPendingData())
   {
-    // Block current thread until TransmitTask ready
+    // Block current thread until there is no pending data.
+    // We need to do this to make sure there is no missing packets.
   }
 
   // Start can be "restart" if app didn't call finish yet
@@ -83,9 +85,10 @@ void TransmitBuffer_startPeer(m2tp_channel targetAddress)
 
 void TransmitBuffer_startBroadcast(m2tp_channel topicID)
 {
-  while (TransmitTask_hasPendingPacket())
+  while (TaskRouter_hasPendingData())
   {
-    // Block current thread until TransmitTask ready
+    // Block current thread until there is no pending data.
+    // We need to do this to make sure there is no missing packets.
   }
 
   // Start can be "restart" if app didn't call finish yet
@@ -106,8 +109,8 @@ void TransmitBuffer_startBroadcast(m2tp_channel topicID)
 void TransmitBuffer_write(m2tp_byte value)
 {
   // Abort if not started yet,
-  // or currently waiting for TransmitTask
-  if (!isInitialized || TransmitTask_hasPendingPacket())
+  // or currently waiting for pending data
+  if (!isInitialized || TaskRouter_hasPendingData())
     return;
 
   // Too much bytes? report then abort
@@ -130,9 +133,9 @@ void TransmitBuffer_finish()
     return;
   }
 
-  // Send to TransmitTask, if no error
+  // Send via TaskRouter, if no error
   if (TransmitBuffer_errorCode == NULL)
-    TransmitTask_send(&TransmitBuffer_packet);
+    TaskRouter_sendPacket(&TransmitBuffer_packet);
 
   // Cleanup
   TransmitBuffer_reset();
@@ -154,11 +157,11 @@ void TransmitBuffer_finishAsync(m2tp_OnSuccessCallback successCallback, m2tp_OnE
       errorCallback(TransmitBuffer_errorCode);
   }
 
-  // Otherwise, send it to TransmitTask
+  // Otherwise, send it via TaskRouter
   // then it will call the callback itself
   else
   {
-    TransmitTask_send(&TransmitBuffer_packet);
+    TaskRouter_sendPacket(&TransmitBuffer_packet);
   }
 
   // Cleanup

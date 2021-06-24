@@ -10,7 +10,7 @@ extern "C"
 #include "TransmitBuffer.h"
 #include "m2tp-common/commands.h"
 #include "m2tp-common/errors.h"
-#include "../task/TransmitTask.h"
+#include "../TaskRouter.h"
 }
 
 // Global variables for TransmitBuffer test suite
@@ -89,7 +89,7 @@ TEST(TransmitBuffer, AsyncPeerWrite)
   // Simulate asynchronous finish
   TransmitBuffer_finishAsync(nullptr, nullptr);
 
-  // FIXME: Find a way to mock TransmitTask
+  // FIXME: Find a way to mock TaskRouter
 
   // Check if cleaned up properly
   EXPECT_EQ(TransmitBuffer_destination, NULL) << "Destination isn't cleaned";
@@ -153,7 +153,7 @@ TEST(TransmitBuffer, AsyncBroadcastWrite)
   // Simulate asynchronous finish
   TransmitBuffer_finishAsync(nullptr, nullptr);
 
-  // FIXME: Find a way to mock TransmitTask
+  // FIXME: Find a way to mock TaskRouter
 
   // Check if cleaned up properly
   EXPECT_EQ(TransmitBuffer_destination, NULL) << "Destination isn't cleaned";

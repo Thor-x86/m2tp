@@ -13,6 +13,7 @@ void (*TaskRouter_receiveInterrupt)(Packet *packet) = NULL;
 void (*TaskRouter_timeoutInterrupt)() = NULL;
 void (*TaskRouter_reportReceiveFail)(m2tp_byte errorCode) = NULL;
 void (*TaskRouter_reportSendFail)(m2tp_byte errorCode) = NULL;
+void (*TaskRouter_endTask)() = NULL;
 
 void TaskRouter_startTimeout(unsigned long milliseconds)
 {
@@ -26,13 +27,5 @@ void TaskRouter_stopTimeout()
     m2tp_driver_stopTimerListener();
 }
 
-void TaskRouter_clearFunctions()
-{
-  TaskRouter_stopTimeout();
-  TaskRouter_receiveInterrupt = NULL;
-  TaskRouter_timeoutInterrupt = NULL;
-  TaskRouter_reportReceiveFail = NULL;
-  TaskRouter_reportSendFail = NULL;
-}
-
-// NOTE: TaskRouter_nextTask and TaskRouter_reset function implemented at member and leader
+// NOTE: Other functions are implemented at member and leader
+//       because they're work differently

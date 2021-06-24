@@ -9,15 +9,27 @@
 #define TASK_REGISTRATION 1
 #define TASK_TRANSMIT 2
 
+void TaskRouter_start()
+{
+  // TODO: Write stuffs here...
+}
+
 void TaskRouter_nextTask()
 {
   // TODO: Write stuffs here...
 }
 
-void TaskRouter_reset()
+void TaskRouter_stop()
 {
-  TaskRouter_clearFunctions();
-  TaskRouter_currentTask = NULL;
+  // TODO: Write stuffs here...
+}
 
-  // TODO: Stop all tasks here...
+void TaskRouter_sendPacket(Packet *packet)
+{
+  // TODO: Write stuffs here...
+}
+
+bool TaskRouter_hasPendingData()
+{
+  // TODO: Write stuffs here...
 }
