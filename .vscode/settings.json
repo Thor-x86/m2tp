@@ -4,5 +4,11 @@
       "${workspaceFolder}/include",
       "${workspaceFolder}/.cmake/googletest-src/googletest/include"
     ],
-    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "files.associations": {
+      "*.c": "c",
+      "*.h": "c",
+      "*.cpp": "cpp",
+      "*.hpp": "cpp"
+    }
 }
