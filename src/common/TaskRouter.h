@@ -25,9 +25,6 @@ extern void (*TaskRouter_reportReceiveFail)(m2tp_byte errorCode);
 // Pointer to reportSendFail function, depends on current task
 extern void (*TaskRouter_reportSendFail)(m2tp_byte errorCode);
 
-// Pointer to endTask function, depends on current task
-extern void (*TaskRouter_endTask)();
-
 // Initialize the task router, called when driver just ready
 extern void TaskRouter_start();
 

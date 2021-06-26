@@ -13,7 +13,6 @@ void (*TaskRouter_receiveInterrupt)(Packet *packet) = NULL;
 void (*TaskRouter_timeoutInterrupt)() = NULL;
 void (*TaskRouter_reportReceiveFail)(m2tp_byte errorCode) = NULL;
 void (*TaskRouter_reportSendFail)(m2tp_byte errorCode) = NULL;
-void (*TaskRouter_endTask)() = NULL;
 
 void TaskRouter_startTimeout(unsigned long milliseconds)
 {
