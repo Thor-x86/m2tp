@@ -10,5 +10,7 @@
       "*.h": "c",
       "*.cpp": "cpp",
       "*.hpp": "cpp"
-    }
+    },
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true
 }
