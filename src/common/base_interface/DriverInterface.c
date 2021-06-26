@@ -67,16 +67,4 @@ void m2tp_driver_receiveEnd()
   // TODO: Write stuffs here...
 }
 
-void m2tp_driver_receiveFailed(m2tp_byte errorCode)
-{
-  if (TaskRouter_reportReceiveFail != NULL)
-    TaskRouter_reportReceiveFail(errorCode);
-}
-
-void m2tp_driver_sendFailed(m2tp_byte errorCode)
-{
-  if (TaskRouter_reportSendFail != NULL)
-    TaskRouter_reportSendFail(errorCode);
-}
-
 ////////////////////////////////////////////////////////

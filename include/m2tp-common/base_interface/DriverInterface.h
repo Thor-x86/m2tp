@@ -57,24 +57,12 @@ extern void m2tp_driver_receiveWrite(m2tp_byte value);
 extern void m2tp_driver_receiveEnd();
 
 /**
- * @brief Report if driver cannot receive packet correctly
- * @param errorCode See "m2tp-common/errors.h"
- */
-extern void m2tp_driver_receiveFailed(m2tp_byte errorCode);
-
-/**
  * @brief Pointer to a function, will be called if app need to send something
  * @param command See "m2tp-common/commands.h"
  * @param contentSize In bytes
  * @param content Serialized packet content
  */
 extern void (*m2tp_driver_sendListener)(m2tp_byte command, m2tp_byte contentSize, const m2tp_bytes content);
-
-/**
- * @brief Report if driver cannot send packet
- * @param errorCode See "m2tp-common/errors.h"
- */
-extern void m2tp_driver_sendFailed(m2tp_byte errorCode);
 
 /**
  * @brief Pointer to a function, driver decides how delay behaves

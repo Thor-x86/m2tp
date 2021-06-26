@@ -5,9 +5,13 @@
 
 #include "../common/TaskRouter.h"
 
+#include "m2tp-common/commands.h"
+#include "task/RegistrationTask.h"
+#include "task/MainTask.h"
+
 // Available Tasks
 #define TASK_REGISTRATION 1
-#define TASK_TRANSMIT 2
+#define TASK_MAIN 2
 
 void TaskRouter_start()
 {
@@ -26,10 +30,18 @@ void TaskRouter_stop()
 
 void TaskRouter_sendPacket(Packet *packet)
 {
-  // TODO: Write stuffs here...
+  // Making sure packet isn't NULL
+  // to prevent further damage
+  if (packet == NULL)
+    return;
+
+  // Member can only send "data transmit" packet type,
+  // otherwise it will be ignored
+  if (packet->command == M2TP_COMMAND_TRANSMIT)
+    MainTask_send(packet);
 }
 
 bool TaskRouter_hasPendingData()
 {
-  // TODO: Write stuffs here...
+  return MainTask_hasPendingData();
 }

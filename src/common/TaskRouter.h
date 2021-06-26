@@ -21,14 +21,6 @@ extern void (*TaskRouter_receiveInterrupt)(Packet *packet);
 // interrupt triggered from timer hardware
 extern void (*TaskRouter_timeoutInterrupt)();
 
-// Pointer to a function, current task is responsible
-// for reported error while receiving something
-extern void (*TaskRouter_reportReceiveFail)(m2tp_byte errorCode);
-
-// Pointer to a function, current task is responsible
-// for reported error when attempting to send something
-extern void (*TaskRouter_reportSendFail)(m2tp_byte errorCode);
-
 // Initialize the task router, called when driver just ready
 extern void TaskRouter_start();
 
