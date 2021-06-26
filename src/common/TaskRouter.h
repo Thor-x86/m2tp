@@ -13,16 +13,20 @@
 // If selects nothing, then it's NULL
 extern m2tp_byte TaskRouter_currentTask;
 
-// Pointer to receiveInterrupt function, depends on current task
+// Pointer to a function, this will be called when
+// receive interrupt from network hardware via its driver
 extern void (*TaskRouter_receiveInterrupt)(Packet *packet);
 
-// Pointer to timeoutInterrupt function, depends on current task
+// Pointer to a function, this will be called when
+// interrupt triggered from timer hardware
 extern void (*TaskRouter_timeoutInterrupt)();
 
-// Pointer to reportReceiveFail function, depends on current task
+// Pointer to a function, current task is responsible
+// for reported error while receiving something
 extern void (*TaskRouter_reportReceiveFail)(m2tp_byte errorCode);
 
-// Pointer to reportSendFail function, depends on current task
+// Pointer to a function, current task is responsible
+// for reported error when attempting to send something
 extern void (*TaskRouter_reportSendFail)(m2tp_byte errorCode);
 
 // Initialize the task router, called when driver just ready
