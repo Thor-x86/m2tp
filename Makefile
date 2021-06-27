@@ -19,7 +19,7 @@ build:
 ifeq ($(detected_OS),Windows)
 	cd .cmake; cmake --build .
 else
-	cd .cmake && cmake --build .
+	cd .cmake && make -j$(nproc)
 endif
 .PHONY: build
 
