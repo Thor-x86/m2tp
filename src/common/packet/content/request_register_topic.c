@@ -3,8 +3,6 @@
  * @brief Implementation of request_register_topic.h
 **/
 
-#include <stdlib.h>
-
 #include "request_register_topic.h"
 
 void packet_content_RequestRegisterTopic_serialize(

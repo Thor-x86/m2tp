@@ -3,8 +3,6 @@
  * @brief Implementation of request_register_device.h
 **/
 
-#include <stdlib.h>
-
 #include "request_register_device.h"
 
 void packet_content_RequestRegisterDevice_serialize(
