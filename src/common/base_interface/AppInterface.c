@@ -68,27 +68,27 @@ void m2tp_subscribe(
 
 m2tp_channel m2tp_getAddress()
 {
-  return assignedAddress;
+  return DeviceState_assignedAddress;
 }
 
 m2tp_byte m2tp_isConnected()
 {
-  return isReady();
+  return DeviceState_isReady();
 }
 
 const char *m2tp_getDeviceBrand()
 {
-  return deviceBrand;
+  return DeviceState_deviceBrand;
 }
 
 const char *m2tp_getDeviceVendor()
 {
-  return deviceVendor;
+  return DeviceState_deviceVendor;
 }
 
 const char *m2tp_getDeviceClass()
 {
-  return deviceClass;
+  return DeviceState_deviceClass;
 }
 
 ////////////////////////////////////////////////////////

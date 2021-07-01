@@ -27,17 +27,17 @@ void (*m2tp_driver_stopTimerListener)() = NULL;
 
 void m2tp_driver_setDeviceBrand(char *value)
 {
-  deviceBrand = value;
+  DeviceState_deviceBrand = value;
 }
 
 void m2tp_driver_setDeviceVendor(char *value)
 {
-  deviceVendor = value;
+  DeviceState_deviceVendor = value;
 }
 
 void m2tp_driver_setDeviceClass(char *value)
 {
-  deviceClass = value;
+  DeviceState_deviceClass = value;
 }
 
 void m2tp_driver_connected()
