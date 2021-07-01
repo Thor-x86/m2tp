@@ -15,10 +15,10 @@ typedef struct
   // ID of requested topic, use for broadcast
   m2tp_channel ID;
 
-  // Name of requested topic
-  char *name;
-
 } packet_content_ResponseRegisterTopic;
+
+// RESPONSE_REGISTER_TOPIC Packet Content has fixed size
+#define RESPONSE_REGISTER_TOPIC_SIZE 1
 
 // Convert: Packet Object => Raw Bytes
 // returns serialized packet

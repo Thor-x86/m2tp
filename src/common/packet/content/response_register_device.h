@@ -12,16 +12,13 @@
 typedef struct
 {
 
-  // Previously generated random number
-  m2tp_byte dice;
-
   // Current device's new address
   m2tp_channel address;
 
 } packet_content_ResponseRegisterDevice;
 
 // RESPONSE_REGISTER_DEVICE Packet Content has fixed size
-#define RESPONSE_REGISTER_DEVICE_SIZE 2
+#define RESPONSE_REGISTER_DEVICE_SIZE 1
 
 // Convert: Packet Object => Raw Bytes
 // returns serialized packet

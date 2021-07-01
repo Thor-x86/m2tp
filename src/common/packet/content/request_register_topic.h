@@ -8,22 +8,13 @@
 
 #include "m2tp-common/typedef.h"
 
-// Data structure of packet content
-typedef struct
-{
-
-  // Which name of topic?
-  char *name;
-
-} packet_content_RequestRegisterTopic;
-
-// Convert: Packet Object => Raw Bytes
+// Convert: String => Raw Bytes
 // returns serialized packet
 extern void packet_content_RequestRegisterTopic_serialize(
-    const packet_content_RequestRegisterTopic *input, m2tp_bytes output, m2tp_byte *outputSizePtr);
+    const char *topicName, m2tp_bytes output, m2tp_byte *outputSizePtr);
 
-// Convert: Raw Bytes => Packet Object
+// Convert: Raw Bytes => String
 extern void packet_content_RequestRegisterTopic_parse(
-    const m2tp_bytes input, m2tp_byte inputSize, packet_content_RequestRegisterTopic *output);
+    const m2tp_bytes input, m2tp_byte inputSize, char *topicName);
 
 #endif // #ifndef IS_REQUEST_REGISTER_TOPIC_PACKET_DEFINED

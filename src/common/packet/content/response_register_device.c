@@ -13,8 +13,7 @@ void packet_content_ResponseRegisterDevice_serialize(
     *outputSizePtr = RESPONSE_REGISTER_DEVICE_SIZE;
 
   // Insert dice and address to output
-  output[0] = input->dice;
-  output[1] = input->address;
+  output[0] = input->address;
 }
 
 void packet_content_ResponseRegisterDevice_parse(
@@ -25,6 +24,5 @@ void packet_content_ResponseRegisterDevice_parse(
     return;
 
   // Insert dice and address to output
-  output->dice = input[0];
-  output->address = input[1];
+  output->address = input[0];
 }

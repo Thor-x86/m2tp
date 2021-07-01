@@ -12,55 +12,44 @@ extern "C"
 
 TEST(PacketContent_RequestRegisterDevice, Serialize)
 {
-  m2tp_byte dice = 255 * (rand() / RAND_MAX);
-
-  packet_content_RequestRegisterDevice input;
-  input.dice = dice;
-  input.deviceClass = "Lorem Ipsum";
+  char deviceClass[12] = "Lorem Ipsum";
 
   m2tp_byte outputSize = 0;
   m2tp_byte output[255];
-  packet_content_RequestRegisterDevice_serialize(&input, output, &outputSize);
+  packet_content_RequestRegisterDevice_serialize(deviceClass, output, &outputSize);
 
-  ASSERT_EQ(outputSize, 12) << "Invalid output size";
+  ASSERT_EQ(outputSize, 11) << "Invalid output size";
 
-  EXPECT_EQ(output[0], dice);
-  EXPECT_EQ(output[1], 'L');
-  EXPECT_EQ(output[2], 'o');
-  EXPECT_EQ(output[3], 'r');
-  EXPECT_EQ(output[4], 'e');
-  EXPECT_EQ(output[5], 'm');
-  EXPECT_EQ(output[6], ' ');
-  EXPECT_EQ(output[7], 'I');
-  EXPECT_EQ(output[8], 'p');
-  EXPECT_EQ(output[9], 's');
-  EXPECT_EQ(output[10], 'u');
-  EXPECT_EQ(output[11], 'm');
+  EXPECT_EQ(output[0], 'L');
+  EXPECT_EQ(output[1], 'o');
+  EXPECT_EQ(output[2], 'r');
+  EXPECT_EQ(output[3], 'e');
+  EXPECT_EQ(output[4], 'm');
+  EXPECT_EQ(output[5], ' ');
+  EXPECT_EQ(output[6], 'I');
+  EXPECT_EQ(output[7], 'p');
+  EXPECT_EQ(output[8], 's');
+  EXPECT_EQ(output[9], 'u');
+  EXPECT_EQ(output[10], 'm');
 }
 
 TEST(PacketContent_RequestRegisterDevice, Parse)
 {
-  m2tp_byte dice = 255 * (rand() / RAND_MAX);
-
   m2tp_byte input[255];
-  input[0] = dice;
-  input[1] = 'L';
-  input[2] = 'o';
-  input[3] = 'r';
-  input[4] = 'e';
-  input[5] = 'm';
-  input[6] = ' ';
-  input[7] = 'I';
-  input[8] = 'p';
-  input[9] = 's';
-  input[10] = 'u';
-  input[11] = 'm';
+  input[0] = 'L';
+  input[1] = 'o';
+  input[2] = 'r';
+  input[3] = 'e';
+  input[4] = 'm';
+  input[5] = ' ';
+  input[6] = 'I';
+  input[7] = 'p';
+  input[8] = 's';
+  input[9] = 'u';
+  input[10] = 'm';
 
   char deviceClass[254];
-  packet_content_RequestRegisterDevice output;
-  output.deviceClass = deviceClass;
-  packet_content_RequestRegisterDevice_parse(input, 12, &output);
+  packet_content_RequestRegisterDevice_parse(input, 11, deviceClass);
 
-  EXPECT_EQ(output.dice, dice);
-  EXPECT_STREQ(output.deviceClass, "Lorem Ipsum");
+  EXPECT_STREQ(deviceClass, "Lorem Ipsum");
 }

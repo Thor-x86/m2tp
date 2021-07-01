@@ -8,52 +8,32 @@
 #include "request_register_device.h"
 
 void packet_content_RequestRegisterDevice_serialize(
-    const packet_content_RequestRegisterDevice *input, m2tp_bytes output, m2tp_byte *outputSizePtr)
+    const char *deviceClass, m2tp_bytes output, m2tp_byte *outputSizePtr)
 {
   // Resolve deviceClass size
   m2tp_byte deviceClassSize = 0;
   for (deviceClassSize; deviceClassSize < 255; deviceClassSize++)
   {
-    if (input->deviceClass[deviceClassSize] == '\0')
+    if (deviceClass[deviceClassSize] == '\0')
       break;
   }
 
-  // Resolve output size
-  m2tp_byte outputSize = 1 + deviceClassSize;
-
   // Send output size thru pointer, if it isn't null
   if (outputSizePtr != NULL)
-    *outputSizePtr = outputSize;
-
-  // Insert dice number to output
-  output[0] = input->dice;
+    *outputSizePtr = deviceClassSize;
 
   // Insert deviceClass to output
   for (m2tp_byte i = 0; i < deviceClassSize; i++)
-    output[i + 1] = input->deviceClass[i];
+    output[i] = deviceClass[i];
 }
 
 void packet_content_RequestRegisterDevice_parse(
-    const m2tp_bytes input, m2tp_byte inputSize, packet_content_RequestRegisterDevice *output)
+    const m2tp_bytes input, m2tp_byte inputSize, char *deviceClass)
 {
-  // Abort if input size is too small
-  if (inputSize < 1)
-    return;
-
-  // Insert dice number to output
-  output->dice = input[0];
-
-  // Resolve deviceClass size
-  m2tp_byte deviceClassSize = inputSize - 1;
-
-  // Allocate deviceClass if not yet allocated
-  if (output->deviceClass == NULL)
-    output->deviceClass = (char *)malloc(deviceClassSize + 1);
-
   // Insert deviceClass to output
-  for (m2tp_byte i = 0; i < deviceClassSize; i++)
-    output->deviceClass[i] = input[i + 1];
+  for (m2tp_byte i = 0; i < inputSize; i++)
+    deviceClass[i] = input[i];
 
   // Insert NULL character to deviceClass to prevent segfault error
-  output->deviceClass[deviceClassSize] = '\0';
+  deviceClass[inputSize] = '\0';
 }

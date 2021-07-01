@@ -12,12 +12,11 @@ extern "C"
 
 TEST(PacketContent_RequestRegisterTopic, Serialize)
 {
-  packet_content_RequestRegisterTopic input;
-  input.name = "Lorem Ipsum";
+  char topicName[12] = "Lorem Ipsum";
 
   m2tp_byte outputSize = 0;
   m2tp_byte output[255];
-  packet_content_RequestRegisterTopic_serialize(&input, output, &outputSize);
+  packet_content_RequestRegisterTopic_serialize(topicName, output, &outputSize);
 
   ASSERT_EQ(outputSize, 11) << "Invalid output size";
 
@@ -49,10 +48,8 @@ TEST(PacketContent_RequestRegisterTopic, Parse)
   input[9] = 'u';
   input[10] = 'm';
 
-  char name[254];
-  packet_content_RequestRegisterTopic output;
-  output.name = name;
-  packet_content_RequestRegisterTopic_parse(input, 11, &output);
+  char topicName[254];
+  packet_content_RequestRegisterTopic_parse(input, 11, topicName);
 
-  EXPECT_STREQ(output.name, "Lorem Ipsum");
+  EXPECT_STREQ(topicName, "Lorem Ipsum");
 }
