@@ -3,8 +3,6 @@
  * @brief Implementation of transmit.h
 **/
 
-#include <stdlib.h>
-
 #include "transmit.h"
 
 void packet_content_Transmit_serialize(
@@ -39,10 +37,6 @@ void packet_content_Transmit_parse(
 
   // Resolve data size
   output->dataSize = inputSize - 2;
-
-  // Allocate the data if not yet allocated
-  if (output->data == NULL)
-    output->data = (m2tp_bytes)malloc(output->dataSize);
 
   // Insert data to output
   for (m2tp_byte i = 0; i < output->dataSize; i++)

@@ -3,8 +3,6 @@
  * @brief Implementation of announcement_join.h
 **/
 
-#include <stdlib.h>
-
 #include "announcement_join.h"
 
 void packet_content_AnnouncementJoin_serialize(
@@ -45,10 +43,6 @@ void packet_content_AnnouncementJoin_parse(
 
   // Resolve deviceClass size
   m2tp_byte deviceClassSize = inputSize - 1;
-
-  // Allocate deviceClass if not yet allocated
-  if (output->deviceClass == NULL)
-    output->deviceClass = (char *)malloc(deviceClassSize + 1);
 
   // Insert deviceClass to output
   for (m2tp_byte i = 0; i < deviceClassSize; i++)
