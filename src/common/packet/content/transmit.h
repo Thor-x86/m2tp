@@ -26,12 +26,6 @@ typedef struct
   // just to inform serializer about how big data is
   m2tp_byte dataSize;
 
-  // Won't included on serialization, NULL value if no callback needed
-  void (*successCallback)();
-
-  // Won't included on serialization, NULL value if no callback needed
-  void (*failedCallback)(m2tp_byte errorCode);
-
 } packet_content_Transmit;
 
 // Convert: Packet Object => Raw Bytes
