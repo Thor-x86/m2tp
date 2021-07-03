@@ -5,6 +5,9 @@ project(
   LANGUAGES C CXX
 )
 
+# Disable non ANSI C related warnings
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-write-strings")
+
 # Compile output directory
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "../out")
 
