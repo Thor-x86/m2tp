@@ -4,6 +4,7 @@ import os
 import shutil
 import sys
 import subprocess
+import glob
 from pathlib import Path
 from shutil import which
 
@@ -108,6 +109,44 @@ def runRebuild() -> bool:
 
 
 def runDeploy() -> bool:
+    # Resolve target
+    targetPath = os.path.join('out', 'm2tp')
+
+    # Delete previous deploy if exist
+    if os.path.exists(targetPath) and os.path.isdir(targetPath):
+        shutil.rmtree(targetPath)
+
+    # Re-create the directory
+    Path(targetPath).mkdir()
+    Path(os.path.join(targetPath, 'src')).mkdir()
+
+    # Copy entire "include directory"
+    shutil.copytree('include', os.path.join(targetPath, 'include'))
+
+    # Copy *.h and *.c files
+    pattern = os.path.join('src', '**', '*.[hc]')
+    srcFiles = glob.glob(pattern, recursive=True)
+    for eachFile in srcFiles:
+        destination = os.path.join(targetPath, eachFile)
+        os.makedirs(os.path.dirname(destination), exist_ok=True)
+        shutil.copy(eachFile, destination)
+
+    # Copy library.properties
+    shutil.copy('library.properties', os.path.join(
+        targetPath, 'library.properties'))
+
+    # Generate readme.md
+    readmePath = os.path.join(targetPath, 'README.md')
+    readmeFile = open(readmePath, 'w')
+    readmeFile.write('# Minified Library of M2TP\r\n\r\n')
+    readmeFile.write(
+        'See [full library source code](https://github.com/Thor-x86/m2tp)\r\n')
+    readmeFile.close()
+
+    # Report success
+    print('')
+    print('Done! Now put "./out/m2tp" directory inside your "<Arduino Path>/libraries/"')
+    print('')
     return True
 
 
