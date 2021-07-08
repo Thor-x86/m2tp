@@ -52,7 +52,7 @@ execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
   RESULT_VARIABLE result
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/googletest-download )
 if(result)
-  message(WARNING "Cannot update GoogleTest with error: ${result}\r\nSo you can't run unit test for now until you're online")
+  message(WARNING "Cannot download GoogleTest with error: ${result}\r\nYou can't run unit test for now until you're online")
 endif()
 execute_process(COMMAND ${CMAKE_COMMAND} --build .
   RESULT_VARIABLE result
