@@ -19,7 +19,6 @@ extern "C"
 namespace ReceiveBufferVars
 {
   bool isReceiveInterrupt;
-  bool isErrorReported;
 }
 
 // Use the global variables only for this file
@@ -37,7 +36,6 @@ TEST(ReceiveBuffer, NormalWrite)
 {
   // Initialize required global variables
   isReceiveInterrupt = false;
-  isErrorReported = false;
 
   // Prepare test function for receive interrupt
   TaskRouter_receiveInterrupt = [](Packet *packet)
@@ -52,12 +50,6 @@ TEST(ReceiveBuffer, NormalWrite)
     EXPECT_EQ(packet->content[3], 'r');
     EXPECT_EQ(packet->content[4], 'e');
     EXPECT_EQ(packet->content[5], 'm');
-  };
-
-  // Prepare test function for error report
-  TaskRouter_reportReceiveFail = [](m2tp_byte errorCode)
-  {
-    isErrorReported = true;
   };
 
   // Create an example of packet content
@@ -83,31 +75,19 @@ TEST(ReceiveBuffer, NormalWrite)
   // Check if receive interrupt triggered
   EXPECT_TRUE(isReceiveInterrupt);
 
-  // Making sure no error detected
-  EXPECT_FALSE(isErrorReported);
-
   // Callback reset
   TaskRouter_receiveInterrupt = nullptr;
-  TaskRouter_reportReceiveFail = nullptr;
 }
 
 TEST(ReceiveBuffer, ExcessiveWrite)
 {
   // Initialize required global variables
   isReceiveInterrupt = false;
-  isErrorReported = false;
 
   // Prepare test function for receive interrupt
   TaskRouter_receiveInterrupt = [](Packet *packet)
   {
     isReceiveInterrupt = true;
-  };
-
-  // Prepare test function for error report
-  TaskRouter_reportReceiveFail = [](m2tp_byte errorCode)
-  {
-    isErrorReported = true;
-    EXPECT_EQ(errorCode, M2TP_ERROR_PACKET_SIZE_MISMATCH);
   };
 
   // Create an example of packet content
@@ -136,31 +116,19 @@ TEST(ReceiveBuffer, ExcessiveWrite)
   // Receive interrupt shouldn't be triggered
   EXPECT_FALSE(isReceiveInterrupt);
 
-  // Check if error reported
-  EXPECT_TRUE(isErrorReported);
-
   // Callback reset
   TaskRouter_receiveInterrupt = nullptr;
-  TaskRouter_reportReceiveFail = nullptr;
 }
 
 TEST(ReceiveBuffer, IncompleteWrite)
 {
   // Initialize required global variables
   isReceiveInterrupt = false;
-  isErrorReported = false;
 
   // Prepare test function for receive interrupt
   TaskRouter_receiveInterrupt = [](Packet *packet)
   {
     isReceiveInterrupt = true;
-  };
-
-  // Prepare test function for error report
-  TaskRouter_reportReceiveFail = [](m2tp_byte errorCode)
-  {
-    isErrorReported = true;
-    EXPECT_EQ(errorCode, M2TP_ERROR_PACKET_SIZE_MISMATCH);
   };
 
   // Create an example of packet content
@@ -186,19 +154,14 @@ TEST(ReceiveBuffer, IncompleteWrite)
   // Receive interrupt shouldn't be triggered
   EXPECT_FALSE(isReceiveInterrupt);
 
-  // Check if error reported
-  EXPECT_TRUE(isErrorReported);
-
   // Callback reset
   TaskRouter_receiveInterrupt = nullptr;
-  TaskRouter_reportReceiveFail = nullptr;
 }
 
 TEST(ReceiveBuffer, UninitializedWrite)
 {
   // Initialize required global variables
   isReceiveInterrupt = false;
-  isErrorReported = false;
 
   // Prepare test function for receive interrupt
   TaskRouter_receiveInterrupt = [](Packet *packet)
@@ -206,14 +169,8 @@ TEST(ReceiveBuffer, UninitializedWrite)
     isReceiveInterrupt = true;
   };
 
-  // Prepare test function for error report
-  TaskRouter_reportReceiveFail = [](m2tp_byte errorCode)
-  {
-    isErrorReported = true;
-  };
-
   // Simulate unitialized write with NULL
-  ReceiveBuffer_write(NULL);
+  ReceiveBuffer_write((m2tp_byte)NULL);
   EXPECT_EQ(ReceiveBuffer_position, 0);
 
   // Simulate another unitialized write
@@ -223,9 +180,7 @@ TEST(ReceiveBuffer, UninitializedWrite)
   // Simulate finish with unitialized condition
   ReceiveBuffer_finish();
   EXPECT_FALSE(isReceiveInterrupt);
-  EXPECT_FALSE(isErrorReported);
 
   // Callback reset
   TaskRouter_receiveInterrupt = nullptr;
-  TaskRouter_reportReceiveFail = nullptr;
 }

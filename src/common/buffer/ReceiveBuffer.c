@@ -60,11 +60,9 @@ void ReceiveBuffer_write(m2tp_byte value)
   if (!isInitialized)
     return;
 
-  // Report error if value exceed size
+  // Reset then abort if value exceed size
   if (isExceedSize)
   {
-    if (TaskRouter_reportReceiveFail != NULL)
-      TaskRouter_reportReceiveFail(M2TP_ERROR_PACKET_SIZE_MISMATCH);
     ReceiveBuffer_reset();
     return;
   }
@@ -79,11 +77,9 @@ void ReceiveBuffer_finish()
   if (!isInitialized)
     return;
 
-  // Report error if incomplete write
+  // Reset then abort if incomplete write
   if (isIncomplete)
   {
-    if (TaskRouter_reportReceiveFail != NULL)
-      TaskRouter_reportReceiveFail(M2TP_ERROR_PACKET_SIZE_MISMATCH);
     ReceiveBuffer_reset();
     return;
   }
