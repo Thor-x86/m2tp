@@ -161,7 +161,10 @@ void TransmitBuffer_finishAsync(m2tp_OnSuccessCallback successCallback, m2tp_OnE
   // then it will call the callback itself
   else
   {
-    TaskRouter_sendPacket(&TransmitBuffer_packet);
+    TaskRouter_sendPacketAsync(
+        &TransmitBuffer_packet,
+        successCallback,
+        errorCallback);
   }
 
   // Cleanup

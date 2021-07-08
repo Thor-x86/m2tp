@@ -5,6 +5,8 @@
 
 #include "m2tp-common/base_interface/AppInterface.h"
 #include "../DeviceState.h"
+#include "../TaskRouter.h"
+#include "../buffer/TransmitBuffer.h"
 
 //////// Variables /////////////////////////////////////
 
@@ -26,29 +28,49 @@ void (*m2tp_onAnotherMemberQuitListener)(
 
 void m2tp_startSend(m2tp_channel targetAddress)
 {
-  // TODO: Write stuffs here...
+  // Abort if device NOT ready yet
+  if (!DeviceState_isReady())
+    return;
+
+  TransmitBuffer_startPeer(targetAddress);
 }
 
 void m2tp_startBroadcast(m2tp_channel topicID)
 {
-  // TODO: Write stuffs here...
+  // Abort if device NOT ready yet
+  if (!DeviceState_isReady())
+    return;
+
+  TransmitBuffer_startBroadcast(topicID);
 }
 
 void m2tp_write(m2tp_byte eachByte)
 {
-  // TODO: Write stuffs here...
+  // Abort if device NOT ready yet
+  if (!DeviceState_isReady())
+    return;
+
+  TransmitBuffer_write(eachByte);
 }
 
 void m2tp_writeFinish()
 {
-  // TODO: Write stuffs here...
+  // Abort if device NOT ready yet
+  if (!DeviceState_isReady())
+    return;
+
+  TransmitBuffer_finish();
 }
 
 void m2tp_writeFinishAsync(
     m2tp_OnSuccessCallback successCallback,
     m2tp_OnErrorCallback errorCallback)
 {
-  // TODO: Write stuffs here...
+  // Abort if device NOT ready yet
+  if (!DeviceState_isReady())
+    return;
+
+  TransmitBuffer_finishAsync(successCallback, errorCallback);
 }
 
 void m2tp_createTopic(
@@ -56,14 +78,22 @@ void m2tp_createTopic(
     m2tp_OnRegisteredCallback successCallback,
     m2tp_OnErrorCallback failedCallback)
 {
-  // TODO: Write stuffs here...
+  // Abort if device NOT ready yet
+  if (!DeviceState_isReady())
+    return;
+
+  TaskRouter_assignTopic(topicName, successCallback, NULL, failedCallback);
 }
 
 void m2tp_subscribe(
     char *topicName,
     m2tp_TopicListener listener)
 {
-  // TODO: Write stuffs here...
+  // Abort if device NOT ready yet
+  if (!DeviceState_isReady())
+    return;
+
+  TaskRouter_assignTopic(topicName, NULL, listener, NULL);
 }
 
 m2tp_channel m2tp_getAddress()

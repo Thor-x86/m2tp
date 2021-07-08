@@ -7,6 +7,7 @@
 #define IS_TASK_ROUTER_DEFINED
 
 #include "m2tp-common/typedef.h"
+#include "m2tp-common/base_interface/AppInterface.h"
 #include "packet/Packet.h"
 
 // Which task currently in?
@@ -33,9 +34,22 @@ extern void TaskRouter_stop();
 // Send packet to a task depends on command value inside that packet
 extern void TaskRouter_sendPacket(Packet *packet);
 
+// Like `sendPacket` but has callbacks to know if it fail or success
+extern void TaskRouter_sendPacketAsync(
+    Packet *packet,
+    m2tp_OnSuccessCallback successCallback,
+    m2tp_OnErrorCallback failedCallback);
+
 // Check if there is a packet with "transmit" content type
 // that didn't send properly yet, required for TransmitBuffer
 extern bool TaskRouter_hasPendingData();
+
+// Both createTopic() and subscribe() will call this
+extern void TaskRouter_assignTopic(
+    char *topicName,
+    m2tp_OnRegisteredCallback registeredCallback,
+    m2tp_TopicListener listener,
+    m2tp_OnErrorCallback failedCallback);
 
 // Start timer interrupt that prepared by driver
 extern void TaskRouter_startTimeout(unsigned long milliseconds);

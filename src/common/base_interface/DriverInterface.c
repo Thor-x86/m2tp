@@ -7,6 +7,7 @@
 #include "../DeviceState.h"
 #include "../packet/Packet.h"
 #include "../TaskRouter.h"
+#include "../buffer/ReceiveBuffer.h"
 
 //////// Variables /////////////////////////////////////
 
@@ -54,17 +55,29 @@ void m2tp_driver_receiveStart(
     m2tp_byte command,
     m2tp_byte contentSize)
 {
-  // TODO: Write stuffs here...
+  // Abort if device NOT ready yet
+  if (!DeviceState_isReady())
+    return;
+
+  ReceiveBuffer_start(command, contentSize);
 }
 
 void m2tp_driver_receiveWrite(m2tp_byte value)
 {
-  // TODO: Write stuffs here...
+  // Abort if device NOT ready yet
+  if (!DeviceState_isReady())
+    return;
+
+  ReceiveBuffer_write(value);
 }
 
 void m2tp_driver_receiveEnd()
 {
-  // TODO: Write stuffs here...
+  // Abort if device NOT ready yet
+  if (!DeviceState_isReady())
+    return;
+
+  ReceiveBuffer_finish();
 }
 
 ////////////////////////////////////////////////////////
