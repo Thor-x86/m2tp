@@ -9,7 +9,8 @@
       "*.c": "c",
       "*.h": "c",
       "*.cpp": "cpp",
-      "*.hpp": "cpp"
+      "*.hpp": "cpp",
+      "CMakeLists.*.txt": "cmake"
     },
     "editor.formatOnSave": true,
     "editor.formatOnPaste": true
