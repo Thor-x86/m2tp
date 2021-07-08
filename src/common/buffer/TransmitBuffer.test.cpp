@@ -11,6 +11,7 @@ extern "C"
 #include "m2tp-common/commands.h"
 #include "m2tp-common/errors.h"
 #include "../TaskRouter.h"
+#include "../../member/task/MainTask.h"
 }
 
 // Global variables for TransmitBuffer test suite
@@ -62,6 +63,9 @@ TEST(TransmitBuffer, NormalPeerWrite)
   EXPECT_EQ(TransmitBuffer_destination, NULL) << "Destination isn't cleaned";
   EXPECT_EQ(TransmitBuffer_packet.contentSize, 255) << "Position/contentSize isn't cleaned";
   EXPECT_EQ(TransmitBuffer_errorCode, NULL) << "Error code isn't cleaned";
+
+  // Stop the dummy task
+  MainTask_stop();
 }
 
 TEST(TransmitBuffer, AsyncPeerWrite)
@@ -95,6 +99,9 @@ TEST(TransmitBuffer, AsyncPeerWrite)
   EXPECT_EQ(TransmitBuffer_destination, NULL) << "Destination isn't cleaned";
   EXPECT_EQ(TransmitBuffer_packet.contentSize, 255) << "Position/contentSize isn't cleaned";
   EXPECT_EQ(TransmitBuffer_errorCode, NULL) << "Error code isn't cleaned";
+
+  // Stop the dummy task
+  MainTask_stop();
 }
 
 TEST(TransmitBuffer, NormalBroadcastWrite)
@@ -126,6 +133,9 @@ TEST(TransmitBuffer, NormalBroadcastWrite)
   EXPECT_EQ(TransmitBuffer_destination, NULL) << "Destination isn't cleaned";
   EXPECT_EQ(TransmitBuffer_packet.contentSize, 255) << "Position/contentSize isn't cleaned";
   EXPECT_EQ(TransmitBuffer_errorCode, NULL) << "Error code isn't cleaned";
+
+  // Stop the dummy task
+  MainTask_stop();
 }
 
 TEST(TransmitBuffer, AsyncBroadcastWrite)
@@ -159,6 +169,9 @@ TEST(TransmitBuffer, AsyncBroadcastWrite)
   EXPECT_EQ(TransmitBuffer_destination, NULL) << "Destination isn't cleaned";
   EXPECT_EQ(TransmitBuffer_packet.contentSize, 255) << "Position/contentSize isn't cleaned";
   EXPECT_EQ(TransmitBuffer_errorCode, NULL) << "Error code isn't cleaned";
+
+  // Stop the dummy task
+  MainTask_stop();
 }
 
 TEST(TransmitBuffer, WrongAddressTransmit)
@@ -189,6 +202,9 @@ TEST(TransmitBuffer, WrongAddressTransmit)
   EXPECT_EQ(TransmitBuffer_destination, NULL) << "Destination isn't cleaned";
   EXPECT_EQ(TransmitBuffer_packet.contentSize, 255) << "Position/contentSize isn't cleaned";
   EXPECT_EQ(TransmitBuffer_errorCode, NULL) << "Error code isn't cleaned";
+
+  // Stop the dummy task
+  MainTask_stop();
 }
 
 TEST(TransmitBuffer, WrongTopicTransmit)
@@ -219,6 +235,9 @@ TEST(TransmitBuffer, WrongTopicTransmit)
   EXPECT_EQ(TransmitBuffer_destination, NULL) << "Destination isn't cleaned";
   EXPECT_EQ(TransmitBuffer_packet.contentSize, 255) << "Position/contentSize isn't cleaned";
   EXPECT_EQ(TransmitBuffer_errorCode, NULL) << "Error code isn't cleaned";
+
+  // Stop the dummy task
+  MainTask_stop();
 }
 
 TEST(TransmitBuffer, ExceedLimitTransmit)
@@ -247,6 +266,9 @@ TEST(TransmitBuffer, ExceedLimitTransmit)
   EXPECT_EQ(TransmitBuffer_destination, NULL) << "Destination isn't cleaned";
   EXPECT_EQ(TransmitBuffer_packet.contentSize, 255) << "Position/contentSize isn't cleaned";
   EXPECT_EQ(TransmitBuffer_errorCode, NULL) << "Error code isn't cleaned";
+
+  // Stop the dummy task
+  MainTask_stop();
 }
 
 TEST(TransmitBuffer, ExceedLimitAsyncTransmit)
@@ -273,10 +295,12 @@ TEST(TransmitBuffer, ExceedLimitAsyncTransmit)
   EXPECT_EQ(TransmitBuffer_packet.contentSize, 254);
 
   // Prepare success callback
-  m2tp_OnSuccessCallback successCallback = [](){ isSuccessCalled = true; };
+  m2tp_OnSuccessCallback successCallback = []()
+  { isSuccessCalled = true; };
 
   // Prepare error callback
-  m2tp_OnErrorCallback errorCallback = [](m2tp_byte errorCode){
+  m2tp_OnErrorCallback errorCallback = [](m2tp_byte errorCode)
+  {
     EXPECT_EQ(errorCode, M2TP_ERROR_DATA_SIZE_TOO_BIG);
     isErrorCalled = true;
   };
@@ -292,4 +316,7 @@ TEST(TransmitBuffer, ExceedLimitAsyncTransmit)
   EXPECT_EQ(TransmitBuffer_destination, NULL) << "Destination isn't cleaned";
   EXPECT_EQ(TransmitBuffer_packet.contentSize, 255) << "Position/contentSize isn't cleaned";
   EXPECT_EQ(TransmitBuffer_errorCode, NULL) << "Error code isn't cleaned";
+
+  // Stop the dummy task
+  MainTask_stop();
 }
