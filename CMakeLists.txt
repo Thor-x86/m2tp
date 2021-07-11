@@ -48,7 +48,7 @@ install(TARGETS
 )
 
 #####################################################
-#         Test with Google Test Framework           #
+#       Unit Test with Google Test Framework        #
 #####################################################
 
 # Download and unpack googletest at configure time
