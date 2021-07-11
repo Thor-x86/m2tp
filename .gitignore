@@ -83,10 +83,10 @@ Desktop.ini
 
 # CMake Build
 .cmake/
-/build/
+build/
 
 # Compilation Output
-/out/
+out/
 
 # Placeholder File
 **/.placeholder
