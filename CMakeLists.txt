@@ -41,6 +41,11 @@ include_directories(
   "include/"
 )
 
+# Allow only M2TP Shared Library to be installed
+install(TARGETS
+  ${PROJECT_NAME}-member
+  ${PROJECT_NAME}-leader
+)
 
 #####################################################
 #         Test with Google Test Framework           #

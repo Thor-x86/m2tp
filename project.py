@@ -22,6 +22,7 @@ def showHelp():
     print('    test [all|unit|e2e] -- Run tests, MUST use this before commit')
     print('    clean -- Deletes ".cmake/" and "out/" directories')
     print('    rebuild -- clean => init => build')
+    print('    install -- Install M2TP shared library (.so or .dll) to your PC, required for E2E Test')
     print('    deploy -- Creates Arduino library without "*.test.cpp"')
     print('')
 
@@ -108,6 +109,23 @@ def runRebuild() -> bool:
     return False
 
 
+def runInstall() -> bool:
+    success = bool()
+    os.chdir('.cmake')
+    if os.name == 'nt':
+        success = (subprocess.call(['cmake', '--install', '.']) == 0)
+        if not success:
+            print('')
+            print(
+                'Are you using Administrator PowerShell (or cmd)?'
+                + 'If not, please switch'
+            )
+    else:
+        success = (subprocess.call(['sudo', 'cmake', '--install', '.']) == 0)
+    os.chdir('..')
+    return success
+
+
 def runDeploy() -> bool:
     # Resolve target
     targetPath = os.path.join('out', 'm2tp')
@@ -173,6 +191,8 @@ if len(sys.argv) > 1:
         isSuccess = runClean()
     elif sys.argv[1] == 'rebuild':
         isSuccess = runRebuild()
+    elif sys.argv[1] == 'install':
+        isSuccess = runInstall()
     elif sys.argv[1] == 'deploy':
         isSuccess = runDeploy()
     else:
