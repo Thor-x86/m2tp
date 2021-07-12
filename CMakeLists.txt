@@ -8,8 +8,11 @@ project(
 # Disable non ANSI C related warnings
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-write-strings")
 
-# Compile output directory
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "../out")
+# CMake working directory (./.cmake)
+set(CMAKE_BINARY_DIR "${PROJECT_SOURCE_DIR}/.cmake")
+
+# Compile output directory (./out)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/out")
 
 # M2TP Common Sources
 file(GLOB_RECURSE M2TP_COMMON_SOURCE_PATH "src/common/*")
