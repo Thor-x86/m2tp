@@ -43,12 +43,14 @@ void m2tp_driver_setDeviceClass(char *value)
 
 void m2tp_driver_connected()
 {
+  DeviceState_driverReady = true;
   TaskRouter_start();
 }
 
 void m2tp_driver_disconnected()
 {
   TaskRouter_stop();
+  DeviceState_driverReady = false;
 }
 
 void m2tp_driver_receiveStart(
