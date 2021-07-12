@@ -14,6 +14,10 @@
 
 #include "../m2tp-common/base_interface/DriverInterface.h"
 
+EXTERN_C_START
+
 // TODO: Write stuffs here...
+
+EXTERN_C_STOP
 
 #endif // #ifndef IS_M2TP_MEMBER_DRIVER_INTERFACE_DEFINED

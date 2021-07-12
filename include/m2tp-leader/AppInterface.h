@@ -14,6 +14,10 @@
 
 #include "../m2tp-common/base_interface/AppInterface.h"
 
+EXTERN_C_START
+
 // TODO: Write stuffs here...
+
+EXTERN_C_STOP
 
 #endif // #ifndef IS_M2TP_LEADER_APP_INTERFACE_DEFINED

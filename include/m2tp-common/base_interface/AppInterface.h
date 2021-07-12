@@ -7,6 +7,9 @@
 #define IS_M2TP_COMMON_APP_INTERFACE_DEFINED
 
 #include "../typedef.h"
+#include "../cpp_compat.h"
+
+EXTERN_C_START
 
 /**
  * @brief Universal callback, will be called when something success
@@ -129,5 +132,7 @@ extern const char *m2tp_getDeviceVendor();
  * @return char* (Primitive String)
  */
 extern const char *m2tp_getDeviceClass();
+
+EXTERN_C_STOP
 
 #endif // #ifndef IS_M2TP_COMMON_APP_INTERFACE_DEFINED

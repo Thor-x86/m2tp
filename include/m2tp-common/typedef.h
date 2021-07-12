@@ -6,8 +6,12 @@
 #ifndef IS_M2TP_TYPEDEF_DEFINED
 #define IS_M2TP_TYPEDEF_DEFINED
 
+#include "cpp_compat.h"
+
 // Non-Arduino requires this to use boolean
 #include <stdbool.h>
+
+EXTERN_C_START
 
 /**
  * @brief Represents each one byte
@@ -23,6 +27,8 @@ typedef m2tp_byte *m2tp_bytes;
  * @brief Standardized how address and topicID formatted
  */
 typedef m2tp_byte m2tp_channel;
+
+EXTERN_C_STOP
 
 // Standardize NULL definition
 #ifndef NULL

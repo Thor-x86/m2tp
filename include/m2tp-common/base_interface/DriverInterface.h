@@ -7,6 +7,9 @@
 #define IS_M2TP_COMMON_DRIVER_INTERFACE_DEFINED
 
 #include "../typedef.h"
+#include "../cpp_compat.h"
+
+EXTERN_C_START
 
 /**
  * @brief Will be called after timer finish
@@ -75,5 +78,7 @@ extern void (*m2tp_driver_startTimerListener)(unsigned long int duration, m2tp_d
  * @brief Pointer to a function, driver decides how delay behaves
  */
 extern void (*m2tp_driver_stopTimerListener)();
+
+EXTERN_C_STOP
 
 #endif // #ifndef IS_M2TP_COMMON_DRIVER_INTERFACE_DEFINED
