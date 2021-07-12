@@ -64,18 +64,20 @@ def runTestUnit() -> bool:
 
     print('')
     print('===== Unit Test: Common =====')
-    resultCommon = (subprocess.call([pathCommon]) == 0)
+    if subprocess.call([pathCommon]) != 0:
+        return False
 
     print('')
     print('===== Unit Test: Member =====')
-    resultMember = (subprocess.call([pathMember]) == 0)
+    if subprocess.call([pathMember]) != 0:
+        return False
 
     print('')
     print('===== Unit Test: Leader =====')
-    resultLeader = (subprocess.call([pathLeader]) == 0)
+    if subprocess.call([pathLeader]) != 0:
+        return False
 
-    # Return overall result
-    return resultCommon and resultMember and resultLeader
+    return True
 
 
 def runTestE2E() -> bool:
