@@ -47,7 +47,6 @@ extern void TransmitBuffer_abort();
 
 // Expose private variables to unit test framework
 #ifdef GOOGLETEST_INCLUDE_GTEST_GTEST_H_
-extern m2tp_channel TransmitBuffer_destination;
 extern m2tp_byte TransmitBuffer_buffer[253];
 extern m2tp_byte TransmitBuffer_errorCode;
 extern Packet TransmitBuffer_packet;

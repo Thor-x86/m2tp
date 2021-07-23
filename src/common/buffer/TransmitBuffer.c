@@ -9,34 +9,27 @@
 #include "m2tp-common/commands.h"
 
 #include "../TaskRouter.h"
-
-//////// Compile-time Constants ////////////////////////
-
-#define POSITION_UNINITIALIZED 255
-#define POSITION_OVERLOAD 254
-
-////////////////////////////////////////////////////////
+#include "../DeviceState.h"
 
 //////// Variables /////////////////////////////////////
 
-m2tp_channel TransmitBuffer_destination = NULL;
-m2tp_byte TransmitBuffer_buffer[253];
-m2tp_byte TransmitBuffer_errorCode = NULL;
+m2tp_byte TransmitBuffer_buffer[255];
+m2tp_byte TransmitBuffer_errorCode = 0;
 
 // TransmitBuffer holds the real pending packet
 // whereas MainTask or TransmitTask only holds its pointer
-Packet TransmitBuffer_packet = {
-    M2TP_COMMAND_TRANSMIT,
-    POSITION_UNINITIALIZED,
-    TransmitBuffer_buffer};
+Packet TransmitBuffer_packet = {0, 0, TransmitBuffer_buffer};
 
 ////////////////////////////////////////////////////////
 
 //////// Syntactic Sugars //////////////////////////////
 
+#define source TransmitBuffer_packet.content[0]
+#define target TransmitBuffer_packet.content[1]
 #define position TransmitBuffer_packet.contentSize
-#define isInitialized (position != POSITION_UNINITIALIZED)
-#define isSizeTooBig (position == POSITION_OVERLOAD)
+#define isInitialized (TransmitBuffer_packet.command == M2TP_COMMAND_TRANSMIT)
+#define isSizeTooBig (position == 255)
+#define isTopicID(channel) (channel & 0b10000000)
 
 ////////////////////////////////////////////////////////
 
@@ -44,16 +37,9 @@ Packet TransmitBuffer_packet = {
 
 void TransmitBuffer_reset()
 {
-  TransmitBuffer_destination = NULL;
-  position = POSITION_UNINITIALIZED;
-  TransmitBuffer_errorCode = NULL;
-}
-
-bool TransmitBuffer_isTopicID(m2tp_channel channel)
-{
-  // TopicID has 1 at the leftmost,
-  // device address not.
-  return (channel & 0b10000000);
+  TransmitBuffer_packet.command = 0;
+  position = 0;
+  TransmitBuffer_errorCode = 0;
 }
 
 ////////////////////////////////////////////////////////
@@ -68,19 +54,22 @@ void TransmitBuffer_startPeer(m2tp_channel targetAddress)
     // We need to do this to make sure there is no missing packets.
   }
 
-  // Start can be "restart" if app didn't call finish yet
+  // TransmitBuffer only do cleanup at beginning or when error caught
   if (isInitialized)
     TransmitBuffer_reset();
 
   // Making sure target address is not Topic ID
-  if (TransmitBuffer_isTopicID(targetAddress))
+  if (isTopicID(targetAddress))
   {
     TransmitBuffer_errorCode = M2TP_ERROR_ADDRESS_NOT_EXIST;
     return;
   }
 
-  position = 0;
-  TransmitBuffer_destination = targetAddress;
+  // Prepare the content header
+  TransmitBuffer_packet.command = M2TP_COMMAND_TRANSMIT;
+  source = DeviceState_assignedAddress;
+  target = targetAddress;
+  position = 2;
 }
 
 void TransmitBuffer_startBroadcast(m2tp_channel topicID)
@@ -91,26 +80,28 @@ void TransmitBuffer_startBroadcast(m2tp_channel topicID)
     // We need to do this to make sure there is no missing packets.
   }
 
-  // Start can be "restart" if app didn't call finish yet
+  // TransmitBuffer only do cleanup at beginning or when error caught
   if (isInitialized)
     TransmitBuffer_reset();
 
   // Making sure topic ID is not device address
-  if (!TransmitBuffer_isTopicID(topicID))
+  if (!isTopicID(topicID))
   {
     TransmitBuffer_errorCode = M2TP_ERROR_TOPIC_NOT_EXIST;
     return;
   }
 
-  position = 0;
-  TransmitBuffer_destination = topicID;
+  // Prepare the content header
+  TransmitBuffer_packet.command = M2TP_COMMAND_TRANSMIT;
+  source = DeviceState_assignedAddress;
+  target = topicID;
+  position = 2;
 }
 
 void TransmitBuffer_write(m2tp_byte value)
 {
-  // Abort if not started yet,
-  // or currently waiting for pending data
-  if (!isInitialized || TaskRouter_hasPendingData())
+  // Don't write anything if it's not safe to write
+  if (!isInitialized || TaskRouter_hasPendingData() || TransmitBuffer_errorCode != 0)
     return;
 
   // Too much bytes? report then abort
@@ -128,33 +119,32 @@ void TransmitBuffer_finish()
 {
   // Abort if not started yet
   if (!isInitialized)
-  {
-    TransmitBuffer_reset();
     return;
-  }
 
-  // Send via TaskRouter, if no error
-  if (TransmitBuffer_errorCode == NULL)
+  // Found error? reset the buffer to prevent further problem
+  if (TransmitBuffer_errorCode != 0)
+    TransmitBuffer_reset();
+
+  // Otherwise, submit the packet to TaskRouter
+  else
     TaskRouter_sendPacket(&TransmitBuffer_packet);
-
-  // Cleanup
-  TransmitBuffer_reset();
 }
 
 void TransmitBuffer_finishAsync(m2tp_OnSuccessCallback successCallback, m2tp_OnErrorCallback errorCallback)
 {
   // Abort if not started yet
   if (!isInitialized)
-  {
-    TransmitBuffer_reset();
     return;
-  }
 
-  // Found error? report it via errorCallback
-  if (TransmitBuffer_errorCode != NULL)
+  // Found error?
+  if (TransmitBuffer_errorCode != 0)
   {
+    // Report it via errorCallback
     if (errorCallback != NULL)
       errorCallback(TransmitBuffer_errorCode);
+
+    // Then reset the buffer
+    TransmitBuffer_reset();
   }
 
   // Otherwise, send it via TaskRouter
@@ -166,9 +156,6 @@ void TransmitBuffer_finishAsync(m2tp_OnSuccessCallback successCallback, m2tp_OnE
         successCallback,
         errorCallback);
   }
-
-  // Cleanup
-  TransmitBuffer_reset();
 }
 
 void TransmitBuffer_abort()
