@@ -19,7 +19,7 @@ m2tp_byte ReceiveBuffer_position = 0;
 
 //////// Syntactic Sugars //////////////////////////////
 
-#define isInitialized ReceiveBuffer_size > 0
+#define isInitialized (ReceiveBuffer_command >= 0b10100000)
 #define isExceedSize (ReceiveBuffer_position >= ReceiveBuffer_size)
 #define isIncomplete (ReceiveBuffer_position < ReceiveBuffer_size)
 
