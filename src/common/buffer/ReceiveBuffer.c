@@ -10,7 +10,7 @@
 
 //////// Variables /////////////////////////////////////
 
-m2tp_byte ReceiveBuffer_command = NULL;
+m2tp_byte ReceiveBuffer_command = 0;
 m2tp_byte ReceiveBuffer_buffer[255];
 m2tp_byte ReceiveBuffer_size = 0;
 m2tp_byte ReceiveBuffer_position = 0;
@@ -29,7 +29,7 @@ m2tp_byte ReceiveBuffer_position = 0;
 
 void ReceiveBuffer_reset()
 {
-  ReceiveBuffer_command = NULL;
+  ReceiveBuffer_command = 0;
   ReceiveBuffer_size = 0;
   ReceiveBuffer_position = 0;
 }
