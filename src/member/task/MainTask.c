@@ -286,6 +286,10 @@ void MainTask_start()
 
   // Start timer interrupt
   TaskRouter_startTimeout(MainTask_TIMEOUT_IDLE);
+
+  // Notify the app
+  if (m2tp_onConnected != NULL)
+    m2tp_onConnected(DeviceState_assignedAddress);
 }
 
 void MainTask_stop()
@@ -302,6 +306,10 @@ void MainTask_stop()
 
   // Reset private variables
   MainTask_flags = 0;
+
+  // Notify the app
+  if (m2tp_onDisconnected != NULL)
+    m2tp_onDisconnected();
 
   // Reset device address
   DeviceState_assignedAddress = NULL;

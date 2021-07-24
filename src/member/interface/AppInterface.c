@@ -7,7 +7,8 @@
 
 //////// Variables /////////////////////////////////////
 
-// TODO: Write stuffs here...
+void (*m2tp_onConnected)(m2tp_channel address) = NULL;
+void (*m2tp_onDisconnected)() = NULL;
 
 ////////////////////////////////////////////////////////
 

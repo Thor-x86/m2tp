@@ -16,7 +16,16 @@
 
 EXTERN_C_START
 
-// TODO: Write stuffs here...
+/**
+ * @brief Pointer to a function, will be called when successfully connected to the network
+ * @param address Current device's new address
+ */
+extern void (*m2tp_onConnected)(m2tp_channel address);
+
+/**
+ * @brief Pointer to a function, will be called when disconnected from network
+ */
+extern void (*m2tp_onDisconnected)();
 
 EXTERN_C_STOP
 
