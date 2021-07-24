@@ -78,9 +78,6 @@ void RegistrationTask_resetPendingSubscribe()
 
 void RegistrationTask_receiveInterrupt(Packet *packet)
 {
-  // Stop timeout
-  TaskRouter_stopTimeout();
-
   switch (packet->command)
   {
 
