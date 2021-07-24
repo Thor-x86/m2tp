@@ -206,6 +206,8 @@ void TrafficTask_receiveInterrupt(Packet *packet)
       // Send success signal
       if (m2tp_driver_sendListener != NULL)
         m2tp_driver_sendListener(M2TP_COMMAND_SUCCESS_SIGNAL, 0, NULL);
+
+      TrafficTask_continueBatch();
     }
 
     // ...or peer-to-peer transmit?
@@ -221,6 +223,8 @@ void TrafficTask_receiveInterrupt(Packet *packet)
         // Send success signal
         if (m2tp_driver_sendListener != NULL)
           m2tp_driver_sendListener(M2TP_COMMAND_SUCCESS_SIGNAL, 0, NULL);
+
+        TrafficTask_continueBatch();
       }
 
       // ...or for anyelse?
@@ -245,6 +249,8 @@ void TrafficTask_receiveInterrupt(Packet *packet)
     // Force sender to end transmission
     if (m2tp_driver_sendListener != NULL)
       m2tp_driver_sendListener(M2TP_COMMAND_END_TRANSMISSION, 0, NULL);
+
+    TrafficTask_continueBatch();
   }
   break;
 
@@ -272,6 +278,10 @@ void TrafficTask_timeoutInterrupt()
 
       // Send the announcement
       m2tp_driver_sendListener(M2TP_COMMAND_ANNOUNCEMENT_QUIT, ANNOUNCEMENT_QUIT_SIZE, serializedContent);
+
+      // Notify to App about member quit
+      if (m2tp_onAnotherMemberQuitListener != NULL)
+        m2tp_onAnotherMemberQuitListener(TrafficTask_currentTurn);
     }
   }
 

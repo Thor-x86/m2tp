@@ -96,6 +96,10 @@ void RegistrationTask_receiveInterrupt(Packet *packet)
 
         // Send new member announcement
         m2tp_driver_sendListener(M2TP_COMMAND_ANNOUNCEMENT_JOIN, serializedJoinSize, serializedJoinContent);
+
+        // Notify to app about new member
+        if (m2tp_onNewMemberListener != NULL)
+          m2tp_onNewMemberListener(deviceClass, NetworkState_nextVacantAddress);
       }
 
       // Resolve the next vacant device address
@@ -189,6 +193,17 @@ void RegistrationTask_receiveInterrupt(Packet *packet)
 
     // Stop current task then go to the next one
     TaskRouter_nextTask();
+  }
+  break;
+
+  default:
+  {
+    // Ask off-topic member to silence
+    if (m2tp_driver_sendListener != NULL)
+      m2tp_driver_sendListener(M2TP_COMMAND_END_TRANSMISSION, 0, NULL);
+
+    // Restart timeout
+    TaskRouter_startTimeout(RegistrationTask_TIMEOUT);
   }
   break;
 

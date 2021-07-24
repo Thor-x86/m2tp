@@ -96,6 +96,18 @@ void TransmitTask_receiveInterrupt(Packet *packet)
     TransmitTask_resetPendingTransmit();
   }
   break;
+
+  default:
+  {
+    // Ask off-topic member to silence
+    if (m2tp_driver_sendListener != NULL)
+      m2tp_driver_sendListener(M2TP_COMMAND_END_TRANSMISSION, 0, NULL);
+
+    // Restart timeout
+    TaskRouter_startTimeout(TransmitTask_TIMEOUT);
+  }
+  break;
+
   } // switch (packet->command)
 }
 
