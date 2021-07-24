@@ -166,7 +166,9 @@ void RegistrationTask_receiveInterrupt(Packet *packet)
       {
         // Register the topic name
         NetworkState_topicNames[NetworkState_nextVacantTopicID] = (char *)malloc(packet->contentSize + 1);
-        memcpy(NetworkState_topicNames[NetworkState_nextVacantTopicID], topicName, packet->contentSize + 1);
+        memcpy((void *)NetworkState_topicNames[(m2tp_channel)NetworkState_nextVacantTopicID],
+               topicName,
+               packet->contentSize + 1);
 
         // Mark topic ID as assigned
         NetworkState_assign(NetworkState_nextVacantTopicID);

@@ -96,13 +96,13 @@ TEST(NetworkState, FindTopic)
   // Assign topic name
   NetworkState_assign(131);
   NetworkState_topicNames[131 - 128] = (char *)malloc(12);
-  memcpy(NetworkState_topicNames[131 - 128], topicName, 12);
+  memcpy((void *)NetworkState_topicNames[131 - 128], topicName, 12);
 
   // Check if it's working
   EXPECT_EQ(NetworkState_findTopic("Lorem Ipsum"), 131);
 
   // Cleanup
-  free(NetworkState_topicNames[131 - 128]);
+  free((void *)NetworkState_topicNames[131 - 128]);
   NetworkState_topicRegistry[0] = 0;
   NetworkState_topicRegistry[1] = 0;
 }
