@@ -87,7 +87,7 @@ bool NetworkState_isAssigned(m2tp_channel channel)
 m2tp_byte NetworkState_findTopic(char *topicName)
 {
   if (topicName == NULL)
-    return NULL;
+    return 0;
 
   m2tp_byte topicID = 128;
 
@@ -112,7 +112,7 @@ m2tp_byte NetworkState_findTopic(char *topicName)
     topicID++;
   }
 
-  return NULL;
+  return 0;
 }
 
 void NetworkState_resolveNextVacantAddress()
