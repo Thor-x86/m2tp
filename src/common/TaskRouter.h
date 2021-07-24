@@ -11,8 +11,8 @@
 #include "packet/Packet.h"
 
 // Which task currently in?
-// If selects nothing, then it's NULL
-extern m2tp_byte TaskRouter_currentTask;
+// If selects nothing, then it's 0
+extern volatile m2tp_byte TaskRouter_currentTask;
 
 // Pointer to a function, this will be called when
 // receive interrupt from network hardware via its driver

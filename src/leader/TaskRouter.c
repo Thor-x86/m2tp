@@ -158,7 +158,8 @@ void TaskRouter_assignTopic(char *topicName,
 
       // Register the topic name
       NetworkState_topicNames[NetworkState_nextVacantTopicID] = (char *)malloc(topicNameSize);
-      memcpy(NetworkState_topicNames[NetworkState_nextVacantTopicID], topicName, topicNameSize);
+      memcpy((void *)NetworkState_topicNames[(m2tp_channel)NetworkState_nextVacantTopicID],
+             topicName, topicNameSize);
 
       // Making sure topic name ended by NUL character
       NetworkState_topicNames[NetworkState_nextVacantTopicID][topicNameSize - 1] = '\0';

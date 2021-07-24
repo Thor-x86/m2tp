@@ -7,7 +7,7 @@
 #include "DeviceState.h"
 #include "m2tp-common/base_interface/DriverInterface.h"
 
-m2tp_byte TaskRouter_currentTask = NULL;
+volatile m2tp_byte TaskRouter_currentTask = 0;
 
 void (*TaskRouter_receiveInterrupt)(Packet *packet) = NULL;
 void (*TaskRouter_timeoutInterrupt)() = NULL;

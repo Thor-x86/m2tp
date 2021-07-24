@@ -10,16 +10,16 @@
 #include "m2tp-common/base_interface/AppInterface.h"
 
 // Only set from driver side
-extern bool DeviceState_driverReady;
+extern volatile bool DeviceState_driverReady;
 extern char *DeviceState_deviceBrand;
 extern char *DeviceState_deviceVendor;
 extern char *DeviceState_deviceClass;
 
-// NULL means not assigned or as leader
-extern m2tp_channel DeviceState_assignedAddress;
+// 0 means not assigned or as leader
+extern volatile m2tp_channel DeviceState_assignedAddress;
 
 // Key-value map for "(TopicID-128) => Listener"
-extern m2tp_TopicListener DeviceState_subscribedTopics[128];
+extern volatile m2tp_TopicListener DeviceState_subscribedTopics[128];
 
 // Clear and initialize topic subscription
 extern void DeviceState_resetTopics();

@@ -10,24 +10,24 @@
 
 // Holds really big number of flags (128 flags) with
 // each flag represents an address currently assigned (1) or still vacant (0)
-extern unsigned long long NetworkState_addressRegistry[2];
+extern volatile unsigned long long NetworkState_addressRegistry[2];
 
 // Similar to `NetworkState_addressRegistry` but for topic ID
-extern unsigned long long NetworkState_topicRegistry[2];
+extern volatile unsigned long long NetworkState_topicRegistry[2];
 
 // List of assigned topic names,
 // The index is topic ID and its value is topic name
 //
 // WARNING: This array's elements utilize heap memory.
 //          You MUST USE free() from stdlib.h to clean them!
-extern char *NetworkState_topicNames[128];
+extern volatile char *NetworkState_topicNames[128];
 
 // Everytime an address assigned, leader need to
 // plan next vacant address to save time
-extern m2tp_channel NetworkState_nextVacantAddress;
+extern volatile m2tp_channel NetworkState_nextVacantAddress;
 
 // Same as `nextVacantAddress` but for topic ID
-extern m2tp_channel NetworkState_nextVacantTopicID;
+extern volatile m2tp_channel NetworkState_nextVacantTopicID;
 
 // Marks address or topic ID as assigned
 extern void NetworkState_assign(m2tp_channel);

@@ -5,12 +5,12 @@
 
 #include "DeviceState.h"
 
-bool DeviceState_driverReady = false;
+volatile bool DeviceState_driverReady = false;
 char *DeviceState_deviceBrand = "generic";
 char *DeviceState_deviceVendor = "generic";
 char *DeviceState_deviceClass = "generic";
-m2tp_channel DeviceState_assignedAddress = NULL;
-m2tp_TopicListener DeviceState_subscribedTopics[128];
+volatile m2tp_channel DeviceState_assignedAddress = 0;
+volatile m2tp_TopicListener DeviceState_subscribedTopics[128];
 
 void DeviceState_resetTopics()
 {
