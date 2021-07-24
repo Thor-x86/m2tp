@@ -5,6 +5,8 @@
 
 #include "NetworkState.h"
 
+#include <stdlib.h>
+
 //////// Public Variables //////////////////////////////
 
 volatile unsigned long long NetworkState_addressRegistry[2] = {0, 1};
@@ -16,6 +18,17 @@ volatile char *NetworkState_topicNames[128];
 ////////////////////////////////////////////////////////
 
 //////// Public Functions //////////////////////////////
+
+void NetworkState_deleteTopicName(m2tp_channel topicID)
+{
+  m2tp_byte index = topicID - 128;
+
+  if (NetworkState_isAssigned(topicID) && NetworkState_topicNames[index] != NULL)
+  {
+    free(NetworkState_topicNames[index]);
+    NetworkState_topicNames[index] = NULL;
+  }
+}
 
 void NetworkState_assign(m2tp_channel channel)
 {
@@ -144,6 +157,19 @@ void NetworkState_resolveNextVacantTopicID()
       // Is nextVacantTopicID already assigned? if yes then repeat
     } while (NetworkState_isAssigned(NetworkState_nextVacantTopicID));
   }
+}
+
+void NetworkState_reset()
+{
+  // Delete all topic names from RAM
+  for (m2tp_byte topicID = 128; topicID >= 128; topicID++)
+    NetworkState_deleteTopicName(topicID);
+
+  // Reset registry
+  NetworkState_addressRegistry[0] = 0ULL;
+  NetworkState_addressRegistry[1] = 0ULL;
+  NetworkState_topicRegistry[0] = 0ULL;
+  NetworkState_topicRegistry[1] = 0ULL;
 }
 
 ////////////////////////////////////////////////////////

@@ -29,6 +29,9 @@ extern volatile m2tp_channel NetworkState_nextVacantAddress;
 // Same as `nextVacantAddress` but for topic ID
 extern volatile m2tp_channel NetworkState_nextVacantTopicID;
 
+// Only call this BEFORE NetworkState_unassign(...) function
+extern void NetworkState_deleteTopicName(m2tp_channel topicID);
+
 // Marks address or topic ID as assigned
 extern void NetworkState_assign(m2tp_channel);
 
@@ -46,6 +49,9 @@ extern void NetworkState_resolveNextVacantAddress();
 
 // Automatically looking for next vacant topic ID
 extern void NetworkState_resolveNextVacantTopicID();
+
+// Clean RAM usage, will be called when driver request for disconnect
+extern void NetworkState_reset();
 
 // Syntactic sugar for checking if all available addresses are in use
 #define NetworkState_isAddressFull ((NetworkState_addressRegistry[0] == 0xFFFFFFFFFFFFFFFFULL) && (NetworkState_addressRegistry[1] == 0xFFFFFFFFFFFFFFFFULL))

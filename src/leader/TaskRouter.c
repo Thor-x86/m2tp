@@ -94,6 +94,9 @@ void TaskRouter_stop()
   // Reset buffers
   ReceiveBuffer_abort();
   TransmitBuffer_abort();
+
+  // Clean up network registries
+  NetworkState_reset();
 }
 
 void TaskRouter_sendPacket(Packet *packet)
