@@ -220,8 +220,9 @@ void RegistrationTask_timeoutInterrupt()
   // If REQUESTED flags set TRUE?
   if (Flag_check(RegistrationTask_flags, RegistrationTask_FLAG_REQUESTED_DEVICE) || Flag_check(RegistrationTask_flags, RegistrationTask_FLAG_REQUESTED_TOPIC))
   {
-    // Reset pending subscription
+    // Reset task
     RegistrationTask_resetPendingSubscribe();
+    RegistrationTask_flags = 0;
   }
 
   // ...or RANDELAY_DEVICE flag set TRUE?
@@ -265,12 +266,10 @@ void RegistrationTask_timeoutInterrupt()
   // ...or all flags still unset?
   else
   {
-    // Reset pending subscription
+    // Reset task
     RegistrationTask_resetPendingSubscribe();
+    RegistrationTask_flags = 0;
   }
-
-  // Reset flags
-  RegistrationTask_flags = 0;
 }
 
 ////////////////////////////////////////////////////////

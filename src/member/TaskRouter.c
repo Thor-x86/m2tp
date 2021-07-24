@@ -66,7 +66,7 @@ void TaskRouter_stop()
   } // switch (TaskRouter_currentTask)
 
   // Reset router
-  TaskRouter_currentTask = NULL;
+  TaskRouter_currentTask = 0;
 
   // Reset device state
   DeviceState_assignedAddress = 0;

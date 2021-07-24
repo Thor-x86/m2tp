@@ -7,5 +7,5 @@
 
 bool DeviceState_isReady()
 {
-  return DeviceState_driverReady && (DeviceState_assignedAddress != NULL);
+  return DeviceState_driverReady && (DeviceState_assignedAddress > 0);
 }
