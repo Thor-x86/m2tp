@@ -25,7 +25,7 @@ void NetworkState_deleteTopicName(m2tp_channel topicID)
 
   if (NetworkState_isAssigned(topicID) && NetworkState_topicNames[index] != NULL)
   {
-    free(NetworkState_topicNames[index]);
+    free((void *)NetworkState_topicNames[index]);
     NetworkState_topicNames[index] = NULL;
   }
 }
