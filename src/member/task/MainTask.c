@@ -7,6 +7,7 @@
 
 #include "m2tp-common/commands.h"
 #include "m2tp-common/errors.h"
+#include "m2tp-member/AppInterface.h"
 #include "m2tp-member/DriverInterface.h"
 
 #include "../../common/Flag.h"
