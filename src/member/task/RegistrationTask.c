@@ -21,7 +21,7 @@
 
 //////// Configurations ////////////////////////////////
 
-#define RegistrationTask_RANDELAY_MAX 500
+#define RegistrationTask_RANDELAY_MAX 500ULL
 #define RegistrationTask_TIMEOUT 10
 
 ////////////////////////////////////////////////////////
@@ -61,7 +61,7 @@ m2tp_byte RegistrationTask_flags = 0;
 
 //////// Syntactic Sugars //////////////////////////////
 
-#define RegistrationTask_generateDelay() ((rand() / RAND_MAX) * RegistrationTask_RANDELAY_MAX)
+#define RegistrationTask_generateDelay() (rand() * RegistrationTask_RANDELAY_MAX / RAND_MAX)
 #define RegistrationTask_hasPendingSubscribe() (RegistrationTask_pendingTopicName != NULL)
 
 ////////////////////////////////////////////////////////
