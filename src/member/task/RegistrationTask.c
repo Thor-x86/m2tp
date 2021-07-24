@@ -86,6 +86,9 @@ void RegistrationTask_receiveInterrupt(Packet *packet)
 
   case M2TP_COMMAND_REGISTRATION_SIGNAL:
   {
+    // Stop timeout
+    TaskRouter_stopTimeout();
+
     // am I registered?
     if (DeviceState_isReady())
     {
@@ -129,6 +132,9 @@ void RegistrationTask_receiveInterrupt(Packet *packet)
   case M2TP_COMMAND_REQUEST_REGISTER_DEVICE:
   case M2TP_COMMAND_REQUEST_REGISTER_TOPIC:
   {
+    // Stop timeout
+    TaskRouter_stopTimeout();
+
     // Reset task
     RegistrationTask_resetPendingSubscribe();
     RegistrationTask_flags = 0;
@@ -137,6 +143,9 @@ void RegistrationTask_receiveInterrupt(Packet *packet)
 
   case M2TP_COMMAND_RESPONSE_REGISTER_DEVICE:
   {
+    // Stop timeout
+    TaskRouter_stopTimeout();
+
     // did I request for device register?
     if (Flag_check(RegistrationTask_flags, RegistrationTask_FLAG_REQUESTED_DEVICE))
     {
@@ -167,6 +176,9 @@ void RegistrationTask_receiveInterrupt(Packet *packet)
 
   case M2TP_COMMAND_RESPONSE_REGISTER_TOPIC:
   {
+    // Stop timeout
+    TaskRouter_stopTimeout();
+
     // did I request for topic subscription?
     if (Flag_check(RegistrationTask_flags, RegistrationTask_FLAG_REQUESTED_TOPIC))
     {
@@ -215,6 +227,9 @@ void RegistrationTask_timeoutInterrupt()
   // ...or RANDELAY_DEVICE flag set TRUE?
   else if (Flag_check(RegistrationTask_flags, RegistrationTask_FLAG_RANDELAY_DEVICE))
   {
+    // Set REQUESTED_DEVICE flag
+    Flag_set(RegistrationTask_flags, RegistrationTask_FLAG_REQUESTED_DEVICE);
+
     // Is it safe to send?
     if (m2tp_driver_sendListener != NULL)
     {
@@ -231,6 +246,9 @@ void RegistrationTask_timeoutInterrupt()
   // ...or RANDELAY_TOPIC flag set TRUE?
   else if (Flag_check(RegistrationTask_flags, RegistrationTask_FLAG_RANDELAY_TOPIC))
   {
+    // Set REQUESTED_TOPIC flag
+    Flag_set(RegistrationTask_flags, RegistrationTask_FLAG_REQUESTED_TOPIC);
+
     // Is it safe to send?
     if (m2tp_driver_sendListener != NULL && RegistrationTask_hasPendingSubscribe())
     {
