@@ -43,22 +43,28 @@ void m2tp_driver_setDeviceClass(char *value)
 
 void m2tp_driver_connected()
 {
-  DeviceState_driverReady = true;
-  TaskRouter_start();
+  if (!DeviceState_driverReady)
+  {
+    DeviceState_driverReady = true;
+    TaskRouter_start();
+  }
 }
 
 void m2tp_driver_disconnected()
 {
-  TaskRouter_stop();
-  DeviceState_driverReady = false;
+  if (DeviceState_driverReady)
+  {
+    TaskRouter_stop();
+    DeviceState_driverReady = false;
+  }
 }
 
 void m2tp_driver_receiveStart(
     m2tp_byte command,
     m2tp_byte contentSize)
 {
-  // Abort if device NOT ready yet
-  if (!DeviceState_isReady())
+  // Abort if driver NOT ready yet
+  if (!DeviceState_driverReady)
     return;
 
   ReceiveBuffer_start(command, contentSize);
@@ -66,8 +72,8 @@ void m2tp_driver_receiveStart(
 
 void m2tp_driver_receiveWrite(m2tp_byte value)
 {
-  // Abort if device NOT ready yet
-  if (!DeviceState_isReady())
+  // Abort if driver NOT ready yet
+  if (!DeviceState_driverReady)
     return;
 
   ReceiveBuffer_write(value);
@@ -75,8 +81,8 @@ void m2tp_driver_receiveWrite(m2tp_byte value)
 
 void m2tp_driver_receiveEnd()
 {
-  // Abort if device NOT ready yet
-  if (!DeviceState_isReady())
+  // Abort if driver NOT ready yet
+  if (!DeviceState_driverReady)
     return;
 
   ReceiveBuffer_finish();
