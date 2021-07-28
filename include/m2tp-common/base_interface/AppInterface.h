@@ -96,9 +96,8 @@ extern void m2tp_subscribe(char *topicName, m2tp_TopicListener listener);
 extern void (*m2tp_onNewMemberListener)(char *memberClass, m2tp_channel assignedAddress);
 
 /**
- * @brief Pointer to a function, will be called when new member registered
- * @param memberClass Type of device, came from that device's driver interface
- * @param assignedAddress New member's address
+ * @brief Pointer to a function, will be called when another member left the network
+ * @param assignedAddress That member's address
  */
 extern void (*m2tp_onAnotherMemberQuitListener)(m2tp_channel assignedAddress);
 
