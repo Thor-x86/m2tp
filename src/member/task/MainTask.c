@@ -167,7 +167,8 @@ void MainTask_receiveInterrupt(Packet *packet)
   case M2TP_COMMAND_TRANSMIT:
   {
     // Parse packet content
-    packet_content_Transmit content;
+    char data[packet->contentSize - 2];
+    packet_content_Transmit content = {.data = data};
     packet_content_Transmit_parse(
         packet->content,
         packet->contentSize,
@@ -255,7 +256,8 @@ void MainTask_receiveInterrupt(Packet *packet)
     }
 
     // ...otherwise forward announcement to app
-    m2tp_onAnotherMemberQuitListener(content.address);
+    if (m2tp_onAnotherMemberQuitListener != NULL)
+      m2tp_onAnotherMemberQuitListener(content.address);
   }
   break;
   } // switch (packet->command)
