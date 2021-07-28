@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 # This script will simulate a M2TP network
 # which is basically an UDP Forwarder.
