@@ -83,6 +83,9 @@ void TransmitTask_receiveInterrupt(Packet *packet)
       // Pending transmit cleanup
       TransmitTask_resetPendingTransmit();
     }
+
+    // Stop current task then go to the next one
+    TaskRouter_nextTask();
   }
   break;
 
@@ -94,6 +97,9 @@ void TransmitTask_receiveInterrupt(Packet *packet)
 
     // Pending transmit cleanup
     TransmitTask_resetPendingTransmit();
+
+    // Stop current task then go to the next one
+    TaskRouter_nextTask();
   }
   break;
 
@@ -103,8 +109,8 @@ void TransmitTask_receiveInterrupt(Packet *packet)
     if (m2tp_driver_sendListener != NULL)
       m2tp_driver_sendListener(M2TP_COMMAND_END_TRANSMISSION, 0, NULL);
 
-    // Restart timeout
-    TaskRouter_startTimeout(TransmitTask_TIMEOUT);
+    // Restart the task
+    TransmitTask_start();
   }
   break;
 
@@ -129,6 +135,9 @@ void TransmitTask_timeoutInterrupt()
       // Is targeted address registered?
       if (NetworkState_isAssigned(recipientAddress))
       {
+        // Unregister recipient address
+        NetworkState_unassign(recipientAddress);
+
         // Is listener ready?
         if (m2tp_driver_sendListener != NULL)
         {
@@ -145,8 +154,9 @@ void TransmitTask_timeoutInterrupt()
           m2tp_driver_sendListener(M2TP_COMMAND_ANNOUNCEMENT_QUIT, serializedContentSize, serializedContent);
         }
 
-        // Unregister recipient address
-        NetworkState_unassign(recipientAddress);
+        // Notify the App about member quit
+        if (m2tp_onAnotherMemberQuitListener != NULL)
+          m2tp_onAnotherMemberQuitListener(recipientAddress);
       }
     }
   }

@@ -54,8 +54,8 @@ void m2tp_driver_disconnected()
 {
   if (DeviceState_driverReady)
   {
-    TaskRouter_stop();
     DeviceState_driverReady = false;
+    TaskRouter_stop();
   }
 }
 

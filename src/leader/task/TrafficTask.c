@@ -71,7 +71,7 @@ void TrafficTask_broadcastSecondBatch()
 {
   while (TrafficTask_currentTurn >= 192)
   {
-    if (NetworkState_isAssigned(TaskRouter_currentTask))
+    if (NetworkState_isAssigned(TrafficTask_currentTurn))
     {
       TrafficTask_sendTurnSignal();
       TaskRouter_startTimeout(TrafficTask_TIMEOUT);
@@ -92,7 +92,7 @@ void TrafficTask_broadcastFirstBatch()
 {
   while (TrafficTask_currentTurn < 192)
   {
-    if (NetworkState_isAssigned(TaskRouter_currentTask))
+    if (NetworkState_isAssigned(TrafficTask_currentTurn))
     {
       TrafficTask_sendTurnSignal();
       TaskRouter_startTimeout(TrafficTask_TIMEOUT);
@@ -113,7 +113,7 @@ void TrafficTask_peerSecondBatch()
 {
   while (TrafficTask_currentTurn < 128)
   {
-    if (NetworkState_isAssigned(TaskRouter_currentTask))
+    if (NetworkState_isAssigned(TrafficTask_currentTurn))
     {
       TrafficTask_sendTurnSignal();
       TaskRouter_startTimeout(TrafficTask_TIMEOUT);
@@ -134,7 +134,7 @@ void TrafficTask_peerFirstBatch()
 {
   while (TrafficTask_currentTurn < 64)
   {
-    if (NetworkState_isAssigned(TaskRouter_currentTask))
+    if (NetworkState_isAssigned(TrafficTask_currentTurn))
     {
       TrafficTask_sendTurnSignal();
       TaskRouter_startTimeout(TrafficTask_TIMEOUT);
@@ -265,24 +265,21 @@ void TrafficTask_timeoutInterrupt()
     // Mark current address as unassigned
     NetworkState_unassign(TrafficTask_currentTurn);
 
-    // Is send listener ready?
+    // Create packet content for announcement
+    packet_content_AnnouncementQuit content;
+    content.address = TrafficTask_currentTurn;
+
+    // Serialize that packet content
+    m2tp_byte serializedContent[ANNOUNCEMENT_QUIT_SIZE];
+    packet_content_AnnouncementQuit_serialize(&content, serializedContent, NULL);
+
+    // Send the announcement
     if (m2tp_driver_sendListener != NULL)
-    {
-      // Create packet content for announcement
-      packet_content_AnnouncementQuit content;
-      content.address = TrafficTask_currentTurn;
-
-      // Serialize that packet content
-      m2tp_byte serializedContent[ANNOUNCEMENT_QUIT_SIZE];
-      packet_content_AnnouncementQuit_serialize(&content, serializedContent, NULL);
-
-      // Send the announcement
       m2tp_driver_sendListener(M2TP_COMMAND_ANNOUNCEMENT_QUIT, ANNOUNCEMENT_QUIT_SIZE, serializedContent);
 
-      // Notify to App about member quit
-      if (m2tp_onAnotherMemberQuitListener != NULL)
-        m2tp_onAnotherMemberQuitListener(TrafficTask_currentTurn);
-    }
+    // Notify to App about member quit
+    if (m2tp_onAnotherMemberQuitListener != NULL)
+      m2tp_onAnotherMemberQuitListener(TrafficTask_currentTurn);
   }
 
   TrafficTask_continueBatch();
