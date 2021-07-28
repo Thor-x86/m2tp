@@ -81,12 +81,17 @@ def runTestUnit() -> bool:
 
 
 def runTestE2E() -> bool:
-    return True
+    os.chdir(os.path.join('test', 'e2e'))
+    returnCode = subprocess.call(['python', 'runner.py'])
+    os.chdir(os.path.join('..', '..'))
+    return (returnCode == 0)
 
 
 def runTest(arg: str) -> bool:
     if arg == 'all':
-        return runTestUnit() and runTestE2E()
+        if runTestUnit():
+            return runTestE2E()
+        return False
     elif arg == 'unit':
         return runTestUnit()
     elif arg == 'e2e':
@@ -97,10 +102,20 @@ def runTest(arg: str) -> bool:
 
 
 def runClean() -> bool:
+    # For this project
     if os.path.exists('.cmake') and os.path.isdir('.cmake'):
         shutil.rmtree('.cmake')
     if os.path.exists('out') and os.path.isdir('out'):
         shutil.rmtree('out')
+
+    # For E2E test
+    cmakeDirs = glob.glob(os.path.join('test', 'e2e', '*', '.cmake'))
+    outDirs = glob.glob(os.path.join('test', 'e2e', '*', 'out'))
+    targetDirs = cmakeDirs + outDirs
+    for eachDir in targetDirs:
+        if os.path.isdir(eachDir):
+            shutil.rmtree(eachDir)
+
     return True
 
 

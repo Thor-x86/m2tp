@@ -143,3 +143,22 @@ add_test(
   NAME ${PROJECT_NAME}-leader-test-unit
   COMMAND ${PROJECT_NAME}-leader-test-unit
 )
+
+#####################################################
+#                End-to-End Testing                 #
+#####################################################
+
+add_subdirectory(
+  "test/e2e/glue"
+  "${PROJECT_SOURCE_DIR}/test/e2e/glue/.cmake"
+)
+
+add_subdirectory(
+  "test/e2e/leader"
+  "${PROJECT_SOURCE_DIR}/test/e2e/leader/.cmake"
+)
+
+add_subdirectory(
+  "test/e2e/member_1"
+  "${PROJECT_SOURCE_DIR}/test/e2e/member_1/.cmake"
+)
