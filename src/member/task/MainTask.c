@@ -38,7 +38,7 @@
 
 //////// Public Variables //////////////////////////////
 
-Packet *MainTask_pendingTransmit = NULL;
+volatile Packet *MainTask_pendingTransmit = NULL;
 void (*MainTask_onTransmitSuccess)() = NULL;
 void (*MainTask_onTransmitFailed)(m2tp_byte errorCode) = NULL;
 

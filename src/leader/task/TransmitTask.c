@@ -23,7 +23,7 @@
 
 //////// Public Variables //////////////////////////////
 
-Packet *TransmitTask_pendingTransmit = NULL;
+volatile Packet *TransmitTask_pendingTransmit = NULL;
 void (*TransmitTask_onTransmitSuccess)() = NULL;
 void (*TransmitTask_onTransmitFailed)(m2tp_byte errorCode) = NULL;
 
@@ -45,7 +45,7 @@ bool TransmitTask_shouldRetransmit(m2tp_byte errorCode)
   }
 }
 
-bool TransmitTask_isPeerTransmit(Packet *packet)
+bool TransmitTask_isPeerTransmit(volatile Packet *packet)
 {
   return !(packet->content[1] & 0b10000000U);
 }

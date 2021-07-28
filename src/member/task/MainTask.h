@@ -10,7 +10,7 @@
 #include "../../common/packet/Packet.h"
 
 // TransmitBuffer controls pending transmit packet via TaskRouter
-extern Packet *MainTask_pendingTransmit;
+extern volatile Packet *MainTask_pendingTransmit;
 
 // Callback came from `TransmitBuffer.finishAsync(...)` via TaskRouter
 extern void (*MainTask_onTransmitSuccess)();
