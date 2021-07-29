@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.12)
 project(
   m2tp
   VERSION 1.0.0
@@ -45,9 +45,12 @@ include_directories(
 )
 
 # Allow only M2TP Shared Library to be installed
-install(TARGETS
-  ${PROJECT_NAME}-member
-  ${PROJECT_NAME}-leader
+install(
+  TARGETS
+    ${PROJECT_NAME}-member
+    ${PROJECT_NAME}-leader
+  LIBRARY DESTINATION
+    ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
 )
 
 #####################################################

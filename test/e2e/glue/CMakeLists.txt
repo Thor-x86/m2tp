@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.12)
 project(
   m2tp-e2e-glue
   VERSION 1.0.0
@@ -42,4 +42,7 @@ target_link_libraries(
 )
 
 # Allow install as Shared Library
-install(TARGETS ${PROJECT_NAME})
+install(
+  TARGETS ${PROJECT_NAME}
+  LIBRARY DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+)
