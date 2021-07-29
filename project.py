@@ -82,7 +82,7 @@ def runTestUnit() -> bool:
 
 def runTestE2E() -> bool:
     os.chdir(os.path.join('test', 'e2e'))
-    returnCode = subprocess.call(['python', 'runner.py'])
+    returnCode = subprocess.call(['python3', 'runner.py'])
     os.chdir(os.path.join('..', '..'))
     return (returnCode == 0)
 

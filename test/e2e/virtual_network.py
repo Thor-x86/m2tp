@@ -5,7 +5,7 @@
 
 import sys
 import socket
-import time
+from typing import List
 
 
 # Get port number from runner.py
@@ -23,7 +23,7 @@ debugtag = '\x1b[1;33m[Virtual Network]\x1b[0m'
 print(debugtag, 'Ready! UDP port:', udpPort)
 
 # List of connected port
-connected: list[int] = []
+connected: List[int] = []
 
 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
     # Prepare connection

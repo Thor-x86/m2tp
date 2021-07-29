@@ -34,7 +34,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
 # Start the virtual network
 virtualNetwork = subprocess.Popen(
-    ['python', 'virtual_network.py', str(udpPort)],
+    ['python3', 'virtual_network.py', str(udpPort)],
     stderr=subprocess.STDOUT
 )
 
