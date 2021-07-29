@@ -49,8 +49,6 @@ install(
   TARGETS
     ${PROJECT_NAME}-member
     ${PROJECT_NAME}-leader
-  LIBRARY DESTINATION
-    ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
 )
 
 #####################################################

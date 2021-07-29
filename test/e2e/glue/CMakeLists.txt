@@ -44,5 +44,4 @@ target_link_libraries(
 # Allow install as Shared Library
 install(
   TARGETS ${PROJECT_NAME}
-  LIBRARY DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
 )
