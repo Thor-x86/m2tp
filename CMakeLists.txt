@@ -49,6 +49,16 @@ install(
   TARGETS
     ${PROJECT_NAME}-member
     ${PROJECT_NAME}-leader
+  DESTINATION
+    lib
+)
+
+# Also install the headers from `./include` for other projects
+install(
+  DIRECTORY
+    "include/"
+  DESTINATION
+    include
 )
 
 #####################################################
