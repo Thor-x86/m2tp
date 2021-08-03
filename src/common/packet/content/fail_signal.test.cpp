@@ -8,7 +8,7 @@
 extern "C"
 {
 #include "fail_signal.h"
-#include "m2tp-common/errors.h"
+#include "m2tp/errors.h"
 }
 
 TEST(PacketContent_FailSignal, Serialize)

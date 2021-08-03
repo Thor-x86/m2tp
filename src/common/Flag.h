@@ -6,7 +6,7 @@
 #ifndef IS_FLAG_DEFINED
 #define IS_FLAG_DEFINED
 
-#include "m2tp-common/typedef.h"
+#include "m2tp/typedef.h"
 
 // Turn a flag at known index to be TRUE
 #define Flag_set(target, flagIndex) ((target) |= (1U << (flagIndex)))

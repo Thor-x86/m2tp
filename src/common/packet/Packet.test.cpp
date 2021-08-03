@@ -8,7 +8,7 @@
 extern "C"
 {
 #include "Packet.h"
-#include "m2tp-common/commands.h"
+#include "m2tp/commands.h"
 }
 
 TEST(Packet, Serialize)

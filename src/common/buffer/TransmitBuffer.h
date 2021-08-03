@@ -6,8 +6,8 @@
 #ifndef IS_TRANSMIT_BUFFER_DEFINED
 #define IS_TRANSMIT_BUFFER_DEFINED
 
-#include "m2tp-common/typedef.h"
-#include "m2tp-common/base_interface/AppInterface.h"
+#include "m2tp/typedef.h"
+#include "m2tp/interface/app.h"
 #include "../packet/Packet.h"
 
 /**

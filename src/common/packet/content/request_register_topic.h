@@ -6,7 +6,7 @@
 #ifndef IS_REQUEST_REGISTER_TOPIC_PACKET_DEFINED
 #define IS_REQUEST_REGISTER_TOPIC_PACKET_DEFINED
 
-#include "m2tp-common/typedef.h"
+#include "m2tp/typedef.h"
 
 // Convert: String => Raw Bytes
 // returns serialized packet

@@ -3,8 +3,8 @@
 #include <cstring>
 #include <unistd.h>
 
-#include <m2tp-member/AppInterface.h> // M2TP Library for Leader
-#include <m2tp-virtual.h>             // Glue between M2TP and Virtual Network
+#include <m2tp-member.h>  // M2TP Library for Member
+#include <m2tp-virtual.h> // Glue between M2TP and Virtual Network
 
 // Blue-colored "[Member #1] " string
 const std::string debugtag = "\e[1;34m[Member #1]\e[0m ";

@@ -1,9 +1,9 @@
 /**
- * @file DriverInterface.c
- * @brief Implementation of "m2tp-common/base_interface/DriverInterface.h"
+ * @file driver.c
+ * @brief Implementation of "include/m2tp/interface/driver.h"
 **/
 
-#include "m2tp-common/base_interface/DriverInterface.h"
+#include "m2tp/interface/driver.h"
 #include "../DeviceState.h"
 #include "../packet/Packet.h"
 #include "../TaskRouter.h"

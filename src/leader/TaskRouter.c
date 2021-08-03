@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "m2tp-common/errors.h"
+#include "m2tp/errors.h"
 
 #include "NetworkState.h"
 #include "task/RegistrationTask.h"

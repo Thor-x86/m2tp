@@ -8,9 +8,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "m2tp-common/commands.h"
-#include "m2tp-common/errors.h"
-#include "m2tp-leader/DriverInterface.h"
+#include "m2tp/commands.h"
+#include "m2tp/errors.h"
+#include "m2tp/interface/driver.h"
 
 #include "../NetworkState.h"
 #include "../../common/TaskRouter.h"

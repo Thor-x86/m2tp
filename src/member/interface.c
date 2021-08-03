@@ -1,13 +1,14 @@
 /**
- * @file AppInterface.c
- * @brief Implementation of "m2tp-leader/AppInterface.h"
+ * @file interface.c
+ * @brief Implementation of "include/m2tp-member.h"
 **/
 
-#include "m2tp-leader/AppInterface.h"
+#include "m2tp-member.h"
 
 //////// Variables /////////////////////////////////////
 
-// TODO: Write stuffs here...
+void (*m2tp_onConnected)(m2tp_channel address) = NULL;
+void (*m2tp_onDisconnected)() = NULL;
 
 ////////////////////////////////////////////////////////
 

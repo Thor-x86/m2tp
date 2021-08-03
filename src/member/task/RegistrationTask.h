@@ -7,7 +7,7 @@
 #ifndef IS_REGISTRATION_TASK_DEFINED
 #define IS_REGISTRATION_TASK_DEFINED
 
-#include "m2tp-common/base_interface/AppInterface.h"
+#include "m2tp/interface/app.h"
 
 #include "../../common/packet/Packet.h"
 

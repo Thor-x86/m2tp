@@ -5,10 +5,10 @@
 
 #include "TrafficTask.h"
 
-#include "m2tp-common/commands.h"
-#include "m2tp-common/errors.h"
-#include "m2tp-leader/AppInterface.h"
-#include "m2tp-leader/DriverInterface.h"
+#include "m2tp/commands.h"
+#include "m2tp/errors.h"
+#include "m2tp-leader.h"
+#include "m2tp/interface/driver.h"
 
 #include "../NetworkState.h"
 #include "../../common/DeviceState.h"

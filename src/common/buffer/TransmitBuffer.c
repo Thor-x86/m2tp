@@ -5,8 +5,8 @@
 
 #include "TransmitBuffer.h"
 
-#include "m2tp-common/errors.h"
-#include "m2tp-common/commands.h"
+#include "m2tp/errors.h"
+#include "m2tp/commands.h"
 
 #include "../TaskRouter.h"
 #include "../DeviceState.h"

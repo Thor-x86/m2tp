@@ -1,6 +1,6 @@
 /**
- * @file AppInterface.h
- * @brief Basic functionality of App Interface
+ * @file app.h
+ * @brief Used by upper layer like m2tp-bson, m2tp-json, and more
 **/
 
 #ifndef IS_M2TP_COMMON_APP_INTERFACE_DEFINED

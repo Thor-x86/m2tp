@@ -5,10 +5,10 @@
 
 #include "MainTask.h"
 
-#include "m2tp-common/commands.h"
-#include "m2tp-common/errors.h"
-#include "m2tp-member/AppInterface.h"
-#include "m2tp-member/DriverInterface.h"
+#include "m2tp/commands.h"
+#include "m2tp/errors.h"
+#include "m2tp-member.h"
+#include "m2tp/interface/driver.h"
 
 #include "../../common/Flag.h"
 #include "../../common/TaskRouter.h"

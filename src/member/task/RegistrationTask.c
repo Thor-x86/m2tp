@@ -7,8 +7,8 @@
 
 #include <stdlib.h>
 
-#include "m2tp-common/commands.h"
-#include "m2tp-member/DriverInterface.h"
+#include "m2tp/commands.h"
+#include "m2tp/interface/driver.h"
 
 #include "../../common/DeviceState.h"
 #include "../../common/TaskRouter.h"

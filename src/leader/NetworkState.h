@@ -6,7 +6,7 @@
 #ifndef IS_NETWORK_STATE_DEFINED
 #define IS_NETWORK_STATE_DEFINED
 
-#include "m2tp-common/typedef.h"
+#include "m2tp/typedef.h"
 
 // Holds really big number of flags (128 flags) with
 // each flag represents an address currently assigned (1) or still vacant (0)

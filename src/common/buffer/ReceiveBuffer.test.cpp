@@ -8,8 +8,8 @@
 extern "C"
 {
 #include "ReceiveBuffer.h"
-#include "m2tp-common/commands.h"
-#include "m2tp-common/errors.h"
+#include "m2tp/commands.h"
+#include "m2tp/errors.h"
 #include "../TaskRouter.h"
 #include "../packet/Packet.h"
 #include "../packet/content/announcement_join.h"

@@ -1,9 +1,9 @@
 /**
- * @file DriverInterface.c
- * @brief Implementation of "m2tp-member/DriverInterface.h"
+ * @file interface.c
+ * @brief Implementation of "include/m2tp-leader.h"
 **/
 
-#include "m2tp-member/DriverInterface.h"
+#include "m2tp-leader.h"
 
 //////// Variables /////////////////////////////////////
 

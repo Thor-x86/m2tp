@@ -6,13 +6,13 @@
 #ifndef IS_FAIL_SIGNAL_PACKET_DEFINED
 #define IS_FAIL_SIGNAL_PACKET_DEFINED
 
-#include "m2tp-common/typedef.h"
+#include "m2tp/typedef.h"
 
 // Data structure of packet content
 typedef struct
 {
 
-  // See "m2tp-common/errors.h" for details
+  // See "m2tp/errors.h" for details
   m2tp_byte errorCode;
 
 } packet_content_FailSignal;

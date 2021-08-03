@@ -3,8 +3,8 @@
 #include <cstring>
 #include <unistd.h>
 
-#include <m2tp-leader/AppInterface.h> // M2TP Library for Leader
-#include <m2tp-virtual.h>             // Glue between M2TP and Virtual Network
+#include <m2tp-leader.h>  // M2TP Library for Leader
+#include <m2tp-virtual.h> // Glue between M2TP and Virtual Network
 
 // Green-colored "[Leader] " string
 const std::string debugtag = "\e[1;32m[Leader]\e[0m ";

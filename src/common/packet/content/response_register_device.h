@@ -6,7 +6,7 @@
 #ifndef IS_RESPONSE_REGISTER_DEVICE_PACKET_DEFINED
 #define IS_RESPONSE_REGISTER_DEVICE_PACKET_DEFINED
 
-#include "m2tp-common/typedef.h"
+#include "m2tp/typedef.h"
 
 // Data structure of packet content
 typedef struct

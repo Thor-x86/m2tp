@@ -8,7 +8,7 @@
 #include "../common/buffer/ReceiveBuffer.h"
 #include "../common/buffer/TransmitBuffer.h"
 
-#include "m2tp-common/commands.h"
+#include "m2tp/commands.h"
 #include "task/RegistrationTask.h"
 #include "task/MainTask.h"
 

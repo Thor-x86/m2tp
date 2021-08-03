@@ -1,9 +1,9 @@
 /**
- * @file AppInterface.c
- * @brief Implementation of "m2tp-common/base_interface/AppInterface.h"
+ * @file app.c
+ * @brief Implementation of "include/m2tp/interface/app.h"
 **/
 
-#include "m2tp-common/base_interface/AppInterface.h"
+#include "m2tp/interface/app.h"
 #include "../DeviceState.h"
 #include "../TaskRouter.h"
 #include "../buffer/TransmitBuffer.h"

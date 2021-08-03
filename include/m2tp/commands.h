@@ -1,6 +1,6 @@
 /**
  * @file commands.h
- * @brief Available commands for driver
+ * @brief Available commands that you can use
 **/
 
 #ifndef IS_M2TP_COMMANDS_DEFINED

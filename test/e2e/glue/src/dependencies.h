@@ -6,7 +6,7 @@
 #ifndef IS_M2TP_VIRTUAL_GLUE_DEPENDENCIES_DEFINED
 #define IS_M2TP_VIRTUAL_GLUE_DEPENDENCIES_DEFINED
 
-#include <m2tp-common/base_interface/DriverInterface.h>
+#include <m2tp/interface/driver.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <unistd.h>

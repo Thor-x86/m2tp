@@ -5,7 +5,7 @@
 
 #include "TaskRouter.h"
 #include "DeviceState.h"
-#include "m2tp-common/base_interface/DriverInterface.h"
+#include "m2tp/interface/driver.h"
 
 volatile m2tp_byte TaskRouter_currentTask = 0;
 

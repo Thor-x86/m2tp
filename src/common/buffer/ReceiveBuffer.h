@@ -6,11 +6,11 @@
 #ifndef IS_RECEIVE_BUFFER_DEFINED
 #define IS_RECEIVE_BUFFER_DEFINED
 
-#include "m2tp-common/typedef.h"
+#include "m2tp/typedef.h"
 
 /**
  * @brief Prepare packet buffer
- * @param packetCommand See "m2tp-common/commands.h"
+ * @param packetCommand See "m2tp/commands.h"
  * @param packetContentSize Size of packet content, maximum 255 bytes
  */
 extern void ReceiveBuffer_start(m2tp_byte packetCommand, m2tp_byte packetContentSize);

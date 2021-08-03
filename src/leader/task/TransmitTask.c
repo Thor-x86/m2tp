@@ -5,9 +5,9 @@
 
 #include "TransmitTask.h"
 
-#include "m2tp-common/commands.h"
-#include "m2tp-common/errors.h"
-#include "m2tp-member/DriverInterface.h"
+#include "m2tp/commands.h"
+#include "m2tp/errors.h"
+#include "m2tp/interface/driver.h"
 
 #include "../NetworkState.h"
 #include "../../common/TaskRouter.h"

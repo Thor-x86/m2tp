@@ -6,8 +6,8 @@
 #ifndef IS_DEVICE_STATE_DEFINED
 #define IS_DEVICE_STATE_DEFINED
 
-#include "m2tp-common/typedef.h"
-#include "m2tp-common/base_interface/AppInterface.h"
+#include "m2tp/typedef.h"
+#include "m2tp/interface/app.h"
 
 // Only set from driver side
 extern volatile bool DeviceState_driverReady;

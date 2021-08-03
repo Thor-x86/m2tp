@@ -6,7 +6,7 @@
 #ifndef IS_ANNOUNCEMENT_JOIN_PACKET_DEFINED
 #define IS_ANNOUNCEMENT_JOIN_PACKET_DEFINED
 
-#include "m2tp-common/typedef.h"
+#include "m2tp/typedef.h"
 
 // Data structure of packet content
 typedef struct

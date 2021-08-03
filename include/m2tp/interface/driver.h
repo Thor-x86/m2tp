@@ -1,6 +1,6 @@
 /**
- * @file DriverInterface.h
- * @brief Basic functionality of Driver Interface
+ * @file driver.h
+ * @brief Used by lower layer like m2tp-posix, m2tp-arduino-gpio, m2tp-arduino-mcp2515, and more
 **/
 
 #ifndef IS_M2TP_COMMON_DRIVER_INTERFACE_DEFINED

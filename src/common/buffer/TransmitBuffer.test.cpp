@@ -8,8 +8,8 @@
 extern "C"
 {
 #include "TransmitBuffer.h"
-#include "m2tp-common/commands.h"
-#include "m2tp-common/errors.h"
+#include "m2tp/commands.h"
+#include "m2tp/errors.h"
 #include "../TaskRouter.h"
 #include "../DeviceState.h"
 #include "../../member/task/MainTask.h"
