@@ -230,6 +230,15 @@ void TrafficTask_receiveInterrupt(Packet *packet)
       // ...or for anyelse?
       else
       {
+        // Is echo transmit enabled and safe to send something?
+        if (NetworkState_isEcho && m2tp_driver_sendListener != NULL)
+        {
+          m2tp_driver_sendListener(
+              packet->command,
+              packet->contentSize,
+              packet->content);
+        }
+
         // Start timeout then suspend task
         TaskRouter_startTimeout(TrafficTask_TIMEOUT);
       }
@@ -240,6 +249,15 @@ void TrafficTask_receiveInterrupt(Packet *packet)
   case M2TP_COMMAND_FAIL_SIGNAL:
   case M2TP_COMMAND_SUCCESS_SIGNAL:
   {
+    // Is echo transmit enabled and safe to send something?
+    if (NetworkState_isEcho && m2tp_driver_sendListener != NULL)
+    {
+      m2tp_driver_sendListener(
+          packet->command,
+          packet->contentSize,
+          packet->content);
+    }
+
     TrafficTask_continueBatch();
   }
   break;

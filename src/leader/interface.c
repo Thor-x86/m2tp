@@ -5,6 +5,8 @@
 
 #include "m2tp-leader.h"
 
+#include "./NetworkState.h"
+
 //////// Variables /////////////////////////////////////
 
 // TODO: Write stuffs here...
@@ -13,6 +15,12 @@
 
 //////// Functions /////////////////////////////////////
 
-// TODO: Write stuffs here...
+void enableEchoTransmit(bool value)
+{
+  if (value)
+    NetworkState_isEcho = 1;
+  else
+    NetworkState_isEcho = 0;
+}
 
 ////////////////////////////////////////////////////////

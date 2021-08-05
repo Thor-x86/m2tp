@@ -11,6 +11,7 @@
 
 volatile unsigned long long NetworkState_addressRegistry[2] = {0, 1};
 volatile unsigned long long NetworkState_topicRegistry[2] = {0, 0};
+volatile m2tp_byte NetworkState_isEcho = 0;
 volatile m2tp_channel NetworkState_nextVacantAddress = 1;
 volatile m2tp_channel NetworkState_nextVacantTopicID = 0;
 volatile char *NetworkState_topicNames[128];

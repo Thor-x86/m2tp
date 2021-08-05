@@ -15,6 +15,9 @@ extern volatile unsigned long long NetworkState_addressRegistry[2];
 // Similar to `NetworkState_addressRegistry` but for topic ID
 extern volatile unsigned long long NetworkState_topicRegistry[2];
 
+// If the value equals 1, then echo every incoming transmit packets
+extern volatile m2tp_byte NetworkState_isEcho;
+
 // List of assigned topic names,
 // The index is topic ID and its value is topic name
 //

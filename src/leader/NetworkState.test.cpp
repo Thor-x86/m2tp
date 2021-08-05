@@ -14,6 +14,7 @@ TEST(NetworkState, DefaultValues)
 {
   EXPECT_EQ(NetworkState_addressRegistry[0], 0);
   EXPECT_EQ(NetworkState_addressRegistry[1], 1);
+  EXPECT_EQ(NetworkState_isEcho, 0);
   EXPECT_EQ(NetworkState_topicRegistry[0], 0);
   EXPECT_EQ(NetworkState_topicRegistry[1], 0);
   EXPECT_EQ(NetworkState_nextVacantAddress, 1);

@@ -16,7 +16,11 @@
 
 EXTERN_C_START
 
-// TODO: Write stuffs here...
+/**
+ * @brief Useful if the network interface doesn't support broadcasting
+ * @param value Insert `true` to enable
+ */
+extern void enableEchoTransmit(bool value);
 
 EXTERN_C_STOP
 

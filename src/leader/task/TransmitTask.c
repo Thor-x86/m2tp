@@ -84,6 +84,15 @@ void TransmitTask_receiveInterrupt(Packet *packet)
       TransmitTask_resetPendingTransmit();
     }
 
+    // Is echo transmit enabled and safe to send something?
+    if (NetworkState_isEcho && m2tp_driver_sendListener != NULL)
+    {
+      m2tp_driver_sendListener(
+          packet->command,
+          packet->contentSize,
+          packet->content);
+    }
+
     // Stop current task then go to the next one
     TaskRouter_nextTask();
   }
@@ -97,6 +106,15 @@ void TransmitTask_receiveInterrupt(Packet *packet)
 
     // Pending transmit cleanup
     TransmitTask_resetPendingTransmit();
+
+    // Is echo transmit enabled and safe to send something?
+    if (NetworkState_isEcho && m2tp_driver_sendListener != NULL)
+    {
+      m2tp_driver_sendListener(
+          packet->command,
+          packet->contentSize,
+          packet->content);
+    }
 
     // Stop current task then go to the next one
     TaskRouter_nextTask();
