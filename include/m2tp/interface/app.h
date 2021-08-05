@@ -3,8 +3,8 @@
  * @brief Used by upper layer like m2tp-bson, m2tp-json, and more
 **/
 
-#ifndef IS_M2TP_COMMON_APP_INTERFACE_DEFINED
-#define IS_M2TP_COMMON_APP_INTERFACE_DEFINED
+#ifndef IS_M2TP_INTERFACE_APP_DEFINED
+#define IS_M2TP_INTERFACE_APP_DEFINED
 
 #include "../typedef.h"
 #include "../cpp_compat.h"
@@ -134,4 +134,4 @@ extern const char *m2tp_getDeviceClass();
 
 EXTERN_C_STOP
 
-#endif // #ifndef IS_M2TP_COMMON_APP_INTERFACE_DEFINED
+#endif // #ifndef IS_M2TP_INTERFACE_APP_DEFINED

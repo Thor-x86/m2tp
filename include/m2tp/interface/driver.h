@@ -3,8 +3,8 @@
  * @brief Used by lower layer like m2tp-posix, m2tp-arduino-gpio, m2tp-arduino-mcp2515, and more
 **/
 
-#ifndef IS_M2TP_COMMON_DRIVER_INTERFACE_DEFINED
-#define IS_M2TP_COMMON_DRIVER_INTERFACE_DEFINED
+#ifndef IS_M2TP_INTERFACE_DRIVER_DEFINED
+#define IS_M2TP_INTERFACE_DRIVER_DEFINED
 
 #include "../typedef.h"
 #include "../cpp_compat.h"
@@ -81,4 +81,4 @@ extern void (*m2tp_driver_stopTimerListener)();
 
 EXTERN_C_STOP
 
-#endif // #ifndef IS_M2TP_COMMON_DRIVER_INTERFACE_DEFINED
+#endif // #ifndef IS_M2TP_INTERFACE_DRIVER_DEFINED

@@ -5,12 +5,12 @@
 
 // Making sure m2tp-leader and m2tp-member are
 // not included in a same file
-#ifdef IS_M2TP_MEMBER_APP_INTERFACE_DEFINED
+#ifdef IS_M2TP_MEMBER_DEFINED
 #error Conflict with: #include "m2tp-member.h"
 #endif
 
-#ifndef IS_M2TP_LEADER_APP_INTERFACE_DEFINED
-#define IS_M2TP_LEADER_APP_INTERFACE_DEFINED
+#ifndef IS_M2TP_LEADER_DEFINED
+#define IS_M2TP_LEADER_DEFINED
 
 #include "./m2tp/interface/app.h"
 
@@ -20,4 +20,4 @@ EXTERN_C_START
 
 EXTERN_C_STOP
 
-#endif // #ifndef IS_M2TP_LEADER_APP_INTERFACE_DEFINED
+#endif // #ifndef IS_M2TP_LEADER_DEFINED
