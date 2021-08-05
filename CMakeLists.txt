@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.14)
 project(
   m2tp
   VERSION 1.0.0
@@ -7,9 +7,6 @@ project(
 
 # Disable non ANSI C related warnings
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-write-strings")
-
-# CMake working directory (./.cmake)
-set(CMAKE_BINARY_DIR "${PROJECT_SOURCE_DIR}/.cmake")
 
 # Compile output directory (./out)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/out")
@@ -49,16 +46,12 @@ install(
   TARGETS
     ${PROJECT_NAME}-member
     ${PROJECT_NAME}-leader
-  DESTINATION
-    lib
 )
 
 # Also install the headers from `./include` for other projects
 install(
-  DIRECTORY
-    "include/"
-  DESTINATION
-    include
+  DIRECTORY "include/"
+  TYPE INCLUDE
 )
 
 #####################################################
