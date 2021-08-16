@@ -3,11 +3,13 @@
 #include <cstring>
 #include <unistd.h>
 
-#include <m2tp-member.h>  // M2TP Library for Member
-#include <m2tp-virtual.h> // Glue between M2TP and Virtual Network
+#include <m2tp-member.h> // M2TP Library for Member
 
 // Blue-colored "[Member #1] " string
 const std::string debugtag = "\e[1;34m[Member #1]\e[0m ";
+
+// Required for connecting
+const std::string localhost = "127.0.0.1";
 
 m2tp_channel deviceAddress = 0;
 
@@ -38,7 +40,7 @@ int main(int argc, char const *argv[])
   m2tp_receivedListener = &onReceive;
   m2tp_onConnected = &onConnected;
   m2tp_onDisconnected = &onDisconnected;
-  bool connectSuccess = m2tp_connect(portNumber, "member_1");
+  bool connectSuccess = m2tp_connectViaUDP(localhost.c_str(), 0, localhost.c_str(), portNumber, "member_1");
 
   // Connection failure mostly caused by UDP socket
   if (!connectSuccess)

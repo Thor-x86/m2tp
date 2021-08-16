@@ -3,8 +3,7 @@
 #include <cstring>
 #include <unistd.h>
 
-#include <m2tp-leader.h>  // M2TP Library for Leader
-#include <m2tp-virtual.h> // Glue between M2TP and Virtual Network
+#include <m2tp-leader.h> // M2TP Library for Leader
 
 // Green-colored "[Leader] " string
 const std::string debugtag = "\e[1;32m[Leader]\e[0m ";
@@ -40,7 +39,7 @@ int main(int argc, char const *argv[])
   m2tp_receivedListener = &onReceive;
   m2tp_onNewMemberListener = &onNewMember;
   m2tp_onAnotherMemberQuitListener = &onMemberQuit;
-  bool connectSuccess = m2tp_connect(portNumber, "leader");
+  bool connectSuccess = m2tp_startUDPServer("127.0.0.1", portNumber, "leader");
 
   // Connection failure mostly caused by UDP socket
   if (!connectSuccess)

@@ -1,3 +1,3 @@
 # TODO:
 
-Create integration test for each `common`, `member`, and `leader`.
+Create integration test for each `common`, `posix`, `member`, and `leader`.

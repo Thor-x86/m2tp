@@ -64,19 +64,8 @@ member1 = subprocess.Popen(
 )
 
 while True:
-    if virtualNetwork.poll() is not None:
-        print(
-            '\x1b[1;31mFATAL: Virtual Network is dead!\x1b[0m',
-            file=sys.stderr
-        )
-        leader.terminate()
-        member1.terminate()
-        exit(1)
-    elif leader.poll() is not None and member1.poll() is not None:
+    if leader.poll() is not None and member1.poll() is not None:
         break
-
-# Cleanups
-virtualNetwork.terminate()
 
 print('')
 

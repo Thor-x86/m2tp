@@ -15,12 +15,21 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/out")
 file(GLOB_RECURSE M2TP_COMMON_SOURCE_PATH "src/common/*")
 list(FILTER M2TP_COMMON_SOURCE_PATH EXCLUDE REGEX ".+\\.test\\.cpp$")
 
+# M2TP POSIX Sources
+if(UNIX)
+  file(GLOB_RECURSE M2TP_POSIX_SOURCE_PATH "src/posix/*")
+  list(FILTER M2TP_POSIX_SOURCE_PATH EXCLUDE REGEX ".+\\.test\\.cpp$")
+else()
+  set(M2TP_POSIX_SOURCE_PATH "")
+endif(UNIX)
+
 # M2TP Member Shared Library
 file(GLOB_RECURSE M2TP_MEMBER_SOURCE_PATH "src/member/*")
 list(FILTER M2TP_MEMBER_SOURCE_PATH EXCLUDE REGEX ".+\\.test\\.cpp$")
 add_library(
   ${PROJECT_NAME}-member SHARED
   ${M2TP_COMMON_SOURCE_PATH}
+  ${M2TP_POSIX_SOURCE_PATH}
   ${M2TP_MEMBER_SOURCE_PATH}
 )
 include_directories(
@@ -34,6 +43,7 @@ list(FILTER M2TP_LEADER_SOURCE_PATH EXCLUDE REGEX ".+\\.test\\.cpp$")
 add_library(
   ${PROJECT_NAME}-leader SHARED
   ${M2TP_COMMON_SOURCE_PATH}
+  ${M2TP_POSIX_SOURCE_PATH}
   ${M2TP_LEADER_SOURCE_PATH}
 )
 include_directories(
@@ -53,6 +63,19 @@ install(
   DIRECTORY "include/"
   TYPE INCLUDE
 )
+
+# POSIX Machines require pthread for asynchronous receiver
+if(UNIX)
+  find_package(Threads REQUIRED)
+  target_link_libraries(
+    ${PROJECT_NAME}-member
+    ${CMAKE_THREAD_LIBS_INIT}
+  )
+  target_link_libraries(
+    ${PROJECT_NAME}-leader
+    ${CMAKE_THREAD_LIBS_INIT}
+  )
+endif(UNIX)
 
 #####################################################
 #       Unit Test with Google Test Framework        #
@@ -85,6 +108,7 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 
 # Test target
 file(GLOB_RECURSE M2TP_COMMON_TEST_SOURCE_PATH "src/common/*.test.cpp")
+file(GLOB_RECURSE M2TP_POSIX_TEST_SOURCE_PATH "src/posix/*.test.cpp")
 file(GLOB_RECURSE M2TP_MEMBER_TEST_SOURCE_PATH "src/member/*.test.cpp")
 file(GLOB_RECURSE M2TP_LEADER_TEST_SOURCE_PATH "src/leader/*.test.cpp")
 
@@ -106,6 +130,27 @@ target_link_libraries(
 add_test(
   NAME ${PROJECT_NAME}-common-test-unit
   COMMAND ${PROJECT_NAME}-common-test-unit
+)
+
+# POSIX Unit Test
+add_executable(
+  ${PROJECT_NAME}-posix-test-unit
+  ${M2TP_COMMON_SOURCE_PATH}
+  ${M2TP_POSIX_SOURCE_PATH}
+  ${M2TP_MEMBER_SOURCE_PATH}
+  ${M2TP_POSIX_TEST_SOURCE_PATH}
+)
+include_directories(
+  ${PROJECT_NAME}-posix-test-unit PUBLIC
+  "include/"
+)
+target_link_libraries(
+  ${PROJECT_NAME}-posix-test-unit
+  gtest_main
+)
+add_test(
+  NAME ${PROJECT_NAME}-posix-test-unit
+  COMMAND ${PROJECT_NAME}-posix-test-unit
 )
 
 # Member Unit Test
@@ -151,11 +196,6 @@ add_test(
 #####################################################
 #                End-to-End Testing                 #
 #####################################################
-
-add_subdirectory(
-  "test/e2e/glue"
-  "${PROJECT_SOURCE_DIR}/test/e2e/glue/.cmake"
-)
 
 add_subdirectory(
   "test/e2e/leader"

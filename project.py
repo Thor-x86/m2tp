@@ -158,10 +158,13 @@ def runDeploy() -> bool:
     # Copy entire "include directory"
     shutil.copytree('include', os.path.join(targetPath, 'include'))
 
-    # Copy *.h and *.c files
-    pattern = os.path.join('src', '**', '*.[hc]')
+    # Copy all *.h and *.c files, except POSIX subdirectory
+    pattern = os.path.join('.', 'src', '**', '*.[hc]')
+    posixPath = os.path.join('.', 'src', 'posix')
     srcFiles = glob.glob(pattern, recursive=True)
     for eachFile in srcFiles:
+        if (eachFile.startswith(posixPath)):
+            continue
         destination = os.path.join(targetPath, eachFile)
         os.makedirs(os.path.dirname(destination), exist_ok=True)
         shutil.copy(eachFile, destination)

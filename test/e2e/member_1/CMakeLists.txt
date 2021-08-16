@@ -18,7 +18,6 @@ add_executable(
 target_link_libraries(
   ${PROJECT_NAME}
   "m2tp-member"
-  "m2tp-e2e-glue"
 )
 
 # Include M2TP headers

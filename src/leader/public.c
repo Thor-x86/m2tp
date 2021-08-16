@@ -1,5 +1,5 @@
 /**
- * @file interface.c
+ * @file public.c
  * @brief Implementation of "include/m2tp-leader.h"
 **/
 

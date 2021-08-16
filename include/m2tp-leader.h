@@ -14,6 +14,11 @@
 
 #include "./m2tp/interface/app.h"
 
+// Automatically include driver glue for POSIX machine
+#if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
+#include "./m2tp-posix.h"
+#endif
+
 EXTERN_C_START
 
 /**
