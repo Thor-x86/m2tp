@@ -32,12 +32,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind(('', 0))
     udpPort = int(s.getsockname()[1])
 
-# Start the virtual network
-virtualNetwork = subprocess.Popen(
-    ['python3', 'virtual_network.py', str(udpPort)],
-    stderr=subprocess.STDOUT
-)
-
 # Wait virtual network ready for a while
 time.sleep(1)
 
