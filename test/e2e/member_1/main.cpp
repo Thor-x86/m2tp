@@ -106,6 +106,7 @@ void onReceive(m2tp_channel sourceAddress, m2tp_byte dataSize, m2tp_bytes data)
             << std::endl;
 
   // Reply the message
+  std::cout << debugtag << "Replying..." << std::endl;
   m2tp_startSend(sourceAddress);
   std::string sendMessage = "Polo (" + std::to_string(count) + ")";
   for (size_t i = 0; i < sendMessage.size(); i++)

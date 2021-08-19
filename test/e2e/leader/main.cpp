@@ -72,6 +72,7 @@ int main(int argc, char const *argv[])
   {
     if (count < 10)
       count++;
+    std::cout << debugtag << "Sending..." << std::endl;
     m2tp_startSend((m2tp_channel)member1_address);
     std::string data = "Marco (" + std::to_string(count) + ")";
     for (std::size_t i = 0; i < data.size(); i++)
