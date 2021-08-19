@@ -11,6 +11,11 @@
 #include "../TaskRouter.h"
 #include "../DeviceState.h"
 
+// On POSIX, we need usleep(1) to prevent Race Condition
+#if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
+#include <unistd.h>
+#endif
+
 //////// Variables /////////////////////////////////////
 
 m2tp_byte TransmitBuffer_buffer[255];
@@ -52,6 +57,10 @@ void TransmitBuffer_startPeer(m2tp_channel targetAddress)
   {
     // Block current thread until there is no pending data.
     // We need to do this to make sure there is no missing packets.
+#if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
+    // This part below prevents Race Condition on POSIX systems
+    usleep(1);
+#endif
   }
 
   // TransmitBuffer only do cleanup at beginning or when error caught

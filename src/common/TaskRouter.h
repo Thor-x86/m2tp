@@ -42,7 +42,7 @@ extern void TaskRouter_sendPacketAsync(
 
 // Check if there is a packet with "transmit" content type
 // that didn't send properly yet, required for TransmitBuffer
-extern bool TaskRouter_hasPendingData();
+extern volatile bool TaskRouter_hasPendingData();
 
 // Both createTopic() and subscribe() will call this
 extern void TaskRouter_assignTopic(

@@ -114,7 +114,7 @@ void TaskRouter_sendPacketAsync(
   TransmitTask_onTransmitFailed = failedCallback;
 }
 
-bool TaskRouter_hasPendingData()
+volatile bool TaskRouter_hasPendingData()
 {
   return (TransmitTask_pendingTransmit != NULL);
 }
