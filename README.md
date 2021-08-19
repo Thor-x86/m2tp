@@ -14,9 +14,11 @@ Run this everytime you **clone** this repo:
 ./project.py init
 ```
 
+> **ATTENTION:** Unit test requires [GTest](https://github.com/google/googletest#readme) which requires internet connection everytime you initialize to download GTest framework. Otherwise unit test throws errors.
+
 ## How to Build
 
-**Do everytime you made changes**. Make sure it's initialized. If yes, then go run this command:
+**Do everytime you made changes**. [Make sure it's initialized](#how-to-initialize). If yes, then go run this command:
 
 ```bash
 ./project.py build
@@ -24,7 +26,7 @@ Run this everytime you **clone** this repo:
 
 ## How to Install
 
-Make sure you did initialize and build, then run:
+Make sure you did [initialize](#how-to-initialize) and [build](#how-to-build), then run:
 
 ```bash
 ./project.py install
@@ -46,4 +48,12 @@ or if you only need specific test, as example unit test then run this command
 
 ```bash
 ./project.py test unit
+```
+
+## I messed up something on CMake, how to fix?
+
+Simple, just run this command:
+
+```bash
+./project.py rebuild
 ```
