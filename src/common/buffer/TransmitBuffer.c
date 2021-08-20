@@ -59,7 +59,7 @@ void TransmitBuffer_startPeer(m2tp_channel targetAddress)
     // We need to do this to make sure there is no missing packets.
 #if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
     // This part below prevents Race Condition on POSIX systems
-    usleep(1);
+    usleep(1000);
 #endif
   }
 
@@ -136,7 +136,14 @@ void TransmitBuffer_finish()
 
   // Otherwise, submit the packet to TaskRouter
   else
+  {
     TaskRouter_sendPacket(&TransmitBuffer_packet);
+
+#if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
+    // Wait for a while to let kernel "flush" the packet
+    usleep(1000);
+#endif
+  }
 }
 
 void TransmitBuffer_finishAsync(m2tp_OnSuccessCallback successCallback, m2tp_OnErrorCallback errorCallback)
