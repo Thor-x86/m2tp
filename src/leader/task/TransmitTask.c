@@ -203,6 +203,17 @@ void TransmitTask_start()
       // Start timer interrupt
       TaskRouter_startTimeout(TransmitTask_TIMEOUT);
     }
+
+    // ...or broadcast transmit?
+    else
+    {
+      // Leader will send OK itself, so clean up pending transmit first
+      TransmitTask_resetPendingTransmit();
+
+      // Send success signal
+      if (m2tp_driver_sendListener != NULL)
+        m2tp_driver_sendListener(M2TP_COMMAND_SUCCESS_SIGNAL, 0, NULL);
+    }
   }
 
   // ...if not, then skip to the next task
