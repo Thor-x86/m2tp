@@ -78,7 +78,6 @@ int main(int argc, char const *argv[])
     for (std::size_t i = 0; i < data.size(); i++)
       m2tp_write(data[i]);
     m2tp_writeFinish();
-    sleep(1);
   }
 
   if (count == 10)
@@ -102,7 +101,7 @@ void onReceive(m2tp_channel sourceAddress, m2tp_byte dataSize, m2tp_bytes data)
 
   // Send to console
   if (sourceAddress == member1_address)
-    std::cout << debugtag << "   Received data: " << message << std::endl;
+    std::cout << debugtag << "Received data: " << message << std::endl;
   else if (sourceAddress == member2_address)
     std::cout << debugtag << "Received data from Member #2: " << message << std::endl;
   else if (sourceAddress == member3_address)
