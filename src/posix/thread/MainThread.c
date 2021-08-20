@@ -24,6 +24,7 @@ void MainThread_attach(char *deviceClass)
 {
   MainThread_ID = pthread_self();
   pthread_mutex_init(&MainThread_blockerMutex, NULL);
+  sem_init(&MainThread_unblocker, 0, 0);
 
   // Submit the assigned signal code to kernel
   {
@@ -56,9 +57,6 @@ void MainThread_detach()
   TimeoutThread_destroy();
   ReceiverThread_destroy();
 
-  // Revoke signal from kernel
-  signal(assignedSignalCode, SIG_DFL);
-
   // For M2TP side
   m2tp_driver_disconnected();
   m2tp_driver_sendListener = NULL;
@@ -66,7 +64,9 @@ void MainThread_detach()
   m2tp_driver_stopTimerListener = NULL;
   m2tp_driver_setDeviceClass("generic");
 
+  signal(assignedSignalCode, SIG_DFL);
   pthread_mutex_destroy(&MainThread_blockerMutex);
+  sem_destroy(&MainThread_unblocker);
   MainThread_ID = 0;
 }
 
@@ -76,9 +76,6 @@ void MainThread_pause()
   // at same time, which also cause Race Condition
   pthread_mutex_lock(&MainThread_blockerMutex);
 
-  // Initialize semaphore for resuming main thread
-  sem_init(&MainThread_unblocker, 0, 0);
-
   // Now, let's pause the main thread via signal
   pthread_kill(MainThread_ID, assignedSignalCode);
 }
@@ -87,9 +84,6 @@ void MainThread_resume()
 {
   // Resume main thread via semaphore
   sem_post(&MainThread_unblocker);
-
-  // Clean semaphore for next use
-  sem_destroy(&MainThread_unblocker);
 
   // Let other thread pause Main Thread again
   pthread_mutex_unlock(&MainThread_blockerMutex);
