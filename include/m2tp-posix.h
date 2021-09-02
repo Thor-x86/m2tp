@@ -42,7 +42,7 @@ extern bool m2tp_connectViaPreconfigFile(int fileDescriptor, char *deviceClass);
  */
 extern bool m2tp_connectViaSocket(int socketDescriptor, char *deviceClass);
 
-// Prevent member devices use this
+// Prevent member devices use m2tp_startUDPServer
 #ifndef IS_M2TP_MEMBER_DEFINED
 
 /**
@@ -57,7 +57,7 @@ extern bool m2tp_startUDPServer(const char *ipAddress, unsigned short port, char
 
 #endif // #ifndef IS_M2TP_MEMBER_DEFINED
 
-// Prevent leader device use this
+// Prevent leader device use m2tp_connectViaUDP
 #ifndef IS_M2TP_LEADER_DEFINED
 
 /**
