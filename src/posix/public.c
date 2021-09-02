@@ -17,6 +17,21 @@ void m2tp_useSignal(int signalCode)
     assignedSignalCode = signalCode;
 }
 
+void m2tp_useHook(
+    unsigned long frameSize,
+    m2tp_posix_ReceiveHook receive,
+    m2tp_posix_TransmitHook transmit)
+{
+  // Only set hooks while offline,
+  // this also prevents undefined behavior
+  if (connectMode == MODE_OFFLINE)
+  {
+    maxFrameSize = frameSize;
+    receiveHook = receive;
+    transmitHook = transmit;
+  }
+}
+
 bool m2tp_connectViaFile(
     const char *filePath,
     char *deviceClass)
@@ -182,6 +197,11 @@ void m2tp_disconnect()
   if (connectMode == MODE_SOCKET)
     shutdown(descriptor, SHUT_RDWR);
   close(descriptor);
+
+  // Reset the hook
+  receiveHook = NULL;
+  transmitHook = NULL;
+  maxFrameSize = 0;
 
   connectMode = MODE_OFFLINE;
 }

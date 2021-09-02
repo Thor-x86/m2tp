@@ -25,7 +25,7 @@ void *ReceiverThread(void *_)
   pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
 
   // Allocate stack memory for incoming data
-  m2tp_byte buffer[257];
+  m2tp_byte packet[257];
 
   // This is only useful if using UDP Server
   struct sockaddr_in sourceUDP;
@@ -33,24 +33,42 @@ void *ReceiverThread(void *_)
 
   while (true)
   {
+    ssize_t packetSize = 0;
+
     // Allow cancel thread while waiting for data
     pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
 
-    // Wait for incoming data
-    ssize_t returnCode = 0;
-    if (UdpServer_enabled)
-      returnCode = recvfrom(
-          descriptor, buffer, sizeof(buffer), 0,
-          (struct sockaddr *)&sourceUDP, &sourceUDPSize);
-    else
-      returnCode = read(descriptor, buffer, sizeof(buffer));
+    // Is hook available?
+    if (receiveHook != NULL)
+    {
+      // Read incoming data as frame
+      m2tp_byte frame[maxFrameSize];
+      ssize_t frameSize = read(descriptor, frame, maxFrameSize);
 
-    // Don't allow cancel thread while processing data,
-    // we're going to play with mutex and semaphore
-    pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
+      // Don't allow cancel thread while processing data
+      pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
+
+      // Process frame to packet with hook
+      packetSize = receiveHook(frame, frameSize, packet);
+    }
+
+    // ...or no hook?
+    else
+    {
+      // Wait for incoming data
+      if (UdpServer_enabled)
+        packetSize = recvfrom(
+            descriptor, packet, sizeof(packet), 0,
+            (struct sockaddr *)&sourceUDP, &sourceUDPSize);
+      else
+        packetSize = read(descriptor, packet, sizeof(packet));
+
+      // Don't allow cancel thread while processing data
+      pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
+    }
 
     // Catch error
-    if (returnCode < 0)
+    if (packetSize < 0)
     {
       MainThread_pause();
       m2tp_disconnect();
@@ -65,8 +83,8 @@ void *ReceiverThread(void *_)
       UdpServer_add(&sourceUDP);
     }
 
-    // Ignore incomplete frame
-    if (returnCode < 2)
+    // Ignore incomplete packet
+    if (packetSize < 2)
       continue;
 
     // We're going to use M2TP core library, to prevent
@@ -74,11 +92,11 @@ void *ReceiverThread(void *_)
     MainThread_pause();
 
     // Assign header
-    m2tp_driver_receiveStart(buffer[0], buffer[1]);
+    m2tp_driver_receiveStart(packet[0], packet[1]);
 
     // Assign content
-    for (m2tp_byte i = 0; i < buffer[1]; i++)
-      m2tp_driver_receiveWrite(buffer[2 + i]);
+    for (m2tp_byte i = 0; i < packet[1]; i++)
+      m2tp_driver_receiveWrite(packet[2 + i]);
 
     // Flush
     m2tp_driver_receiveEnd();

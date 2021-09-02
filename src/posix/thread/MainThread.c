@@ -111,11 +111,26 @@ void MainThread_onSend(
     // Use UDP server to transmit
     UdpServer_broadcast(buffer, bufferSize);
 
-  // ...or not?
+  // ...or not UDP?
   else
   {
-    // Send to network via syscall
-    ssize_t returnCode = write(descriptor, buffer, bufferSize);
+    ssize_t returnCode;
+
+    // Is hook available?
+    if (transmitHook != NULL)
+    {
+      // Process frame with assigned hook
+      m2tp_byte frame[maxFrameSize];
+      ssize_t frameSize = transmitHook(buffer, bufferSize, frame);
+
+      // Send to network via syscall
+      returnCode = write(descriptor, frame, frameSize);
+    }
+
+    // ...or no hook?
+    else
+      // Send to network via syscall
+      returnCode = write(descriptor, buffer, bufferSize);
 
     // Catch error
     if (returnCode < 0)
