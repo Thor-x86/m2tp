@@ -69,6 +69,15 @@ extern bool m2tp_connectViaPreconfigFile(int fileDescriptor, char *deviceClass);
  */
 extern bool m2tp_connectViaSocket(int socketDescriptor, char *deviceClass);
 
+/**
+ * @brief Connect to M2TP network via SocketCAN
+ * @param interfaceName As example: "can0", "can1", "vcan0", ...
+ * @param canID Fill this with 0, unless coexist with protocol-less device is required
+ * @param deviceClass Role of current device
+ * @return true if success
+ */
+extern bool m2tp_connectViaCAN(const char *interfaceName, unsigned int canID, char *deviceClass);
+
 // Prevent member devices use m2tp_startUDPServer
 #ifndef IS_M2TP_MEMBER_DEFINED
 

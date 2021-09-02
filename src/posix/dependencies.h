@@ -16,6 +16,10 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <semaphore.h>
+#include <net/if.h>
+#include <sys/ioctl.h>
+#include <linux/can.h>
+#include <linux/can/raw.h>
 
 #include "m2tp/interface/driver.h"
 

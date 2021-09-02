@@ -8,6 +8,7 @@
 #include "./variables.h"
 #include "./thread/MainThread.h"
 #include "./UdpServer.h"
+#include "./CanHook.h"
 
 void m2tp_useSignal(int signalCode)
 {
@@ -68,6 +69,53 @@ bool m2tp_connectViaSocket(
   // Making sure not connected yet
   if (connectMode != MODE_OFFLINE)
     return true;
+
+  descriptor = socketDescriptor;
+  connectMode = MODE_SOCKET;
+  MainThread_attach(deviceClass);
+}
+
+bool m2tp_connectViaCAN(
+    const char *interfaceName,
+    unsigned int canID,
+    char *deviceClass)
+{
+  // Making sure not connected yet
+  if (connectMode != MODE_OFFLINE)
+    return true;
+
+  // Reusable return code variable
+  int returnCode = 0;
+
+  // Request socket descriptor to kernel
+  int socketDescriptor = socket(PF_CAN, SOCK_RAW, CAN_RAW);
+  if (socketDescriptor < 0)
+    return false;
+
+  // Attach to SocketCAN, it will return CAN ID
+  struct ifreq interfaceRequest;
+  memset(&interfaceRequest, 0, sizeof(struct ifreq));
+  strcpy(interfaceRequest.ifr_name, interfaceName);
+  ioctl(socketDescriptor, SIOCGIFINDEX, &interfaceRequest);
+
+  // Wrap returned CAN ID with sockaddr_can
+  struct sockaddr_can myAddress;
+  memset(&myAddress, 0, sizeof(struct sockaddr_can));
+  myAddress.can_family = AF_CAN;
+  myAddress.can_ifindex = interfaceRequest.ifr_ifindex;
+
+  // Prepare receive (Rx)
+  returnCode = bind(socketDescriptor,
+                    (struct sockaddr *)&myAddress,
+                    sizeof(struct sockaddr_can));
+  if (returnCode < 0)
+    return false;
+
+  // Assign the CAN ID
+  CanHook_ID = canID;
+
+  // Attach hooks to process CAN frame
+  m2tp_useHook(sizeof(struct can_frame), &CanHook_receive, &CanHook_transmit);
 
   descriptor = socketDescriptor;
   connectMode = MODE_SOCKET;
@@ -202,6 +250,7 @@ void m2tp_disconnect()
   receiveHook = NULL;
   transmitHook = NULL;
   maxFrameSize = 0;
+  CanHook_ID = 0;
 
   connectMode = MODE_OFFLINE;
 }
