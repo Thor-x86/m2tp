@@ -20,7 +20,7 @@ pthread_mutex_t MainThread_blockerMutex;
 
 //////////////// Functions ////////////////////////////////
 
-void MainThread_attach(char *deviceClass)
+void MainThread_attach(const char *deviceClass)
 {
   MainThread_ID = pthread_self();
   pthread_mutex_init(&MainThread_blockerMutex, NULL);

@@ -35,7 +35,7 @@ void m2tp_useHook(
 
 bool m2tp_connectViaFile(
     const char *filePath,
-    char *deviceClass)
+    const char *deviceClass)
 {
   int fileDescriptor = open(filePath, O_RDWR);
   return m2tp_connectViaPreconfigFile(fileDescriptor, deviceClass);
@@ -43,7 +43,7 @@ bool m2tp_connectViaFile(
 
 bool m2tp_connectViaPreconfigFile(
     int fileDescriptor,
-    char *deviceClass)
+    const char *deviceClass)
 {
   // Check for file descriptor
   if (fileDescriptor <= 0)
@@ -60,7 +60,7 @@ bool m2tp_connectViaPreconfigFile(
 
 bool m2tp_connectViaSocket(
     int socketDescriptor,
-    char *deviceClass)
+    const char *deviceClass)
 {
   // Check for socket descriptor
   if (socketDescriptor <= 0)
@@ -78,7 +78,7 @@ bool m2tp_connectViaSocket(
 bool m2tp_connectViaCAN(
     const char *interfaceName,
     unsigned int canID,
-    char *deviceClass)
+    const char *deviceClass)
 {
   // Making sure not connected yet
   if (connectMode != MODE_OFFLINE)
@@ -125,7 +125,7 @@ bool m2tp_connectViaCAN(
 bool m2tp_startUDPServer(
     const char *ipAddress,
     unsigned short port,
-    char *deviceClass)
+    const char *deviceClass)
 {
   // Making sure not connected yet
   if (connectMode != MODE_OFFLINE)
@@ -171,7 +171,7 @@ bool m2tp_connectViaUDP(
     unsigned short port,
     const char *leaderIPAddress,
     unsigned short leaderPort,
-    char *deviceClass)
+    const char *deviceClass)
 {
   // Making sure not connected yet
   if (connectMode != MODE_OFFLINE)

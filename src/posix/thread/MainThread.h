@@ -13,7 +13,7 @@ extern pthread_t MainThread_ID;
 
 // Attach M2TP to app's thread,
 // call this when ready to connect
-extern void MainThread_attach(char *deviceClass);
+extern void MainThread_attach(const char *deviceClass);
 
 // Detach M2TP from app's thread,
 // call this before disconnect

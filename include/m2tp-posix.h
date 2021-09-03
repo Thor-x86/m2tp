@@ -50,7 +50,7 @@ extern void m2tp_useHook(unsigned long frameSize, m2tp_posix_ReceiveHook receive
  * @param deviceClass Role of current device
  * @return true if success
  */
-extern bool m2tp_connectViaFile(const char *filePath, char *deviceClass);
+extern bool m2tp_connectViaFile(const char *filePath, const char *deviceClass);
 
 /**
  * @brief Connect to M2TP network via pre-configured file descriptor
@@ -59,7 +59,7 @@ extern bool m2tp_connectViaFile(const char *filePath, char *deviceClass);
  * @param deviceClass Role of current device
  * @return true if success
  */
-extern bool m2tp_connectViaPreconfigFile(int fileDescriptor, char *deviceClass);
+extern bool m2tp_connectViaPreconfigFile(int fileDescriptor, const char *deviceClass);
 
 /**
  * @brief Connect to M2TP network via opened socket by kernel
@@ -67,7 +67,7 @@ extern bool m2tp_connectViaPreconfigFile(int fileDescriptor, char *deviceClass);
  * @param deviceClass Role of current device
  * @return true if success
  */
-extern bool m2tp_connectViaSocket(int socketDescriptor, char *deviceClass);
+extern bool m2tp_connectViaSocket(int socketDescriptor, const char *deviceClass);
 
 /**
  * @brief Connect to M2TP network via SocketCAN
@@ -76,7 +76,7 @@ extern bool m2tp_connectViaSocket(int socketDescriptor, char *deviceClass);
  * @param deviceClass Role of current device
  * @return true if success
  */
-extern bool m2tp_connectViaCAN(const char *interfaceName, unsigned int canID, char *deviceClass);
+extern bool m2tp_connectViaCAN(const char *interfaceName, unsigned int canID, const char *deviceClass);
 
 // Prevent member devices use m2tp_startUDPServer
 #ifndef IS_M2TP_MEMBER_DEFINED
@@ -89,7 +89,7 @@ extern bool m2tp_connectViaCAN(const char *interfaceName, unsigned int canID, ch
  * @param deviceClass Role of current device
  * @return true if success
  */
-extern bool m2tp_startUDPServer(const char *ipAddress, unsigned short port, char *deviceClass);
+extern bool m2tp_startUDPServer(const char *ipAddress, unsigned short port, const char *deviceClass);
 
 #endif // #ifndef IS_M2TP_MEMBER_DEFINED
 
@@ -106,7 +106,7 @@ extern bool m2tp_startUDPServer(const char *ipAddress, unsigned short port, char
  * @param deviceClass Role of current device
  * @return true if success
  */
-extern bool m2tp_connectViaUDP(const char *ipAddress, unsigned short port, const char *leaderIPAddress, unsigned short leaderPort, char *deviceClass);
+extern bool m2tp_connectViaUDP(const char *ipAddress, unsigned short port, const char *leaderIPAddress, unsigned short leaderPort, const char *deviceClass);
 
 #endif // #ifndef IS_M2TP_LEADER_DEFINED
 
