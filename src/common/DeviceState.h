@@ -11,9 +11,9 @@
 
 // Only set from driver side
 extern volatile bool DeviceState_driverReady;
-extern char *DeviceState_deviceBrand;
-extern char *DeviceState_deviceVendor;
-extern char *DeviceState_deviceClass;
+extern const char *DeviceState_deviceBrand;
+extern const char *DeviceState_deviceVendor;
+extern const char *DeviceState_deviceClass;
 
 // 0 means not assigned or as leader
 extern volatile m2tp_channel DeviceState_assignedAddress;

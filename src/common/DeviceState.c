@@ -6,9 +6,9 @@
 #include "DeviceState.h"
 
 volatile bool DeviceState_driverReady = false;
-char *DeviceState_deviceBrand = "generic";
-char *DeviceState_deviceVendor = "generic";
-char *DeviceState_deviceClass = "generic";
+const char *DeviceState_deviceBrand = "generic";
+const char *DeviceState_deviceVendor = "generic";
+const char *DeviceState_deviceClass = "generic";
 volatile m2tp_channel DeviceState_assignedAddress = 0;
 volatile m2tp_TopicListener DeviceState_subscribedTopics[128];
 

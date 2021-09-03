@@ -19,17 +19,17 @@ typedef void (*m2tp_driver_TimerFinishCallback)();
 /**
  * @brief Set device's brand, it's optional
  */
-extern void m2tp_driver_setDeviceBrand(char *value);
+extern void m2tp_driver_setDeviceBrand(const char *value);
 
 /**
  * @brief Set device's manufacturer, it's optional
  */
-extern void m2tp_driver_setDeviceVendor(char *value);
+extern void m2tp_driver_setDeviceVendor(const char *value);
 
 /**
  * @brief Set the device's role, required to inform other device
  */
-extern void m2tp_driver_setDeviceClass(char *value);
+extern void m2tp_driver_setDeviceClass(const char *value);
 
 /**
  * @brief Notify library if connected from network
