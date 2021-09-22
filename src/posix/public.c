@@ -120,6 +120,8 @@ bool m2tp_connectViaCAN(
   descriptor = socketDescriptor;
   connectMode = MODE_SOCKET;
   MainThread_attach(deviceClass);
+
+  return true;
 }
 
 bool m2tp_startUDPServer(
