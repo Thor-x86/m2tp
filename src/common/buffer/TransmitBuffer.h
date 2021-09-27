@@ -13,25 +13,29 @@
 /**
  * @brief Prepare data buffer for peer-to-peer transmit
  * @param targetAddress Audience device's address
+ * @return Error code, 0 means success
  */
-extern void TransmitBuffer_startPeer(m2tp_channel targetAddress);
+extern m2tp_error TransmitBuffer_startPeer(m2tp_channel targetAddress);
 
 /**
  * @brief Prepare data buffer for broadcast transmit
  * @param topicID Assigned topic ID
+ * @return Error code, 0 means success
  */
-extern void TransmitBuffer_startBroadcast(m2tp_channel topicID);
+extern m2tp_error TransmitBuffer_startBroadcast(m2tp_channel topicID);
 
 /**
  * @brief Stream byte to buffer
  * @param value a Single byte of data
+ * @return Error code, 0 means success
  */
-extern void TransmitBuffer_write(m2tp_byte value);
+extern m2tp_error TransmitBuffer_write(m2tp_byte value);
 
 /**
  * @brief Send buffer to TransmitTask, then clean the buffer
+ * @return Error code, 0 means success
  */
-extern void TransmitBuffer_finish();
+extern m2tp_error TransmitBuffer_finish();
 
 /**
  * @brief Like TransmitBuffer_finish, but this allows app to prevent thread blocking

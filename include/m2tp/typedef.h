@@ -28,6 +28,12 @@ typedef m2tp_byte *m2tp_bytes;
  */
 typedef m2tp_byte m2tp_channel;
 
+/**
+ * @brief A single byte that represents error code
+ * @see https://github.com/Thor-x86/m2tp/blob/dev/include/m2tp/errors.h
+ */
+typedef m2tp_byte m2tp_error;
+
 EXTERN_C_STOP
 
 // Standardize NULL definition

@@ -51,7 +51,7 @@ void TransmitBuffer_reset()
 
 //////// Public Functions //////////////////////////////
 
-void TransmitBuffer_startPeer(m2tp_channel targetAddress)
+m2tp_error TransmitBuffer_startPeer(m2tp_channel targetAddress)
 {
   while (TaskRouter_hasPendingData())
   {
@@ -71,7 +71,7 @@ void TransmitBuffer_startPeer(m2tp_channel targetAddress)
   if (isTopicID(targetAddress))
   {
     TransmitBuffer_errorCode = M2TP_ERROR_ADDRESS_NOT_EXIST;
-    return;
+    return TransmitBuffer_errorCode;
   }
 
   // Prepare the content header
@@ -79,9 +79,11 @@ void TransmitBuffer_startPeer(m2tp_channel targetAddress)
   source = DeviceState_assignedAddress;
   target = targetAddress;
   position = 2;
+
+  return 0;
 }
 
-void TransmitBuffer_startBroadcast(m2tp_channel topicID)
+m2tp_error TransmitBuffer_startBroadcast(m2tp_channel topicID)
 {
   while (TaskRouter_hasPendingData())
   {
@@ -101,7 +103,7 @@ void TransmitBuffer_startBroadcast(m2tp_channel topicID)
   if (!isTopicID(topicID))
   {
     TransmitBuffer_errorCode = M2TP_ERROR_TOPIC_NOT_EXIST;
-    return;
+    return TransmitBuffer_errorCode;
   }
 
   // Prepare the content header
@@ -109,30 +111,38 @@ void TransmitBuffer_startBroadcast(m2tp_channel topicID)
   source = DeviceState_assignedAddress;
   target = topicID;
   position = 2;
+
+  return 0;
 }
 
-void TransmitBuffer_write(m2tp_byte value)
+m2tp_error TransmitBuffer_write(m2tp_byte value)
 {
-  // Don't write anything if it's not safe to write
-  if (!isInitialized || TaskRouter_hasPendingData() || TransmitBuffer_errorCode != 0)
-    return;
+  // Don't write before initialized
+  if (!isInitialized || TaskRouter_hasPendingData())
+    return M2TP_ERROR_UNINITIALIZED;
+
+  // Don't write on error
+  if (TransmitBuffer_errorCode != 0)
+    return TransmitBuffer_errorCode;
 
   // Too much bytes? report then abort
   if (isSizeTooBig)
   {
     TransmitBuffer_errorCode = M2TP_ERROR_DATA_SIZE_TOO_BIG;
-    return;
+    return TransmitBuffer_errorCode;
   }
 
   TransmitBuffer_buffer[position] = value;
   position++;
+
+  return 0;
 }
 
-void TransmitBuffer_finish()
+m2tp_error TransmitBuffer_finish()
 {
   // Abort if not started yet
   if (!isInitialized)
-    return;
+    return M2TP_ERROR_UNINITIALIZED;
 
   // Found error? reset the buffer to prevent further problem
   if (TransmitBuffer_errorCode != 0)
@@ -154,7 +164,10 @@ void TransmitBuffer_finishAsync(m2tp_OnSuccessCallback successCallback, m2tp_OnE
 {
   // Abort if not started yet
   if (!isInitialized)
+  {
+    errorCallback(M2TP_ERROR_UNINITIALIZED);
     return;
+  }
 
   // Found error?
   if (TransmitBuffer_errorCode != 0)

@@ -4,6 +4,7 @@
 **/
 
 #include "m2tp/interface/driver.h"
+#include "m2tp/errors.h"
 #include "../DeviceState.h"
 #include "../packet/Packet.h"
 #include "../TaskRouter.h"
@@ -59,33 +60,33 @@ void m2tp_driver_disconnected()
   }
 }
 
-void m2tp_driver_receiveStart(
+bool m2tp_driver_receiveStart(
     m2tp_byte command,
     m2tp_byte contentSize)
 {
   // Abort if driver NOT ready yet
   if (!DeviceState_driverReady)
-    return;
+    return false;
 
-  ReceiveBuffer_start(command, contentSize);
+  return ReceiveBuffer_start(command, contentSize);
 }
 
-void m2tp_driver_receiveWrite(m2tp_byte value)
+m2tp_byte m2tp_driver_receiveWrite(m2tp_byte value)
 {
   // Abort if driver NOT ready yet
   if (!DeviceState_driverReady)
-    return;
+    return 0;
 
-  ReceiveBuffer_write(value);
+  return ReceiveBuffer_write(value);
 }
 
-void m2tp_driver_receiveEnd()
+m2tp_error m2tp_driver_receiveEnd()
 {
   // Abort if driver NOT ready yet
   if (!DeviceState_driverReady)
-    return;
+    return M2TP_ERROR_NOT_CONNECTED;
 
-  ReceiveBuffer_finish();
+  return ReceiveBuffer_finish();
 }
 
 ////////////////////////////////////////////////////////

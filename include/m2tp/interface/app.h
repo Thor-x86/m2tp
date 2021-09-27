@@ -38,25 +38,29 @@ typedef void (*m2tp_TopicListener)(m2tp_byte dataSize, const m2tp_bytes data);
 /**
  * @brief Prepare to send data in peer-to-peer mode
  * @param targetAddress Audience device's address
+ * @return Error code, 0 means success
  */
-extern void m2tp_startSend(m2tp_channel targetAddress);
+extern m2tp_error m2tp_startSend(m2tp_channel targetAddress);
 
 /**
  * @brief Prepare to send data in broadcast mode
  * @param topicID From success callback of `m2tp_createTopic(...)`
+ * @return Error code, 0 means success
  */
-extern void m2tp_startBroadcast(m2tp_channel topicID);
+extern m2tp_error m2tp_startBroadcast(m2tp_channel topicID);
 
 /**
  * @brief When finished, call m2tp_writeFinish() or m2tp_writeFinishAsync(...)
  * @param eachByte from data
+ * @return Error code, 0 means success
  */
-extern void m2tp_write(m2tp_byte eachByte);
+extern m2tp_error m2tp_write(m2tp_byte eachByte);
 
 /**
  * @brief Send written bytes of data
+ * @return Error code, 0 means success
  */
-extern void m2tp_writeFinish();
+extern m2tp_error m2tp_writeFinish();
 
 /**
  * @brief Use this to prevent thread-blocking because of repetitive send/broadcast

@@ -63,14 +63,23 @@ TEST(ReceiveBuffer, NormalWrite)
   packet_content_AnnouncementJoin_serialize(&content, serializedContent, &contentSize);
 
   // Simulate start of receive event
-  ReceiveBuffer_start(M2TP_COMMAND_ANNOUNCEMENT_JOIN, contentSize);
+  bool startSuccess = ReceiveBuffer_start(M2TP_COMMAND_ANNOUNCEMENT_JOIN, contentSize);
+  ASSERT_TRUE(startSuccess) << "Refused to start";
 
   // Simulate receive stream
   for (m2tp_byte i = 0; i < contentSize; i++)
-    ReceiveBuffer_write(serializedContent[i]);
+  {
+    m2tp_byte remaining = ReceiveBuffer_write(serializedContent[i]);
+    ASSERT_EQ(ReceiveBuffer_errorCode, 0) << "Caught error while writing";
+    if (i > contentSize - 1)
+      ASSERT_NE(remaining, 0) << "Uncaught error while writing";
+    EXPECT_EQ(remaining, contentSize - i - 1);
+  }
 
   // Simulate finish of receive event
-  ReceiveBuffer_finish();
+  m2tp_error caughtError = ReceiveBuffer_finish();
+  ASSERT_EQ(caughtError, ReceiveBuffer_errorCode) << "Uncaught error after finished";
+  ASSERT_EQ(caughtError, 0) << "Caught error after finished";
 
   // Check if receive interrupt triggered
   EXPECT_TRUE(isReceiveInterrupt);
@@ -101,17 +110,28 @@ TEST(ReceiveBuffer, ExcessiveWrite)
   packet_content_AnnouncementJoin_serialize(&content, serializedContent, &contentSize);
 
   // Simulate start of receive event
-  ReceiveBuffer_start(M2TP_COMMAND_ANNOUNCEMENT_JOIN, contentSize);
+  bool startSuccess = ReceiveBuffer_start(M2TP_COMMAND_ANNOUNCEMENT_JOIN, contentSize);
+  ASSERT_TRUE(startSuccess) << "Refused to start";
 
   // Simulate receive stream
   for (m2tp_byte i = 0; i < contentSize; i++)
-    ReceiveBuffer_write(serializedContent[i]);
+  {
+    m2tp_byte remaining = ReceiveBuffer_write(serializedContent[i]);
+    ASSERT_EQ(ReceiveBuffer_errorCode, 0) << "Caught error while writing";
+    if (i > contentSize - 1)
+      ASSERT_NE(remaining, 0) << "Uncaught error while writing";
+    EXPECT_EQ(remaining, contentSize - i - 1);
+  }
 
   // Simulate excessive stream
-  ReceiveBuffer_write(0x0);
+  m2tp_byte remaining = ReceiveBuffer_write(0x0);
+  EXPECT_EQ(remaining, 0) << "Overflow detected";
 
   // Simulate finish of receive event
-  ReceiveBuffer_finish();
+  m2tp_error actualError = ReceiveBuffer_errorCode;
+  m2tp_error caughtError = ReceiveBuffer_finish();
+  ASSERT_EQ(caughtError, actualError) << "Error code not returned";
+  ASSERT_EQ(caughtError, M2TP_ERROR_PACKET_SIZE_MISMATCH) << "Incorrect error code";
 
   // Receive interrupt shouldn't be triggered
   EXPECT_FALSE(isReceiveInterrupt);
@@ -142,14 +162,22 @@ TEST(ReceiveBuffer, IncompleteWrite)
   packet_content_AnnouncementJoin_serialize(&content, serializedContent, &contentSize);
 
   // Simulate start of receive event
-  ReceiveBuffer_start(M2TP_COMMAND_ANNOUNCEMENT_JOIN, contentSize);
+  bool startSuccess = ReceiveBuffer_start(M2TP_COMMAND_ANNOUNCEMENT_JOIN, contentSize);
+  ASSERT_TRUE(startSuccess) << "Refused to start";
 
   // Simulate incomplete receive stream
   for (m2tp_byte i = 0; i < contentSize - 1; i++)
-    ReceiveBuffer_write(serializedContent[i]);
+  {
+    m2tp_byte remaining = ReceiveBuffer_write(serializedContent[i]);
+    ASSERT_EQ(ReceiveBuffer_errorCode, 0) << "Caught error while writing";
+    ASSERT_NE(remaining, 0) << "Uncaught error while writing";
+    EXPECT_EQ(remaining, contentSize - i - 1);
+  }
 
   // Simulate finish of receive event
-  ReceiveBuffer_finish();
+  m2tp_error caughtError = ReceiveBuffer_finish();
+  ASSERT_NE(caughtError, 0) << "Error code not returned";
+  ASSERT_EQ(caughtError, M2TP_ERROR_PACKET_SIZE_MISMATCH) << "Incorrect error code";
 
   // Receive interrupt shouldn't be triggered
   EXPECT_FALSE(isReceiveInterrupt);
@@ -178,8 +206,11 @@ TEST(ReceiveBuffer, UninitializedWrite)
   EXPECT_EQ(ReceiveBuffer_position, 0);
 
   // Simulate finish with unitialized condition
-  ReceiveBuffer_finish();
-  EXPECT_FALSE(isReceiveInterrupt);
+  m2tp_error actualError = ReceiveBuffer_errorCode;
+  m2tp_error caughtError = ReceiveBuffer_finish();
+  ASSERT_EQ(caughtError, actualError) << "Error code not returned";
+  ASSERT_EQ(caughtError, M2TP_ERROR_UNINITIALIZED) << "Incorrect error code";
+  EXPECT_FALSE(isReceiveInterrupt) << "Interrupt should not be triggered";
 
   // Callback reset
   TaskRouter_receiveInterrupt = nullptr;

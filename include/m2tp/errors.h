@@ -56,4 +56,19 @@
  */
 #define M2TP_ERROR_TOO_MUCH_TOPIC 10
 
+/**
+ * @brief Thrown when forgot to call "m2tp_driver_receiveStart"
+ */
+#define M2TP_ERROR_UNINITIALIZED 11
+
+/**
+ * @brief Thrown when glue-layer developer missed something
+ */
+#define M2TP_ERROR_GLUE 12
+
+/**
+ * @brief Usually thrown when there is a known bug waiting for fix
+ */
+#define M2TP_ERROR_INTERNAL 13
+
 #endif // #ifndef IS_M2TP_ERRORS_DEFINED

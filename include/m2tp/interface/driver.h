@@ -45,19 +45,22 @@ extern void m2tp_driver_disconnected();
  * @brief Ask M2TP to prepare packet buffer
  * @param command See "m2tp-common/commands.h"
  * @param contentSize Size of packet content, maximum 255 bytes
+ * @return true if it's safe to write the packet buffer now
  */
-extern void m2tp_driver_receiveStart(m2tp_byte command, m2tp_byte contentSize);
+extern bool m2tp_driver_receiveStart(m2tp_byte command, m2tp_byte contentSize);
 
 /**
  * @brief Put each byte to packet buffer
  * @param value a Single byte of packet content
+ * @return Remaining bytes of content
  */
-extern void m2tp_driver_receiveWrite(m2tp_byte value);
+extern m2tp_byte m2tp_driver_receiveWrite(m2tp_byte value);
 
 /**
  * @brief Ask M2TP to mark it done and do something with that packet
+ * @return Error code, 0 means success
  */
-extern void m2tp_driver_receiveEnd();
+extern m2tp_error m2tp_driver_receiveEnd();
 
 /**
  * @brief Pointer to a function, will be called if app need to send something

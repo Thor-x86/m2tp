@@ -43,8 +43,11 @@ TEST(TransmitBuffer, NormalPeerWrite)
   // Simulate device address
   DeviceState_assignedAddress = 0x7;
 
+  m2tp_error returnedError = 0;
+
   // Simulate start peer-to-peer transmit
-  TransmitBuffer_startPeer(0x13);
+  returnedError = TransmitBuffer_startPeer(0x13);
+  ASSERT_EQ(returnedError, TransmitBuffer_errorCode) << "Error code not returned after start";
 
   // Check for header
   EXPECT_EQ(TransmitBuffer_packet.content[0], 0x7);
@@ -52,7 +55,10 @@ TEST(TransmitBuffer, NormalPeerWrite)
 
   // Simulate stream data from app
   for (m2tp_byte i = 0; i < dataSize; i++)
-    TransmitBuffer_write(data[i]);
+  {
+    returnedError = TransmitBuffer_write(data[i]);
+    ASSERT_EQ(returnedError, TransmitBuffer_errorCode) << "Error code not returned after write";
+  }
 
   // Check for error
   ASSERT_EQ(TransmitBuffer_errorCode, 0);
@@ -65,7 +71,8 @@ TEST(TransmitBuffer, NormalPeerWrite)
     ASSERT_EQ(TransmitBuffer_packet.content[2 + i], data[i]) << "Invalid content at #" << (int)i << " byte";
 
   // Simulate finish of data transmit
-  TransmitBuffer_finish();
+  returnedError = TransmitBuffer_finish();
+  ASSERT_EQ(returnedError, TransmitBuffer_errorCode) << "Error code not returned after finish";
 
   // Making sure the buffer is submitted to task
   EXPECT_EQ(MainTask_pendingTransmit, &TransmitBuffer_packet);
@@ -91,8 +98,11 @@ TEST(TransmitBuffer, AsyncPeerWrite)
   // Simulate device address
   DeviceState_assignedAddress = 0x7;
 
+  m2tp_error returnedError = 0;
+
   // Simulate start peer-to-peer transmit
-  TransmitBuffer_startPeer(0x13);
+  returnedError = TransmitBuffer_startPeer(0x13);
+  ASSERT_EQ(returnedError, TransmitBuffer_errorCode) << "Error code not returned after start";
 
   // Check for header
   EXPECT_EQ(TransmitBuffer_packet.content[0], 0x7);
@@ -100,7 +110,10 @@ TEST(TransmitBuffer, AsyncPeerWrite)
 
   // Simulate stream data from app
   for (m2tp_byte i = 0; i < dataSize; i++)
-    TransmitBuffer_write(data[i]);
+  {
+    returnedError = TransmitBuffer_write(data[i]);
+    ASSERT_EQ(returnedError, TransmitBuffer_errorCode) << "Error code not returned after write";
+  }
 
   // Check for error
   ASSERT_EQ(TransmitBuffer_errorCode, 0);
@@ -145,8 +158,11 @@ TEST(TransmitBuffer, NormalBroadcastWrite)
   // Simulate device address
   DeviceState_assignedAddress = 0x7;
 
+  m2tp_error returnedError = 0;
+
   // Simulate start broadcast transmit
-  TransmitBuffer_startBroadcast(0x81);
+  returnedError = TransmitBuffer_startBroadcast(0x81);
+  ASSERT_EQ(returnedError, TransmitBuffer_errorCode) << "Error code not returned after start";
 
   // Check for header
   EXPECT_EQ(TransmitBuffer_packet.content[0], 0x7);
@@ -154,7 +170,10 @@ TEST(TransmitBuffer, NormalBroadcastWrite)
 
   // Simulate stream data from app
   for (m2tp_byte i = 0; i < dataSize; i++)
-    TransmitBuffer_write(data[i]);
+  {
+    returnedError = TransmitBuffer_write(data[i]);
+    ASSERT_EQ(returnedError, TransmitBuffer_errorCode) << "Error code not returned after write";
+  }
 
   // Check for error
   ASSERT_EQ(TransmitBuffer_errorCode, 0);
@@ -167,7 +186,8 @@ TEST(TransmitBuffer, NormalBroadcastWrite)
     ASSERT_EQ(TransmitBuffer_packet.content[2 + i], data[i]) << "Invalid content at #" << (int)i << " byte";
 
   // Simulate finish of data transmit
-  TransmitBuffer_finish();
+  returnedError = TransmitBuffer_finish();
+  ASSERT_EQ(returnedError, TransmitBuffer_errorCode) << "Error code not returned after finish";
 
   // Making sure the buffer is submitted to task
   EXPECT_EQ(MainTask_pendingTransmit, &TransmitBuffer_packet);
@@ -193,8 +213,11 @@ TEST(TransmitBuffer, AsyncBroadcastWrite)
   // Simulate device address
   DeviceState_assignedAddress = 0x7;
 
+  m2tp_error returnedError = 0;
+
   // Simulate start broadcast transmit
-  TransmitBuffer_startBroadcast(0x81);
+  returnedError = TransmitBuffer_startBroadcast(0x81);
+  ASSERT_EQ(returnedError, TransmitBuffer_errorCode) << "Error code not returned after start";
 
   // Check for header
   EXPECT_EQ(TransmitBuffer_packet.content[0], 0x7);
@@ -202,7 +225,10 @@ TEST(TransmitBuffer, AsyncBroadcastWrite)
 
   // Simulate stream data from app
   for (m2tp_byte i = 0; i < dataSize; i++)
-    TransmitBuffer_write(data[i]);
+  {
+    returnedError = TransmitBuffer_write(data[i]);
+    ASSERT_EQ(returnedError, TransmitBuffer_errorCode) << "Error code not returned after write";
+  }
 
   // Check for error
   ASSERT_EQ(TransmitBuffer_errorCode, 0); // Making sure content size is correct
@@ -245,22 +271,29 @@ TEST(TransmitBuffer, WrongAddressTransmit)
   // Simulate device address
   DeviceState_assignedAddress = 0x7;
 
+  m2tp_error returnedError = 0;
+
   // Simulate start peer-to-peer transmit,
   // but confuses address with topic ID
-  TransmitBuffer_startPeer(0x81);
+  returnedError = TransmitBuffer_startPeer(0x81);
+  ASSERT_EQ(returnedError, TransmitBuffer_errorCode) << "Error code not returned after start";
 
   // Making sure TransmitBuffer aware of incorrect address
   ASSERT_EQ(TransmitBuffer_errorCode, M2TP_ERROR_ADDRESS_NOT_EXIST);
 
   // Simulate stream data from app
   for (m2tp_byte i = 0; i < dataSize; i++)
-    TransmitBuffer_write(data[i]);
+  {
+    returnedError = TransmitBuffer_write(data[i]);
+    ASSERT_EQ(returnedError, TransmitBuffer_errorCode) << "Error code not returned after write";
+  }
 
   // Buffer must stay empty because of error
   EXPECT_EQ(TransmitBuffer_packet.contentSize, 0);
 
   // Simulate finish of data transmit
-  TransmitBuffer_finish();
+  returnedError = TransmitBuffer_finish();
+  ASSERT_EQ(returnedError, TransmitBuffer_errorCode) << "Error code not returned after finish";
 
   // Making sure it's not submitted to task yet
   EXPECT_NE(MainTask_pendingTransmit, &TransmitBuffer_packet);
@@ -279,22 +312,29 @@ TEST(TransmitBuffer, WrongTopicTransmit)
   // Simulate device address
   DeviceState_assignedAddress = 0x7;
 
+  m2tp_error returnedError = 0;
+
   // Simulate start broadcast transmit,
   // but confuses topic ID with address
-  TransmitBuffer_startBroadcast(0x17);
+  returnedError = TransmitBuffer_startBroadcast(0x17);
+  ASSERT_EQ(returnedError, TransmitBuffer_errorCode) << "Error code not returned after start";
 
   // Making sure TransmitBuffer aware of incorrect topic ID
   ASSERT_EQ(TransmitBuffer_errorCode, M2TP_ERROR_TOPIC_NOT_EXIST);
 
   // Simulate stream data from app
   for (m2tp_byte i = 0; i < dataSize; i++)
-    TransmitBuffer_write(data[i]);
+  {
+    returnedError = TransmitBuffer_write(data[i]);
+    ASSERT_EQ(returnedError, TransmitBuffer_errorCode) << "Error code not returned after write";
+  }
 
   // Buffer must stay empty because of error
   EXPECT_EQ(TransmitBuffer_packet.contentSize, 0);
 
   // Simulate finish of data transmit
-  TransmitBuffer_finish();
+  returnedError = TransmitBuffer_finish();
+  ASSERT_EQ(returnedError, TransmitBuffer_errorCode) << "Error code not returned after finish";
 
   // Making sure it's not submitted to task yet
   EXPECT_NE(MainTask_pendingTransmit, &TransmitBuffer_packet);
@@ -309,15 +349,21 @@ TEST(TransmitBuffer, ExceedLimitTransmit)
   // Simulate device address
   DeviceState_assignedAddress = 0x7;
 
+  m2tp_error returnedError = 0;
+
   // Simulate start peer-to-peer transmit
-  TransmitBuffer_startPeer(0x13);
+  returnedError = TransmitBuffer_startPeer(0x13);
+  ASSERT_EQ(returnedError, TransmitBuffer_errorCode) << "Error code not returned after start";
 
   // Check for the address
   ASSERT_EQ(TransmitBuffer_packet.content[1], 0x13) << "Cannot run test, address isn't assigned correctly";
 
   // Simulate oversized data stream
   for (int i = 0; i < 258; i++)
-    TransmitBuffer_write(i);
+  {
+    returnedError = TransmitBuffer_write(i);
+    ASSERT_EQ(returnedError, TransmitBuffer_errorCode) << "Error code not returned after write";
+  }
 
   // Check for error
   EXPECT_EQ(TransmitBuffer_errorCode, M2TP_ERROR_DATA_SIZE_TOO_BIG);
@@ -326,7 +372,8 @@ TEST(TransmitBuffer, ExceedLimitTransmit)
   EXPECT_EQ(TransmitBuffer_packet.contentSize, 255);
 
   // Simulate finish of data transmit
-  TransmitBuffer_finish();
+  returnedError = TransmitBuffer_finish();
+  ASSERT_EQ(returnedError, TransmitBuffer_errorCode) << "Error code not returned after finish";
 
   // Making sure it's not submitted to task yet
   EXPECT_NE(MainTask_pendingTransmit, &TransmitBuffer_packet);
@@ -345,15 +392,21 @@ TEST(TransmitBuffer, ExceedLimitAsyncTransmit)
   // Simulate device address
   DeviceState_assignedAddress = 0x7;
 
+  m2tp_error returnedError = 0;
+
   // Simulate start peer-to-peer transmit
-  TransmitBuffer_startPeer(0x13);
+  returnedError = TransmitBuffer_startPeer(0x13);
+  ASSERT_EQ(returnedError, TransmitBuffer_errorCode) << "Error code not returned after start";
 
   // Check for the address
   ASSERT_EQ(TransmitBuffer_packet.content[1], 0x13) << "Cannot run test, address isn't assigned correctly";
 
   // Simulate oversized data stream
   for (unsigned int i = 0; i < 258; i++)
-    TransmitBuffer_write((m2tp_byte)i);
+  {
+    returnedError = TransmitBuffer_write((m2tp_byte)i);
+    ASSERT_EQ(returnedError, TransmitBuffer_errorCode) << "Error code not returned after write";
+  }
 
   // Check for error
   EXPECT_EQ(TransmitBuffer_errorCode, M2TP_ERROR_DATA_SIZE_TOO_BIG);

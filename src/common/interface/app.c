@@ -4,6 +4,7 @@
 **/
 
 #include "m2tp/interface/app.h"
+#include "m2tp/errors.h"
 #include "../DeviceState.h"
 #include "../TaskRouter.h"
 #include "../buffer/TransmitBuffer.h"
@@ -26,40 +27,40 @@ void (*m2tp_onAnotherMemberQuitListener)(
 
 //////// Functions /////////////////////////////////////
 
-void m2tp_startSend(m2tp_channel targetAddress)
+m2tp_error m2tp_startSend(m2tp_channel targetAddress)
 {
   // Abort if device NOT ready yet
   if (!DeviceState_isReady())
-    return;
+    return M2TP_ERROR_NOT_CONNECTED;
 
-  TransmitBuffer_startPeer(targetAddress);
+  return TransmitBuffer_startPeer(targetAddress);
 }
 
-void m2tp_startBroadcast(m2tp_channel topicID)
+m2tp_error m2tp_startBroadcast(m2tp_channel topicID)
 {
   // Abort if device NOT ready yet
   if (!DeviceState_isReady())
-    return;
+    return M2TP_ERROR_NOT_CONNECTED;
 
-  TransmitBuffer_startBroadcast(topicID);
+  return TransmitBuffer_startBroadcast(topicID);
 }
 
-void m2tp_write(m2tp_byte eachByte)
+m2tp_error m2tp_write(m2tp_byte eachByte)
 {
   // Abort if device NOT ready yet
   if (!DeviceState_isReady())
-    return;
+    return M2TP_ERROR_NOT_CONNECTED;
 
-  TransmitBuffer_write(eachByte);
+  return TransmitBuffer_write(eachByte);
 }
 
-void m2tp_writeFinish()
+m2tp_error m2tp_writeFinish()
 {
   // Abort if device NOT ready yet
   if (!DeviceState_isReady())
-    return;
+    return M2TP_ERROR_NOT_CONNECTED;
 
-  TransmitBuffer_finish();
+  return TransmitBuffer_finish();
 }
 
 void m2tp_writeFinishAsync(

@@ -14,6 +14,7 @@ m2tp_byte ReceiveBuffer_command = 0;
 m2tp_byte ReceiveBuffer_buffer[255];
 m2tp_byte ReceiveBuffer_size = 0;
 m2tp_byte ReceiveBuffer_position = 0;
+m2tp_error ReceiveBuffer_errorCode = 0;
 
 ////////////////////////////////////////////////////////
 
@@ -32,56 +33,74 @@ void ReceiveBuffer_reset()
   ReceiveBuffer_command = 0;
   ReceiveBuffer_size = 0;
   ReceiveBuffer_position = 0;
+  ReceiveBuffer_errorCode = 0;
 }
 
 ////////////////////////////////////////////////////////
 
 //////// Public Functions //////////////////////////////
 
-void ReceiveBuffer_start(
+bool ReceiveBuffer_start(
     m2tp_byte packetCommand,
     m2tp_byte packetContentSize)
 {
   // Start can be "restart" if not stopped yet
-  if (isInitialized)
-    ReceiveBuffer_reset();
+  ReceiveBuffer_reset();
 
-  // When TaskRouter is currently switching task or not ready
-  if (TaskRouter_receiveInterrupt == NULL)
-    return;
+  // Making sure command is valid
+  if (packetCommand < 0b10100000 || packetCommand > 0b10101111)
+    return false;
 
   ReceiveBuffer_command = packetCommand;
   ReceiveBuffer_size = packetContentSize;
+  return true;
 }
 
-void ReceiveBuffer_write(m2tp_byte value)
+m2tp_byte ReceiveBuffer_write(m2tp_byte value)
 {
+  // Abort on error
+  if (ReceiveBuffer_errorCode > 0)
+    return 0;
+
   // Abort if not started yet
   if (!isInitialized)
-    return;
+  {
+    ReceiveBuffer_errorCode = M2TP_ERROR_UNINITIALIZED;
+    return 0;
+  }
 
   // Reset then abort if value exceed size
   if (isExceedSize)
   {
     ReceiveBuffer_reset();
-    return;
+    ReceiveBuffer_errorCode = M2TP_ERROR_PACKET_SIZE_MISMATCH;
+    return 0;
   }
 
   ReceiveBuffer_buffer[ReceiveBuffer_position] = value;
   ReceiveBuffer_position++;
+  return ReceiveBuffer_size - ReceiveBuffer_position;
 }
 
-void ReceiveBuffer_finish()
+m2tp_error ReceiveBuffer_finish()
 {
+  // Reset then abort on known error
+  if (ReceiveBuffer_errorCode)
+  {
+    m2tp_error errorCode = ReceiveBuffer_errorCode;
+    ReceiveBuffer_reset();
+    return errorCode;
+  }
+
   // Abort if not started yet
   if (!isInitialized)
-    return;
+    return M2TP_ERROR_UNINITIALIZED;
 
   // Reset then abort if incomplete write
   if (isIncomplete)
   {
     ReceiveBuffer_reset();
-    return;
+    return M2TP_ERROR_PACKET_SIZE_MISMATCH;
   }
 
   // Send buffer to TaskRouter for execution
@@ -96,6 +115,7 @@ void ReceiveBuffer_finish()
 
   // Cleanup
   ReceiveBuffer_reset();
+  return 0;
 }
 
 void ReceiveBuffer_abort()
