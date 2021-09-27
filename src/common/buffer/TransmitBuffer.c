@@ -87,6 +87,10 @@ void TransmitBuffer_startBroadcast(m2tp_channel topicID)
   {
     // Block current thread until there is no pending data.
     // We need to do this to make sure there is no missing packets.
+#if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
+    // This part below prevents Race Condition on POSIX systems
+    usleep(1000);
+#endif
   }
 
   // TransmitBuffer only do cleanup at beginning or when error caught
