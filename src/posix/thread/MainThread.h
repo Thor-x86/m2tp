@@ -22,6 +22,10 @@ extern void MainThread_detach();
 // M2TP core library will call this, so you don't have to
 extern void MainThread_onSend(m2tp_byte command, m2tp_byte contentSize, const m2tp_bytes content);
 
+// This will be called repeatedly in MainThread_onSend,
+// useful for breaking a packet to be multiple frames
+extern void MainThread_transmitFrame(const m2tp_bytes data, size_t size);
+
 // Signal handler going to pause main thread
 // while other thread is working, this prevents
 // "Race Condition" problem.

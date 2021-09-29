@@ -45,6 +45,12 @@ extern void m2tp_useSignal(int signalCode);
 extern void m2tp_useHook(unsigned long frameSize, m2tp_posix_ReceiveHook receive, m2tp_posix_TransmitHook transmit);
 
 /**
+ * @brief Use this if you experiences data loss
+ * @param packetSize In bytes
+ */
+extern void m2tp_limitPacketSize(unsigned long packetSize);
+
+/**
  * @brief Connect to M2TP network via device file
  * @param filePath Path to the device file
  * @param deviceClass Role of current device

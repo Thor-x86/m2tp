@@ -26,6 +26,10 @@ extern m2tp_posix_ReceiveHook receiveHook;
 // NULL means transmit data as-is
 extern m2tp_posix_TransmitHook transmitHook;
 
+// If set, packet will be splitted to multiple frames.
+// 2 until 256 are valid values, otherwise the size considered unlimited.
+extern size_t maxPacketSize;
+
 // Maximum network's frame size, only used when hooks are available
 extern size_t maxFrameSize;
 

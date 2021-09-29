@@ -38,7 +38,7 @@ m2tp_byte CanHook_receive(
     return 0;
 
   // Get the frame data and put it as output
-  memcpy(output, &(canFrame.data), canFrame.len);
+  memcpy(output, canFrame.data, canFrame.len);
 
   // Get the output size
   return canFrame.len;
@@ -58,7 +58,7 @@ m2tp_byte CanHook_transmit(
   canFrame.can_id = CanHook_ID;
 
   // Insert serialized packet as frame data
-  memcpy(&(canFrame.data), input, inputSize);
+  memcpy(canFrame.data, input, inputSize);
 
   // Put frame as output, also its size
   memcpy(output, &canFrame, sizeof(canFrame));

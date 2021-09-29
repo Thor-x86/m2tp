@@ -18,6 +18,13 @@ pthread_mutex_t MainThread_blockerMutex;
 
 ///////////////////////////////////////////////////////////
 
+//////////////// Syntactic Sugars /////////////////////////
+
+#define MainThread_isPacketSizeLimited (maxPacketSize > 1 && maxPacketSize < 257)
+#define MainThread_isPacketSizeExceedLimit (bufferSize > maxPacketSize)
+
+///////////////////////////////////////////////////////////
+
 //////////////// Functions ////////////////////////////////
 
 void MainThread_attach(const char *deviceClass)
@@ -106,10 +113,45 @@ void MainThread_onSend(
   for (m2tp_byte i = 0; i < contentSize; i++)
     buffer[2 + i] = content[i];
 
+  // Do we need to split the packet?
+  if (MainThread_isPacketSizeLimited && MainThread_isPacketSizeExceedLimit)
+  {
+    // Fragment is a splitted packet
+    m2tp_byte fragmentCount = bufferSize / maxPacketSize;
+    m2tp_byte residueFragmentSize = bufferSize % maxPacketSize;
+
+    // Residue fragment (the last one, which is the size
+    // isn't equal max packet size) need to count manually
+    if (residueFragmentSize)
+      fragmentCount++;
+
+    // Send each packet fragment as a single frame
+    for (unsigned int i = 0; i < fragmentCount; i++)
+    {
+      m2tp_byte fragmentSize = maxPacketSize;
+      size_t bufferIndex = i * fragmentSize;
+
+      // Is currently residue fragment?
+      if (i == fragmentCount - 1 && residueFragmentSize)
+        fragmentSize = residueFragmentSize;
+
+      // Send with byte position from bufferIndex to bufferIndex+fragmentSize
+      MainThread_transmitFrame(&(buffer[bufferIndex]), fragmentSize);
+    }
+  }
+
+  // ...or no packet size limit?
+  else
+    // One-time send
+    MainThread_transmitFrame(buffer, bufferSize);
+}
+
+void MainThread_transmitFrame(const m2tp_bytes data, size_t size)
+{
   // Is current device both leader and using UDP?
   if (UdpServer_enabled)
     // Use UDP server to transmit
-    UdpServer_broadcast(buffer, bufferSize);
+    UdpServer_broadcast(data, size);
 
   // ...or not UDP?
   else
@@ -121,7 +163,7 @@ void MainThread_onSend(
     {
       // Process frame with assigned hook
       m2tp_byte frame[maxFrameSize];
-      ssize_t frameSize = transmitHook(buffer, bufferSize, frame);
+      ssize_t frameSize = transmitHook(data, size, frame);
 
       // Send to network via syscall
       returnCode = write(descriptor, frame, frameSize);
@@ -129,8 +171,8 @@ void MainThread_onSend(
 
     // ...or no hook?
     else
-      // Send to network via syscall
-      returnCode = write(descriptor, buffer, bufferSize);
+      // Send directly to network via syscall
+      returnCode = write(descriptor, data, size);
 
     // Catch error
     if (returnCode < 0)

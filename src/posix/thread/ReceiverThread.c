@@ -10,6 +10,8 @@
 #include "./MainThread.h"
 #include "../UdpServer.h"
 
+#include <stdio.h>
+
 //////////////// Variables ////////////////////////////////
 
 pthread_t ReceiverThread_ID = 0;
@@ -30,6 +32,12 @@ void *ReceiverThread(void *_)
   // This is only useful if using UDP Server
   struct sockaddr_in sourceUDP;
   socklen_t sourceUDPSize = sizeof(struct sockaddr_in);
+
+  // Non-zero value means incomplete receive
+  m2tp_byte remainingBytes = 0;
+
+  // Only useful when packet is fragmented
+  unsigned int targetPacketSize = 0;
 
   while (true)
   {
@@ -84,22 +92,70 @@ void *ReceiverThread(void *_)
     }
 
     // Ignore incomplete packet
-    if (packetSize < 2)
-      continue;
+    // if (packetSize < 2)
+    //   continue;
 
     // We're going to use M2TP core library, to prevent
     // conflict, let's pause the main thread first
     MainThread_pause();
 
-    // Assign header
-    m2tp_driver_receiveStart(packet[0], packet[1]);
+    // Variable i is for pointing (a.k.a index) packet bytes
+    unsigned int i = 0;
+
+    // Is previous receive has been completed?
+    if (remainingBytes == 0)
+    {
+      // Assign header
+      bool acceptable = m2tp_driver_receiveStart(packet[0], packet[1]);
+
+      targetPacketSize = packet[1] + 2;
+      i += 2;
+
+      // Skip receive if header is corrupted
+      if (!acceptable)
+      {
+        perror("Not acceptable");
+        continue;
+      }
+    }
+
+    // The n variable is each splitted content size (or whole if not splitted)
+    unsigned int n;
+
+    // Is the packet splitted?
+    if (maxPacketSize > 2 && maxPacketSize < 257 && targetPacketSize > maxPacketSize)
+    {
+      // Is currently the last fragment?
+      if (remainingBytes > 0 && remainingBytes < maxPacketSize)
+      {
+        n = targetPacketSize % maxPacketSize;
+        // printf("%d %% %d = %d\n", targetPacketSize, maxPacketSize, n);
+        // printf("Remaining: %d bytes\n", remainingBytes);
+      }
+
+      // ...or not last fragment
+      else
+        n = maxPacketSize;
+    }
+
+    // ...or received whole packet at once?
+    else
+      n = targetPacketSize;
 
     // Assign content
-    for (m2tp_byte i = 0; i < packet[1]; i++)
-      m2tp_driver_receiveWrite(packet[2 + i]);
+    for (; i < n; i++)
+    {
+      remainingBytes = m2tp_driver_receiveWrite(packet[i]);
+      // printf("Remaining: %d bytes \n", remainingBytes);
+    }
 
-    // Flush
-    m2tp_driver_receiveEnd();
+    // Flush if completed
+    if (remainingBytes == 0)
+    {
+      m2tp_error errorCode = m2tp_driver_receiveEnd();
+      if (errorCode)
+        fprintf(stderr, "Receive failed, error code: %d\n", errorCode);
+    }
 
     // Don't forget to resume the main thread
     MainThread_resume();

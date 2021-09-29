@@ -33,6 +33,12 @@ void m2tp_useHook(
   }
 }
 
+void m2tp_limitPacketSize(size_t packetSize)
+{
+  if (connectMode == MODE_OFFLINE)
+    maxPacketSize = packetSize;
+}
+
 bool m2tp_connectViaFile(
     const char *filePath,
     const char *deviceClass)
@@ -116,6 +122,9 @@ bool m2tp_connectViaCAN(
 
   // Attach hooks to process CAN frame
   m2tp_useHook(sizeof(struct can_frame), &CanHook_receive, &CanHook_transmit);
+
+  // Allows packet fragmentation
+  m2tp_limitPacketSize(CAN_MAX_DLC);
 
   descriptor = socketDescriptor;
   connectMode = MODE_SOCKET;
