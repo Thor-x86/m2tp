@@ -10,8 +10,6 @@
 #include "./MainThread.h"
 #include "../UdpServer.h"
 
-#include <stdio.h>
-
 //////////////// Variables ////////////////////////////////
 
 pthread_t ReceiverThread_ID = 0;
@@ -113,10 +111,7 @@ void *ReceiverThread(void *_)
 
       // Skip receive if header is corrupted
       if (!acceptable)
-      {
-        perror("Not acceptable");
         continue;
-      }
     }
 
     // The n variable is each splitted content size (or whole if not splitted)
@@ -127,11 +122,7 @@ void *ReceiverThread(void *_)
     {
       // Is currently the last fragment?
       if (remainingBytes > 0 && remainingBytes < maxPacketSize)
-      {
         n = targetPacketSize % maxPacketSize;
-        // printf("%d %% %d = %d\n", targetPacketSize, maxPacketSize, n);
-        // printf("Remaining: %d bytes\n", remainingBytes);
-      }
 
       // ...or not last fragment
       else
@@ -146,16 +137,11 @@ void *ReceiverThread(void *_)
     for (; i < n; i++)
     {
       remainingBytes = m2tp_driver_receiveWrite(packet[i]);
-      // printf("Remaining: %d bytes \n", remainingBytes);
     }
 
     // Flush if completed
     if (remainingBytes == 0)
-    {
-      m2tp_error errorCode = m2tp_driver_receiveEnd();
-      if (errorCode)
-        fprintf(stderr, "Receive failed, error code: %d\n", errorCode);
-    }
+      m2tp_driver_receiveEnd();
 
     // Don't forget to resume the main thread
     MainThread_resume();

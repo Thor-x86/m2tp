@@ -6,8 +6,6 @@
 #include "UdpServer.h"
 #include "./variables.h"
 
-#include <stdio.h>
-
 //////// Public Variables /////////////////////////////////
 
 bool UdpServer_enabled = false;
@@ -63,8 +61,6 @@ void UdpServer_add(const struct sockaddr_in *udpAddress)
   // Prevent duplicate UDP address
   if (UdpServer_check(udpAddress))
     return;
-
-  printf("\tUDP Server: New connection from %d\n", ntohs(udpAddress->sin_port));
 
   UdpServer_udpAddressList[UdpServer_position].ipAddress = udpAddress->sin_addr.s_addr;
   UdpServer_udpAddressList[UdpServer_position].udpPort = udpAddress->sin_port;
