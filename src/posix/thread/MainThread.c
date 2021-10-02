@@ -110,7 +110,7 @@ void MainThread_onSend(
   buffer[1] = contentSize;
 
   // Put the content
-  for (m2tp_byte i = 0; i < contentSize; i++)
+  for (unsigned int i = 0; i < contentSize; i++)
     buffer[2 + i] = content[i];
 
   // Do we need to split the packet?

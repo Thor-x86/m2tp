@@ -89,10 +89,6 @@ void *ReceiverThread(void *_)
       UdpServer_add(&sourceUDP);
     }
 
-    // Ignore incomplete packet
-    // if (packetSize < 2)
-    //   continue;
-
     // We're going to use M2TP core library, to prevent
     // conflict, let's pause the main thread first
     MainThread_pause();
@@ -103,15 +99,27 @@ void *ReceiverThread(void *_)
     // Is previous receive has been completed?
     if (remainingBytes == 0)
     {
+      // Making sure there is a header
+      if (packetSize < 2)
+      {
+        // Resume the main thread before skipping
+        MainThread_resume();
+        continue;
+      }
+
       // Assign header
       bool acceptable = m2tp_driver_receiveStart(packet[0], packet[1]);
 
-      targetPacketSize = packet[1] + 2;
-      i += 2;
-
       // Skip receive if header is corrupted
       if (!acceptable)
+      {
+        // Resume the main thread before skipping
+        MainThread_resume();
         continue;
+      }
+
+      targetPacketSize = packet[1] + 2;
+      i = 2;
     }
 
     // The n variable is each splitted content size (or whole if not splitted)
