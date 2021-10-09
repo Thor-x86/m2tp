@@ -284,7 +284,7 @@ void MainTask_start()
 
   // Assign functions to router
   TaskRouter_receiveInterrupt = &MainTask_receiveInterrupt;
-  TaskRouter_timeoutInterrupt = &MainTask_stop; // Stop task on timeout
+  TaskRouter_timeoutInterrupt = &TaskRouter_nextTask; // Stop task on timeout
 
   // Start timer interrupt
   TaskRouter_startTimeout(MainTask_TIMEOUT_IDLE);
