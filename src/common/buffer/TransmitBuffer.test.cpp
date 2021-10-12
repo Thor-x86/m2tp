@@ -41,6 +41,7 @@ TEST(TransmitBuffer, NormalPeerWrite)
   m2tp_byte dataSize = 12;
 
   // Simulate device address
+  DeviceState_driverReady = true;
   DeviceState_assignedAddress = 0x7;
 
   m2tp_error returnedError = 0;
@@ -83,6 +84,7 @@ TEST(TransmitBuffer, NormalPeerWrite)
 
   // Test Cleanup
   MainTask_stop();
+  DeviceState_driverReady = false;
   DeviceState_assignedAddress = 0;
 }
 
@@ -96,6 +98,7 @@ TEST(TransmitBuffer, AsyncPeerWrite)
   m2tp_byte dataSize = 12;
 
   // Simulate device address
+  DeviceState_driverReady = true;
   DeviceState_assignedAddress = 0x7;
 
   m2tp_error returnedError = 0;
@@ -146,6 +149,7 @@ TEST(TransmitBuffer, AsyncPeerWrite)
 
   // Test Cleanup
   MainTask_stop();
+  DeviceState_driverReady = false;
   DeviceState_assignedAddress = 0;
 }
 
@@ -156,6 +160,7 @@ TEST(TransmitBuffer, NormalBroadcastWrite)
   m2tp_byte dataSize = 12;
 
   // Simulate device address
+  DeviceState_driverReady = true;
   DeviceState_assignedAddress = 0x7;
 
   m2tp_error returnedError = 0;
@@ -198,6 +203,7 @@ TEST(TransmitBuffer, NormalBroadcastWrite)
 
   // Test Cleanup
   MainTask_stop();
+  DeviceState_driverReady = false;
   DeviceState_assignedAddress = 0;
 }
 
@@ -211,6 +217,7 @@ TEST(TransmitBuffer, AsyncBroadcastWrite)
   m2tp_byte dataSize = 12;
 
   // Simulate device address
+  DeviceState_driverReady = true;
   DeviceState_assignedAddress = 0x7;
 
   m2tp_error returnedError = 0;
@@ -259,6 +266,7 @@ TEST(TransmitBuffer, AsyncBroadcastWrite)
 
   // Test Cleanup
   MainTask_stop();
+  DeviceState_driverReady = false;
   DeviceState_assignedAddress = 0;
 }
 
@@ -269,6 +277,7 @@ TEST(TransmitBuffer, WrongAddressTransmit)
   m2tp_byte dataSize = 12;
 
   // Simulate device address
+  DeviceState_driverReady = true;
   DeviceState_assignedAddress = 0x7;
 
   m2tp_error returnedError = 0;
@@ -300,6 +309,7 @@ TEST(TransmitBuffer, WrongAddressTransmit)
 
   // Test Cleanup
   MainTask_stop();
+  DeviceState_driverReady = false;
   DeviceState_assignedAddress = 0;
 }
 
@@ -310,6 +320,7 @@ TEST(TransmitBuffer, WrongTopicTransmit)
   m2tp_byte dataSize = 12;
 
   // Simulate device address
+  DeviceState_driverReady = true;
   DeviceState_assignedAddress = 0x7;
 
   m2tp_error returnedError = 0;
@@ -341,12 +352,14 @@ TEST(TransmitBuffer, WrongTopicTransmit)
 
   // Test Cleanup
   MainTask_stop();
+  DeviceState_driverReady = false;
   DeviceState_assignedAddress = 0;
 }
 
 TEST(TransmitBuffer, ExceedLimitTransmit)
 {
   // Simulate device address
+  DeviceState_driverReady = true;
   DeviceState_assignedAddress = 0x7;
 
   m2tp_error returnedError = 0;
@@ -380,6 +393,7 @@ TEST(TransmitBuffer, ExceedLimitTransmit)
 
   // Test Cleanup
   MainTask_stop();
+  DeviceState_driverReady = false;
   DeviceState_assignedAddress = 0;
 }
 
@@ -390,6 +404,7 @@ TEST(TransmitBuffer, ExceedLimitAsyncTransmit)
   isErrorCalled = false;
 
   // Simulate device address
+  DeviceState_driverReady = true;
   DeviceState_assignedAddress = 0x7;
 
   m2tp_error returnedError = 0;
@@ -436,5 +451,6 @@ TEST(TransmitBuffer, ExceedLimitAsyncTransmit)
 
   // Test Cleanup
   MainTask_stop();
+  DeviceState_driverReady = false;
   DeviceState_assignedAddress = 0;
 }

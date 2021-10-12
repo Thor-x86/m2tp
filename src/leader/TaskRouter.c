@@ -10,6 +10,7 @@
 #include <string.h>
 
 #include "m2tp/errors.h"
+#include "m2tp/commands.h"
 
 #include "NetworkState.h"
 #include "task/RegistrationTask.h"
@@ -116,7 +117,29 @@ void TaskRouter_sendPacketAsync(
 
 volatile bool TaskRouter_hasPendingData()
 {
-  return (TransmitTask_pendingTransmit != NULL);
+  // Is there any pending packet to be transmitted?
+  if (TransmitTask_pendingTransmit != NULL)
+  {
+    // Is that pending packet has app data in it?
+    if (TransmitTask_pendingTransmit->command == M2TP_COMMAND_TRANSMIT)
+    {
+      // Making sure packet content size is valid
+      if (TransmitTask_pendingTransmit->contentSize < 2)
+        return false;
+
+      // Check if targeted address still exist
+      m2tp_channel targetAddress = TransmitTask_pendingTransmit->content[1];
+      return NetworkState_isAssigned(targetAddress);
+    }
+
+    // ...or no application data?
+    else
+      return true;
+  }
+
+  // ...or no pending packet?
+  else
+    return false;
 }
 
 void TaskRouter_assignTopic(char *topicName,

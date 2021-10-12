@@ -55,6 +55,14 @@ m2tp_error TransmitBuffer_startPeer(m2tp_channel targetAddress)
       m2tp_driver_onWaitForQueue();
   }
 
+  // There's a chance for hasPendingData() return false after disconnect,
+  // so we have to check if it's disconnected or not
+  if (!DeviceState_isReady())
+  {
+    TransmitBuffer_errorCode = M2TP_ERROR_NOT_CONNECTED;
+    return TransmitBuffer_errorCode;
+  }
+
   // TransmitBuffer only do cleanup at beginning or when error caught
   if (isInitialized)
     TransmitBuffer_reset();

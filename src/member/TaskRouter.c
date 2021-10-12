@@ -95,7 +95,7 @@ void TaskRouter_sendPacketAsync(
 
 volatile bool TaskRouter_hasPendingData()
 {
-  return (MainTask_pendingTransmit != NULL);
+  return (MainTask_pendingTransmit != NULL && DeviceState_isReady());
 }
 
 void TaskRouter_assignTopic(char *topicName,
