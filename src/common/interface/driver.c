@@ -23,6 +23,8 @@ void (*m2tp_driver_startTimerListener)(
 
 void (*m2tp_driver_stopTimerListener)() = NULL;
 
+void (*m2tp_driver_onWaitForQueue)() = NULL;
+
 ////////////////////////////////////////////////////////
 
 //////// Functions /////////////////////////////////////
@@ -78,15 +80,6 @@ m2tp_byte m2tp_driver_receiveWrite(m2tp_byte value)
     return 0;
 
   return ReceiveBuffer_write(value);
-}
-
-void m2tp_driver_receiveFragmentEnd()
-{
-  // Abort if driver NOT ready yet
-  if (!DeviceState_driverReady)
-    return;
-
-  TaskRouter_restartTimeout();
 }
 
 m2tp_error m2tp_driver_receiveEnd()

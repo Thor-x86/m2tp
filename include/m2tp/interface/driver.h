@@ -57,11 +57,6 @@ extern bool m2tp_driver_receiveStart(m2tp_byte command, m2tp_byte contentSize);
 extern m2tp_byte m2tp_driver_receiveWrite(m2tp_byte value);
 
 /**
- * @brief Always call this after each packet fragment received to prevent timeout
- */
-extern void m2tp_driver_receiveFragmentEnd();
-
-/**
  * @brief Ask M2TP to mark it done and do something with that packet
  * @return Error code, 0 means success
  */
@@ -86,6 +81,11 @@ extern void (*m2tp_driver_startTimerListener)(unsigned long int duration, m2tp_d
  * @brief Pointer to a function, driver decides how delay behaves
  */
 extern void (*m2tp_driver_stopTimerListener)();
+
+/**
+ * @brief Pointer to a function, driver decides what to do while waiting packet being transmitted
+ */
+extern void (*m2tp_driver_onWaitForQueue)();
 
 EXTERN_C_STOP
 

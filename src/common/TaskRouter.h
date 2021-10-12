@@ -14,9 +14,6 @@
 // If selects nothing, then it's 0
 extern volatile m2tp_byte TaskRouter_currentTask;
 
-// Store requested timeout duration for restart timeout
-extern volatile unsigned long TaskRouter_timeoutDuration;
-
 // Pointer to a function, this will be called when
 // receive interrupt from network hardware via its driver
 extern void (*TaskRouter_receiveInterrupt)(Packet *packet);
@@ -56,9 +53,6 @@ extern void TaskRouter_assignTopic(
 
 // Start timer interrupt that prepared by driver
 extern void TaskRouter_startTimeout(unsigned long milliseconds);
-
-// Useful for preventing fragmented packet causes unwanted timeout
-extern void TaskRouter_restartTimeout();
 
 // Stop the timer interrupt
 extern void TaskRouter_stopTimeout();

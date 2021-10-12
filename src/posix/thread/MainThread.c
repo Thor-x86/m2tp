@@ -6,6 +6,7 @@
 #include "MainThread.h"
 #include "m2tp-posix.h"
 #include "../variables.h"
+#include "../functions.h"
 #include "./ReceiverThread.h"
 #include "./TimeoutThread.h"
 #include "../UdpServer.h"
@@ -50,6 +51,7 @@ void MainThread_attach(const char *deviceClass)
   m2tp_driver_sendListener = &MainThread_onSend;
   m2tp_driver_startTimerListener = &TimeoutThread_start;
   m2tp_driver_stopTimerListener = &TimeoutThread_stop;
+  m2tp_driver_onWaitForQueue = &onWaitForQueue;
   m2tp_driver_connected();
 
   // ReceiverThread possibly call something to M2TP core
@@ -138,6 +140,9 @@ void MainThread_onSend(
       // Send with byte position from bufferIndex to bufferIndex+fragmentSize
       MainThread_transmitFrame(&(buffer[bufferIndex]), fragmentSize);
     }
+
+    // Wait until packet completely sent
+    usleep(1000);
   }
 
   // ...or no packet size limit?

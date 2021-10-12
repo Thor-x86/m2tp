@@ -7,14 +7,10 @@
 
 #include "m2tp/errors.h"
 #include "m2tp/commands.h"
+#include "m2tp/interface/driver.h"
 
 #include "../TaskRouter.h"
 #include "../DeviceState.h"
-
-// On POSIX, we need usleep(1) to prevent Race Condition
-#if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
-#include <unistd.h>
-#endif
 
 //////// Variables /////////////////////////////////////
 
@@ -55,12 +51,8 @@ m2tp_error TransmitBuffer_startPeer(m2tp_channel targetAddress)
 {
   while (TaskRouter_hasPendingData())
   {
-    // Block current thread until there is no pending data.
-    // We need to do this to make sure there is no missing packets.
-#if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
-    // This part below prevents Race Condition on POSIX systems
-    usleep(1000);
-#endif
+    if (m2tp_driver_onWaitForQueue != NULL)
+      m2tp_driver_onWaitForQueue();
   }
 
   // TransmitBuffer only do cleanup at beginning or when error caught
@@ -87,12 +79,8 @@ m2tp_error TransmitBuffer_startBroadcast(m2tp_channel topicID)
 {
   while (TaskRouter_hasPendingData())
   {
-    // Block current thread until there is no pending data.
-    // We need to do this to make sure there is no missing packets.
-#if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
-    // This part below prevents Race Condition on POSIX systems
-    usleep(1000);
-#endif
+    if (m2tp_driver_onWaitForQueue != NULL)
+      m2tp_driver_onWaitForQueue();
   }
 
   // TransmitBuffer only do cleanup at beginning or when error caught
@@ -150,14 +138,9 @@ m2tp_error TransmitBuffer_finish()
 
   // Otherwise, submit the packet to TaskRouter
   else
-  {
     TaskRouter_sendPacket(&TransmitBuffer_packet);
 
-#if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
-    // Wait for a while to let kernel "flush" the packet
-    usleep(1000);
-#endif
-  }
+  return 0;
 }
 
 void TransmitBuffer_finishAsync(m2tp_OnSuccessCallback successCallback, m2tp_OnErrorCallback errorCallback)
