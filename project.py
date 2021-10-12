@@ -144,46 +144,78 @@ def runInstall() -> bool:
 
 
 def runDeploy() -> bool:
-    # Resolve target
-    targetPath = os.path.join('out', 'm2tp')
+    # Resolve output
+    leaderOutPath = os.path.join('out', 'm2tp-leader')
+    memberOutPath = os.path.join('out', 'm2tp-member')
+    leaderOutSrcPath = os.path.join(leaderOutPath, 'src')
+    memberOutSrcPath = os.path.join(memberOutPath, 'src')
 
-    # Delete previous deploy if exist
-    if os.path.exists(targetPath) and os.path.isdir(targetPath):
-        shutil.rmtree(targetPath)
+    # Delete previous deploy
+    if os.path.exists(leaderOutPath) and os.path.isdir(leaderOutPath):
+        shutil.rmtree(leaderOutPath)
+    if os.path.exists(memberOutPath) and os.path.isdir(memberOutPath):
+        shutil.rmtree(memberOutPath)
 
-    # Re-create the directory
-    Path(targetPath).mkdir()
-    Path(os.path.join(targetPath, 'src')).mkdir()
+    # Create new blank directories
+    os.mkdir(leaderOutPath)
+    os.mkdir(memberOutPath)
 
-    # Copy entire "include directory"
-    shutil.copytree('include', os.path.join(targetPath, 'include'))
+    # Copy public header files
+    shutil.copytree('include', leaderOutSrcPath)
+    shutil.copytree('include', memberOutSrcPath)
 
-    # Copy all *.h and *.c files, except POSIX subdirectory
-    pattern = os.path.join('.', 'src', '**', '*.[hc]')
-    posixPath = os.path.join('.', 'src', 'posix')
-    srcFiles = glob.glob(pattern, recursive=True)
-    for eachFile in srcFiles:
-        if (eachFile.startswith(posixPath)):
-            continue
-        destination = os.path.join(targetPath, eachFile)
+    # Prepare GLOB pattern
+    commonPattern = os.path.join('common', '**', '*.[hc]')
+    leaderPattern = os.path.join('leader', '**', '*.[hc]')
+    memberPattern = os.path.join('member', '**', '*.[hc]')
+
+    # Resolve files with GLOB
+    os.chdir('src')
+    commonSrcFiles = glob.glob(commonPattern, recursive=True)
+    leaderSrcFiles = commonSrcFiles + glob.glob(leaderPattern, recursive=True)
+    memberSrcFiles = commonSrcFiles + glob.glob(memberPattern, recursive=True)
+
+    # Copy private header and source files of leader
+    for eachFile in leaderSrcFiles:
+        destination = os.path.join('..', leaderOutSrcPath, eachFile)
         os.makedirs(os.path.dirname(destination), exist_ok=True)
         shutil.copy(eachFile, destination)
 
+    # Copy private header and source files of member
+    for eachFile in memberSrcFiles:
+        destination = os.path.join('..', memberOutSrcPath, eachFile)
+        os.makedirs(os.path.dirname(destination), exist_ok=True)
+        shutil.copy(eachFile, destination)
+
+    os.chdir('..')
+
     # Copy library.properties
-    shutil.copy('library.properties', os.path.join(
-        targetPath, 'library.properties'))
+    shutil.copy(
+        'leader.properties',
+        os.path.join(leaderOutPath, 'library.properties')
+    )
+    shutil.copy(
+        'member.properties',
+        os.path.join(memberOutPath, 'library.properties')
+    )
 
     # Generate readme.md
-    readmePath = os.path.join(targetPath, 'README.md')
+    readmePath = os.path.join(leaderOutPath, 'README.md')
     readmeFile = open(readmePath, 'w')
     readmeFile.write('# Minified Library of M2TP\r\n\r\n')
     readmeFile.write(
         'See [full library source code](https://github.com/Thor-x86/m2tp)\r\n')
     readmeFile.close()
 
+    # Duplicate readme.md
+    shutil.copy(
+        os.path.join(leaderOutPath, 'README.md'),
+        os.path.join(memberOutPath, 'README.md')
+    )
+
     # Report success
     print('')
-    print('Done! Now put "./out/m2tp" directory inside your "<Arduino Path>/libraries/"')
+    print('Done! Now put "./out/m2tp-leader" and "./out/m2tp-leader" directories into your "<Arduino Path>/libraries/"')
     print('')
     return True
 
