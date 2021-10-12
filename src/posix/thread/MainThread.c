@@ -71,6 +71,7 @@ void MainThread_detach()
   m2tp_driver_sendListener = NULL;
   m2tp_driver_startTimerListener = NULL;
   m2tp_driver_stopTimerListener = NULL;
+  m2tp_driver_onWaitForQueue = NULL;
   m2tp_driver_setDeviceClass("generic");
 
   signal(assignedSignalCode, SIG_DFL);
@@ -140,9 +141,6 @@ void MainThread_onSend(
       // Send with byte position from bufferIndex to bufferIndex+fragmentSize
       MainThread_transmitFrame(&(buffer[bufferIndex]), fragmentSize);
     }
-
-    // Wait until packet completely sent
-    usleep(1000);
   }
 
   // ...or no packet size limit?
@@ -183,6 +181,8 @@ void MainThread_transmitFrame(const m2tp_bytes data, size_t size)
     if (returnCode < 0)
       m2tp_disconnect();
   }
+
+  fsync(descriptor);
 }
 
 void MainThread_blocker(int signalCode)

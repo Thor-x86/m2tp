@@ -309,6 +309,9 @@ void TrafficTask_timeoutInterrupt()
 
 void TrafficTask_start()
 {
+  // Reset current turn
+  TrafficTask_currentTurn = 0;
+
   // Assign functions to router
   TaskRouter_receiveInterrupt = &TrafficTask_receiveInterrupt;
   TaskRouter_timeoutInterrupt = &TrafficTask_timeoutInterrupt;
