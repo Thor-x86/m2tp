@@ -151,6 +151,10 @@ void *ReceiverThread(void *_)
     if (remainingBytes == 0)
       m2tp_driver_receiveEnd();
 
+    // ...or not completed yet
+    else
+      m2tp_driver_receiveFragmentEnd();
+
     // Don't forget to resume the main thread
     MainThread_resume();
   }
