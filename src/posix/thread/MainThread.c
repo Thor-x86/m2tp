@@ -6,7 +6,6 @@
 #include "MainThread.h"
 #include "m2tp-posix.h"
 #include "../variables.h"
-#include "../functions.h"
 #include "./ReceiverThread.h"
 #include "./TimeoutThread.h"
 #include "../UdpServer.h"
@@ -51,7 +50,7 @@ void MainThread_attach(const char *deviceClass)
   m2tp_driver_sendListener = &MainThread_onSend;
   m2tp_driver_startTimerListener = &TimeoutThread_start;
   m2tp_driver_stopTimerListener = &TimeoutThread_stop;
-  m2tp_driver_onWaitForQueue = &onWaitForQueue;
+  m2tp_driver_onWaitForQueue = &MainThread_onWaitForQueue;
   m2tp_driver_connected();
 
   // ReceiverThread possibly call something to M2TP core
@@ -183,6 +182,12 @@ void MainThread_transmitFrame(const m2tp_bytes data, size_t size)
   }
 
   fsync(descriptor);
+  usleep(1000);
+}
+
+void MainThread_onWaitForQueue()
+{
+  usleep(1000);
 }
 
 void MainThread_blocker(int signalCode)
