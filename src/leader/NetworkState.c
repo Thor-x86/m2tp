@@ -140,12 +140,12 @@ bool NetworkState_isAssigned(m2tp_channel channel)
   }
 }
 
-m2tp_byte NetworkState_findTopic(const char *topicName)
+m2tp_channel NetworkState_findTopic(const char *topicName)
 {
   if (topicName == NULL)
     return 0;
 
-  m2tp_byte topicID = 128;
+  m2tp_channel topicID = 128;
 
   // When topicID exceed maximum size,
   // it turn itself to be device address.

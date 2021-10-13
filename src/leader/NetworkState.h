@@ -52,7 +52,7 @@ extern void NetworkState_unassign(m2tp_channel);
 extern bool NetworkState_isAssigned(m2tp_channel);
 
 // Find topic ID based on its name
-extern m2tp_byte NetworkState_findTopic(const char *topicName);
+extern m2tp_channel NetworkState_findTopic(const char *topicName);
 
 // Automatically looking for next vacant device address
 extern void NetworkState_resolveNextVacantAddress();
