@@ -51,6 +51,9 @@ extern void NetworkState_unassign(m2tp_channel);
 // Check if address or topic ID assigned or not
 extern bool NetworkState_isAssigned(m2tp_channel);
 
+// Find device address based on its class
+extern m2tp_channel NetworkState_findDevice(const char *deviceClass);
+
 // Find topic ID based on its name
 extern m2tp_channel NetworkState_findTopic(const char *topicName);
 

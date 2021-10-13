@@ -90,10 +90,36 @@ TEST(NetworkState, TopicRegistry)
   NetworkState_topicRegistry[1] = 0ULL;
 }
 
+TEST(NetworkState, FindDevice)
+{
+  ASSERT_EQ(NetworkState_addressRegistry[0], 0ULL) << "Invalid initial value, cannot continue";
+  ASSERT_EQ(NetworkState_addressRegistry[1], 1ULL) << "Invalid initial value, cannot continue";
+
+  NetworkState_init();
+
+  ASSERT_EQ(NetworkState_deviceClasses[17], nullptr) << "Device class with ID 17 is not empty, cannot continue";
+  ASSERT_EQ(NetworkState_findDevice("Lorem Ipsum"), NULL) << "findDevice() function broken, cannot continue";
+
+  // Topic name example
+  const char *deviceClass = "Lorem Ipsum";
+  size_t deviceClassSize = sizeof("Lorem Ipsum");
+
+  // Assign topic name
+  NetworkState_assign(17, deviceClass, deviceClassSize);
+
+  // Check if it's working
+  EXPECT_EQ(NetworkState_findDevice(deviceClass), 17);
+
+  // Cleanup
+  NetworkState_unassign(17);
+}
+
 TEST(NetworkState, FindTopic)
 {
   ASSERT_EQ(NetworkState_topicRegistry[0], 0ULL) << "Invalid initial value, cannot continue";
   ASSERT_EQ(NetworkState_topicRegistry[1], 0ULL) << "Invalid initial value, cannot continue";
+
+  NetworkState_init();
 
   ASSERT_EQ(NetworkState_topicNames[131 - 128], nullptr) << "Topic name with ID 131 is not empty, cannot continue";
   ASSERT_EQ(NetworkState_findTopic("Lorem Ipsum"), NULL) << "findTopic() function broken, cannot continue";

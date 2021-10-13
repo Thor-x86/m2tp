@@ -140,6 +140,33 @@ bool NetworkState_isAssigned(m2tp_channel channel)
   }
 }
 
+m2tp_channel NetworkState_findDevice(const char *deviceClass)
+{
+  if (deviceClass == NULL)
+    return 0;
+
+  m2tp_channel deviceAddress = 0;
+  while (deviceAddress < 128)
+  {
+    if (NetworkState_isAssigned(deviceAddress))
+    {
+      for (m2tp_byte i = 0; i < 254; i++)
+      {
+        if (NetworkState_deviceClasses[deviceAddress][i] == deviceClass[i])
+        {
+          if (deviceClass[i] == '\0')
+            return deviceAddress;
+        }
+        else
+          break;
+      }
+    }
+    deviceAddress++;
+  }
+
+  return 0;
+}
+
 m2tp_channel NetworkState_findTopic(const char *topicName)
 {
   if (topicName == NULL)
