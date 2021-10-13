@@ -9,7 +9,7 @@
 #include "m2tp/typedef.h"
 
 // Data structure of packet content
-typedef struct
+typedef struct packet_content_Transmit
 {
 
   // Sender's device address

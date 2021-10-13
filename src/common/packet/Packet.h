@@ -9,7 +9,7 @@
 #include "m2tp/typedef.h"
 
 // Data structure of each packet
-typedef struct
+typedef struct Packet
 {
 
   // See "include/commands.h"
