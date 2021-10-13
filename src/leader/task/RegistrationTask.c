@@ -5,21 +5,20 @@
 
 #include "RegistrationTask.h"
 
-#include <stdlib.h>
-#include <string.h>
-
 #include "m2tp/commands.h"
 #include "m2tp/errors.h"
 #include "m2tp/interface/driver.h"
 
 #include "../NetworkState.h"
 #include "../../common/TaskRouter.h"
+#include "../../common/DeviceState.h"
 #include "../../common/packet/Packet.h"
 #include "../../common/packet/content/fail_signal.h"
 #include "../../common/packet/content/request_register_device.h"
 #include "../../common/packet/content/request_register_topic.h"
 #include "../../common/packet/content/response_register_device.h"
 #include "../../common/packet/content/response_register_topic.h"
+#include "../../common/packet/content/reintroduction.h"
 #include "../../common/packet/content/announcement_join.h"
 
 //////// Configurations ////////////////////////////////
@@ -63,8 +62,13 @@ void RegistrationTask_receiveInterrupt(Packet *packet)
     // ...or there is still vacant address?
     else
     {
+      // Parse received content
+      unsigned int deviceClassSize = packet->contentSize + 1;
+      char deviceClass[deviceClassSize];
+      packet_content_RequestRegisterDevice_parse(packet->content, packet->contentSize, deviceClass);
+
       // Mark address assigned
-      NetworkState_assign(NetworkState_nextVacantAddress);
+      NetworkState_assign(NetworkState_nextVacantAddress, deviceClass, deviceClassSize);
 
       // Is send listener ready?
       if (m2tp_driver_sendListener != NULL)
@@ -80,9 +84,28 @@ void RegistrationTask_receiveInterrupt(Packet *packet)
         // Send response
         m2tp_driver_sendListener(M2TP_COMMAND_RESPONSE_REGISTER_DEVICE, RESPONSE_REGISTER_DEVICE_SIZE, serializedResponseContent);
 
-        // Parse received content
-        char deviceClass[packet->contentSize + 1];
-        packet_content_RequestRegisterDevice_parse(packet->content, packet->contentSize, deviceClass);
+        // Introduce existing member to the new member
+        packet_content_Reintroduction reintroductionContent;
+        for (m2tp_byte address = 0; address < 128; address++)
+        {
+          // Skip if that address is not assigned
+          if (!NetworkState_isAssigned(address))
+            continue;
+
+          reintroductionContent.address = address;
+          reintroductionContent.deviceClass = (char *)NetworkState_deviceClasses[address];
+
+          // Serialize the packet content
+          m2tp_byte serializedContent[255];
+          m2tp_byte contentSize = 0;
+          packet_content_Reintroduction_serialize(
+              &reintroductionContent,
+              serializedContent,
+              &contentSize);
+
+          // Send a packet for introduction
+          m2tp_driver_sendListener(M2TP_COMMAND_REINTRODUCTION, contentSize, serializedContent);
+        }
 
         // Create packet content for new member announcement
         packet_content_AnnouncementJoin joinContent;
@@ -165,13 +188,7 @@ void RegistrationTask_receiveInterrupt(Packet *packet)
       else
       {
         // Register the topic name
-        NetworkState_topicNames[NetworkState_nextVacantTopicID] = (char *)malloc(packet->contentSize + 1);
-        memcpy((void *)NetworkState_topicNames[(m2tp_channel)NetworkState_nextVacantTopicID],
-               topicName,
-               packet->contentSize + 1);
-
-        // Mark topic ID as assigned
-        NetworkState_assign(NetworkState_nextVacantTopicID);
+        NetworkState_assign(NetworkState_nextVacantTopicID, topicName, packet->contentSize + 1);
 
         // Is send listener ready?
         if (m2tp_driver_sendListener != NULL)

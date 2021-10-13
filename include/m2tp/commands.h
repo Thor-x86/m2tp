@@ -54,18 +54,23 @@
 #define M2TP_COMMAND_RESPONSE_REGISTER_TOPIC 0b10100000 | 8
 
 /**
+ * @brief Send by leader to reintroduce existing member to a new member
+ */
+#define M2TP_COMMAND_REINTRODUCTION 0b10100000 | 9
+
+/**
  * @brief Send by anyone for sending data
  */
-#define M2TP_COMMAND_TRANSMIT 0b10100000 | 9
+#define M2TP_COMMAND_TRANSMIT 0b10100000 | 10
 
 /**
  * @brief Send by anyone when something goes wrong
  */
-#define M2TP_COMMAND_FAIL_SIGNAL 0b10100000 | 10
+#define M2TP_COMMAND_FAIL_SIGNAL 0b10100000 | 11
 
 /**
  * @brief Send by anyone to sign that the data transmitted successfully
  */
-#define M2TP_COMMAND_SUCCESS_SIGNAL 0b10100000 | 11
+#define M2TP_COMMAND_SUCCESS_SIGNAL 0b10100000 | 12
 
 #endif // #ifndef IS_M2TP_COMMANDS_DEFINED

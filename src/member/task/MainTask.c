@@ -16,6 +16,7 @@
 #include "../../common/packet/content/channel_turn_signal.h"
 #include "../../common/packet/content/fail_signal.h"
 #include "../../common/packet/content/transmit.h"
+#include "../../common/packet/content/reintroduction.h"
 #include "../../common/packet/content/announcement_join.h"
 #include "../../common/packet/content/announcement_quit.h"
 
@@ -29,7 +30,7 @@
 //////// Available Flags ///////////////////////////////
 
 #define MainTask_FLAG_SENT 0
-// #define MainTask_FLAG_EXAMPLE 1
+#define MainTask_FLAG_REINTRODUCE 1
 
 // NOTE: Use flag instead of boolean,
 //       It saves a lot of memory!
@@ -203,6 +204,24 @@ void MainTask_receiveInterrupt(Packet *packet)
   }
   break;
 
+  case M2TP_COMMAND_REINTRODUCTION:
+  {
+    // Am I currently in reintroduction session?
+    if (Flag_check(MainTask_flags, MainTask_FLAG_REINTRODUCE))
+    {
+      // Parse packet content
+      char deviceClass[packet->contentSize + 1];
+      packet_content_Reintroduction content;
+      content.deviceClass = deviceClass;
+      packet_content_Reintroduction_parse(packet->content, packet->contentSize, &content);
+
+      // Forward to app
+      if (m2tp_onNewMemberListener != NULL)
+        m2tp_onNewMemberListener(deviceClass, content.address);
+    }
+  }
+  break;
+
   case M2TP_COMMAND_ANNOUNCEMENT_JOIN:
   {
     // Parse packet content
@@ -233,11 +252,19 @@ void MainTask_receiveInterrupt(Packet *packet)
         TaskRouter_nextTask();
         return;
       }
+
+      // ...otherwise, we can stop reintroduce session
+      else
+        Flag_unset(MainTask_flags, MainTask_FLAG_REINTRODUCE);
     }
 
-    // Forward to app
-    if (m2tp_onNewMemberListener != NULL)
-      m2tp_onNewMemberListener(deviceClass, content.address);
+    // ...or not my address?
+    else
+    {
+      // Forward to app
+      if (m2tp_onNewMemberListener != NULL)
+        m2tp_onNewMemberListener(deviceClass, content.address);
+    }
   }
   break;
 
@@ -281,6 +308,9 @@ void MainTask_start()
     TaskRouter_nextTask();
     return;
   }
+
+  // Accept all reintroduce commands
+  Flag_set(MainTask_flags, MainTask_FLAG_REINTRODUCE);
 
   // Assign functions to router
   TaskRouter_receiveInterrupt = &MainTask_receiveInterrupt;

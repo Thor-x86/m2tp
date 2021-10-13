@@ -18,6 +18,13 @@ extern volatile unsigned long long NetworkState_topicRegistry[2];
 // If the value equals 1, then echo every incoming transmit packets
 extern volatile m2tp_byte NetworkState_isEcho;
 
+// List of assigned device classes,
+// The index is device address and its value is device class
+//
+// WARNING: This array's elements utilize heap memory except index 0.
+//          You MUST USE free() from stdlib.h to clean them!
+extern volatile char *NetworkState_deviceClasses[128];
+
 // List of assigned topic names,
 // The index is topic ID and its value is topic name
 //
@@ -32,11 +39,11 @@ extern volatile m2tp_channel NetworkState_nextVacantAddress;
 // Same as `nextVacantAddress` but for topic ID
 extern volatile m2tp_channel NetworkState_nextVacantTopicID;
 
-// Only call this BEFORE NetworkState_unassign(...) function
-extern void NetworkState_deleteTopicName(m2tp_channel topicID);
+// Initialize all arrays of strings
+extern void NetworkState_init();
 
 // Marks address or topic ID as assigned
-extern void NetworkState_assign(m2tp_channel);
+extern void NetworkState_assign(m2tp_channel, const char *identity, unsigned int identitySize);
 
 // Marks address or topic ID as vacant (or not in use)
 extern void NetworkState_unassign(m2tp_channel);
@@ -45,7 +52,7 @@ extern void NetworkState_unassign(m2tp_channel);
 extern bool NetworkState_isAssigned(m2tp_channel);
 
 // Find topic ID based on its name
-extern m2tp_byte NetworkState_findTopic(char *topicName);
+extern m2tp_byte NetworkState_findTopic(const char *topicName);
 
 // Automatically looking for next vacant device address
 extern void NetworkState_resolveNextVacantAddress();

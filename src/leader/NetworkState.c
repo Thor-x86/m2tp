@@ -5,7 +5,10 @@
 
 #include "NetworkState.h"
 
+#include "../common/DeviceState.h"
+
 #include <stdlib.h>
+#include <string.h>
 
 //////// Public Variables //////////////////////////////
 
@@ -14,30 +17,32 @@ volatile unsigned long long NetworkState_topicRegistry[2] = {0ULL, 0ULL};
 volatile m2tp_byte NetworkState_isEcho = 0;
 volatile m2tp_channel NetworkState_nextVacantAddress = 1;
 volatile m2tp_channel NetworkState_nextVacantTopicID = 0;
+volatile char *NetworkState_deviceClasses[128];
 volatile char *NetworkState_topicNames[128];
 
 ////////////////////////////////////////////////////////
 
 //////// Public Functions //////////////////////////////
 
-void NetworkState_deleteTopicName(m2tp_channel topicID)
+void NetworkState_init()
 {
-  if (topicID < 128)
-    return;
+  // Initialize device classes and topic names
+  memset(NetworkState_deviceClasses, 0, sizeof(NetworkState_deviceClasses));
+  memset(NetworkState_topicNames, 0, sizeof(NetworkState_topicNames));
 
-  m2tp_byte index = topicID - 128;
-
-  if (NetworkState_isAssigned(topicID) && NetworkState_topicNames[index] != NULL)
-  {
-    free((void *)NetworkState_topicNames[index]);
-    NetworkState_topicNames[index] = NULL;
-  }
+  // Register leader's class
+  NetworkState_deviceClasses[0] = (volatile char *)DeviceState_deviceClass;
 }
 
-void NetworkState_assign(m2tp_channel channel)
+void NetworkState_assign(
+    m2tp_channel channel,
+    const char *identity,
+    unsigned int identitySize)
 {
   // Channel is device address
-  if (channel < 64)
+  if (channel == 0)
+    return; // Channel 0 is reserved for leader
+  else if (channel < 64)
     NetworkState_addressRegistry[1] |= (1ULL << channel);
   else if (channel < 128)
     NetworkState_addressRegistry[0] |= (1ULL << (channel - 64));
@@ -47,12 +52,38 @@ void NetworkState_assign(m2tp_channel channel)
     NetworkState_topicRegistry[1] |= (1ULL << (channel - 128));
   else
     NetworkState_topicRegistry[0] |= (1ULL << (channel - 192));
+
+  // Copy the identity to heap memory
+  char *heapIdentity = malloc(identitySize);
+  memcpy(heapIdentity, identity, identitySize);
+
+  // Channel is device address, then identity is Device Class
+  if (channel < 128)
+  {
+    if (NetworkState_deviceClasses[channel] != NULL)
+      free((void *)NetworkState_deviceClasses[channel]);
+
+    NetworkState_deviceClasses[channel] = heapIdentity;
+  }
+
+  // Channel is topic ID, then identity is Topic Name
+  else
+  {
+    m2tp_channel index = channel - 128;
+
+    if (NetworkState_topicNames[index] != NULL)
+      free((void *)NetworkState_topicNames[index]);
+
+    NetworkState_topicNames[index] = heapIdentity;
+  }
 }
 
 void NetworkState_unassign(m2tp_channel channel)
 {
   // Channel is device address
-  if (channel < 64)
+  if (channel == 0)
+    return; // Channel 0 is reserved for leader
+  else if (channel < 64)
     NetworkState_addressRegistry[1] &= ~(1ULL << channel);
   else if (channel < 128)
     NetworkState_addressRegistry[0] &= ~(1ULL << (channel - 64));
@@ -62,6 +93,27 @@ void NetworkState_unassign(m2tp_channel channel)
     NetworkState_topicRegistry[1] &= ~(1ULL << (channel - 128));
   else
     NetworkState_topicRegistry[0] &= ~(1ULL << (channel - 192));
+
+  // Channel is device address, then identity is Device Class
+  if (channel < 128)
+  {
+    if (NetworkState_deviceClasses[channel] != NULL)
+    {
+      free((void *)NetworkState_deviceClasses[channel]);
+      NetworkState_deviceClasses[channel] = NULL;
+    }
+  }
+
+  // Channel is topic ID, then identity is Topic Name
+  else
+  {
+    m2tp_channel index = channel - 128;
+    if (NetworkState_topicNames[index] != NULL)
+    {
+      free((void *)NetworkState_topicNames[index]);
+      NetworkState_topicNames[index] = NULL;
+    }
+  }
 }
 
 bool NetworkState_isAssigned(m2tp_channel channel)
@@ -88,7 +140,7 @@ bool NetworkState_isAssigned(m2tp_channel channel)
   }
 }
 
-m2tp_byte NetworkState_findTopic(char *topicName)
+m2tp_byte NetworkState_findTopic(const char *topicName)
 {
   if (topicName == NULL)
     return 0;
@@ -165,15 +217,8 @@ void NetworkState_resolveNextVacantTopicID()
 
 void NetworkState_reset()
 {
-  // Delete all topic names from RAM
-  for (m2tp_byte topicID = 128; topicID >= 128; topicID++)
-    NetworkState_deleteTopicName(topicID);
-
-  // Reset registry
-  NetworkState_addressRegistry[0] = 0ULL;
-  NetworkState_addressRegistry[1] = 1ULL;
-  NetworkState_topicRegistry[0] = 0ULL;
-  NetworkState_topicRegistry[1] = 0ULL;
+  for (unsigned int channel = 1; channel < 256; channel++)
+    NetworkState_unassign(channel);
 }
 
 ////////////////////////////////////////////////////////

@@ -6,7 +6,6 @@
 #include "../common/TaskRouter.h"
 #include "../common/DeviceState.h"
 
-#include <stdlib.h>
 #include <string.h>
 
 #include "m2tp/errors.h"
@@ -28,6 +27,9 @@ void TaskRouter_start()
 {
   // Initialize topic subscription
   DeviceState_resetTopics();
+
+  // Initialize the network
+  NetworkState_init();
 
   TaskRouter_currentTask = TASK_REGISTRATION;
   RegistrationTask_start();
@@ -150,26 +152,9 @@ void TaskRouter_assignTopic(char *topicName,
     // ...or there's still unused topic ID?
     else
     {
-      // Calculate topic name size
-      m2tp_byte topicNameSize = 0;
-      while (topicName[topicNameSize] != '\0')
-      {
-        topicNameSize++;
-        if (topicNameSize == 255)
-          break;
-      }
-      topicNameSize++;
-
-      // Register the topic name
-      NetworkState_topicNames[NetworkState_nextVacantTopicID] = (char *)malloc(topicNameSize);
-      memcpy((void *)NetworkState_topicNames[(m2tp_channel)NetworkState_nextVacantTopicID],
-             topicName, topicNameSize);
-
-      // Making sure topic name ended by NUL character
-      NetworkState_topicNames[NetworkState_nextVacantTopicID][topicNameSize - 1] = '\0';
-
-      // Mark topic ID as assigned
-      NetworkState_assign(NetworkState_nextVacantTopicID);
+      // Register the topic
+      unsigned int topicNameSize = strlen(topicName);
+      NetworkState_assign(NetworkState_nextVacantTopicID, topicName, topicNameSize);
 
       // Assign topic listener
       if (listener != NULL)
