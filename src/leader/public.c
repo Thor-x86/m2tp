@@ -15,7 +15,7 @@
 
 //////// Functions /////////////////////////////////////
 
-void enableEchoTransmit(bool value)
+void m2tp_enableEchoTransmit(bool value)
 {
   if (value)
     NetworkState_isEcho = 1;

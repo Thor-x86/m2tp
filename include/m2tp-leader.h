@@ -25,7 +25,7 @@ EXTERN_C_START
  * @brief Useful if the network interface doesn't support broadcasting
  * @param value Insert `true` to enable
  */
-extern void enableEchoTransmit(bool value);
+extern void m2tp_enableEchoTransmit(bool value);
 
 EXTERN_C_STOP
 
