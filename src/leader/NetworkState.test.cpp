@@ -12,19 +12,19 @@ extern "C"
 
 TEST(NetworkState, DefaultValues)
 {
-  EXPECT_EQ(NetworkState_addressRegistry[0], 0);
-  EXPECT_EQ(NetworkState_addressRegistry[1], 1);
+  EXPECT_EQ(NetworkState_addressRegistry[0], 0ULL);
+  EXPECT_EQ(NetworkState_addressRegistry[1], 1ULL);
   EXPECT_EQ(NetworkState_isEcho, 0);
-  EXPECT_EQ(NetworkState_topicRegistry[0], 0);
-  EXPECT_EQ(NetworkState_topicRegistry[1], 0);
+  EXPECT_EQ(NetworkState_topicRegistry[0], 0ULL);
+  EXPECT_EQ(NetworkState_topicRegistry[1], 0ULL);
   EXPECT_EQ(NetworkState_nextVacantAddress, 1);
   EXPECT_EQ(NetworkState_nextVacantTopicID, 0);
 }
 
 TEST(NetworkState, AddressRegistry)
 {
-  ASSERT_EQ(NetworkState_addressRegistry[0], 0) << "Invalid initial value, cannot continue";
-  ASSERT_EQ(NetworkState_addressRegistry[1], 1) << "Invalid initial value, cannot continue";
+  ASSERT_EQ(NetworkState_addressRegistry[0], 0ULL) << "Invalid initial value, cannot continue";
+  ASSERT_EQ(NetworkState_addressRegistry[1], 1ULL) << "Invalid initial value, cannot continue";
 
   NetworkState_assign(13);
   NetworkState_assign(27);
@@ -48,14 +48,14 @@ TEST(NetworkState, AddressRegistry)
   EXPECT_FALSE(NetworkState_isAssigned(125));
 
   // Cleanup
-  NetworkState_addressRegistry[0] = 0;
-  NetworkState_addressRegistry[1] = 1;
+  NetworkState_addressRegistry[0] = 0ULL;
+  NetworkState_addressRegistry[1] = 1ULL;
 }
 
 TEST(NetworkState, TopicRegistry)
 {
-  ASSERT_EQ(NetworkState_topicRegistry[0], 0) << "Invalid initial value, cannot continue";
-  ASSERT_EQ(NetworkState_topicRegistry[1], 0) << "Invalid initial value, cannot continue";
+  ASSERT_EQ(NetworkState_topicRegistry[0], 0ULL) << "Invalid initial value, cannot continue";
+  ASSERT_EQ(NetworkState_topicRegistry[1], 0ULL) << "Invalid initial value, cannot continue";
 
   NetworkState_assign(141);
   NetworkState_assign(155);
@@ -79,14 +79,14 @@ TEST(NetworkState, TopicRegistry)
   EXPECT_FALSE(NetworkState_isAssigned(253));
 
   // Cleanup
-  NetworkState_topicRegistry[0] = 0;
-  NetworkState_topicRegistry[1] = 0;
+  NetworkState_topicRegistry[0] = 0ULL;
+  NetworkState_topicRegistry[1] = 0ULL;
 }
 
 TEST(NetworkState, FindTopic)
 {
-  ASSERT_EQ(NetworkState_topicRegistry[0], 0) << "Invalid initial value, cannot continue";
-  ASSERT_EQ(NetworkState_topicRegistry[1], 0) << "Invalid initial value, cannot continue";
+  ASSERT_EQ(NetworkState_topicRegistry[0], 0ULL) << "Invalid initial value, cannot continue";
+  ASSERT_EQ(NetworkState_topicRegistry[1], 0ULL) << "Invalid initial value, cannot continue";
 
   ASSERT_EQ(NetworkState_topicNames[131 - 128], nullptr) << "Topic name with ID 131 is not empty, cannot continue";
   EXPECT_EQ(NetworkState_findTopic("Lorem Ipsum"), NULL) << "findTopic() function broken, cannot continue";
@@ -104,6 +104,6 @@ TEST(NetworkState, FindTopic)
 
   // Cleanup
   free((void *)NetworkState_topicNames[131 - 128]);
-  NetworkState_topicRegistry[0] = 0;
-  NetworkState_topicRegistry[1] = 0;
+  NetworkState_topicRegistry[0] = 0ULL;
+  NetworkState_topicRegistry[1] = 0ULL;
 }
