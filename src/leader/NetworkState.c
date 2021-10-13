@@ -22,6 +22,9 @@ volatile char *NetworkState_topicNames[128];
 
 void NetworkState_deleteTopicName(m2tp_channel topicID)
 {
+  if (topicID < 128)
+    return;
+
   m2tp_byte index = topicID - 128;
 
   if (NetworkState_isAssigned(topicID) && NetworkState_topicNames[index] != NULL)
