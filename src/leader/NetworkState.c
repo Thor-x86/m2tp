@@ -9,8 +9,8 @@
 
 //////// Public Variables //////////////////////////////
 
-volatile unsigned long long NetworkState_addressRegistry[2] = {0, 1};
-volatile unsigned long long NetworkState_topicRegistry[2] = {0, 0};
+volatile unsigned long long NetworkState_addressRegistry[2] = {0ULL, 1ULL};
+volatile unsigned long long NetworkState_topicRegistry[2] = {0ULL, 0ULL};
 volatile m2tp_byte NetworkState_isEcho = 0;
 volatile m2tp_channel NetworkState_nextVacantAddress = 1;
 volatile m2tp_channel NetworkState_nextVacantTopicID = 0;
@@ -168,7 +168,7 @@ void NetworkState_reset()
 
   // Reset registry
   NetworkState_addressRegistry[0] = 0ULL;
-  NetworkState_addressRegistry[1] = 0ULL;
+  NetworkState_addressRegistry[1] = 1ULL;
   NetworkState_topicRegistry[0] = 0ULL;
   NetworkState_topicRegistry[1] = 0ULL;
 }
