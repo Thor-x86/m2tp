@@ -199,6 +199,16 @@ def runDeploy() -> bool:
         os.path.join(memberOutPath, 'library.properties')
     )
 
+    # Copy usage example
+    shutil.copytree(
+        os.path.join('example', 'arduino-leader'),
+        os.path.join(leaderOutPath, 'examples')
+    )
+    shutil.copytree(
+        os.path.join('example', 'arduino-member'),
+        os.path.join(memberOutPath, 'examples')
+    )
+
     # Generate readme.md
     readmePath = os.path.join(leaderOutPath, 'README.md')
     readmeFile = open(readmePath, 'w')
