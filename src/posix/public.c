@@ -102,7 +102,9 @@ bool m2tp_connectViaCAN(
   struct ifreq interfaceRequest;
   memset(&interfaceRequest, 0, sizeof(struct ifreq));
   strcpy(interfaceRequest.ifr_name, interfaceName);
-  ioctl(socketDescriptor, SIOCGIFINDEX, &interfaceRequest);
+  returnCode = ioctl(socketDescriptor, SIOCGIFINDEX, &interfaceRequest);
+  if (returnCode < 0)
+    return false;
 
   // Wrap returned CAN ID with sockaddr_can
   struct sockaddr_can myAddress;
