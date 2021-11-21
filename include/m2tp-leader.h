@@ -1,7 +1,7 @@
 /**
  * @file m2tp-leader.h
  * @brief Include this if you want the device be a leader
-**/
+ **/
 
 // Making sure m2tp-leader and m2tp-member are
 // not included in a same file
@@ -55,7 +55,7 @@ extern m2tp_channel m2tp_findMemberAddress(const char *deviceClass);
  * @param topicName Known topic name
  * @return Topic ID, 0 means not found
  */
-extern m2tp_channel m2tp_findTopicName(const char *topicName);
+extern m2tp_channel m2tp_findTopicID(const char *topicName);
 
 EXTERN_C_STOP
 

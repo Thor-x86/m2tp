@@ -1,7 +1,7 @@
 /**
  * @file public.c
  * @brief Implementation of "include/m2tp-leader.h"
-**/
+ **/
 
 #include "m2tp-leader.h"
 
@@ -49,7 +49,7 @@ m2tp_channel m2tp_findMemberAddress(const char *deviceClass)
   return NetworkState_findDevice(deviceClass);
 }
 
-m2tp_channel m2tp_findTopicName(const char *topicName)
+m2tp_channel m2tp_findTopicID(const char *topicName)
 {
   if (!DeviceState_driverReady)
     return 0;
