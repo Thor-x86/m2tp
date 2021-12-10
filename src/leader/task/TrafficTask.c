@@ -195,6 +195,10 @@ void TrafficTask_receiveInterrupt(Packet *packet)
     // Is this broadcasted transmit?
     if (receivedContent.target & 0b10000000U)
     {
+      // Send success signal
+      if (m2tp_driver_sendListener != NULL)
+        m2tp_driver_sendListener(M2TP_COMMAND_SUCCESS_SIGNAL, 0, NULL);
+
       // Is it for me?
       if (DeviceState_isTopicAssigned(receivedContent.target))
       {
@@ -202,10 +206,6 @@ void TrafficTask_receiveInterrupt(Packet *packet)
         if (m2tp_receivedListener != NULL)
           m2tp_receivedListener(receivedContent.source, receivedContent.dataSize, receivedData);
       }
-
-      // Send success signal
-      if (m2tp_driver_sendListener != NULL)
-        m2tp_driver_sendListener(M2TP_COMMAND_SUCCESS_SIGNAL, 0, NULL);
 
       TrafficTask_continueBatch();
     }
@@ -216,13 +216,13 @@ void TrafficTask_receiveInterrupt(Packet *packet)
       // Is it for me?
       if (receivedContent.target == 0)
       {
-        // Forward to app
-        if (m2tp_receivedListener != NULL)
-          m2tp_receivedListener(receivedContent.source, receivedContent.dataSize, receivedData);
-
         // Send success signal
         if (m2tp_driver_sendListener != NULL)
           m2tp_driver_sendListener(M2TP_COMMAND_SUCCESS_SIGNAL, 0, NULL);
+
+        // Forward to app
+        if (m2tp_receivedListener != NULL)
+          m2tp_receivedListener(receivedContent.source, receivedContent.dataSize, receivedData);
 
         TrafficTask_continueBatch();
       }
