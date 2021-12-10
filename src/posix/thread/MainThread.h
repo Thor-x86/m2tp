@@ -26,9 +26,6 @@ extern void MainThread_onSend(m2tp_byte command, m2tp_byte contentSize, const m2
 // useful for breaking a packet to be multiple frames
 extern void MainThread_transmitFrame(const m2tp_bytes data, size_t size);
 
-// Things to do while waiting for packet being transmitted
-extern void MainThread_onWaitForQueue();
-
 // Signal handler going to pause main thread
 // while other thread is working, this prevents
 // "Race Condition" problem.
