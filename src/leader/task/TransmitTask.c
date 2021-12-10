@@ -142,11 +142,8 @@ void TransmitTask_timeoutInterrupt()
         TransmitTask_onTransmitFailed(M2TP_ERROR_ADDRESS_NOT_EXIST);
 
       // Is targeted address registered?
-      if (NetworkState_isAssigned(recipientAddress))
+      if (NetworkState_isAssigned(recipientAddress) && recipientAddress > 0)
       {
-        // Unregister recipient address
-        NetworkState_unassign(recipientAddress);
-
         // Is listener ready?
         if (m2tp_driver_sendListener != NULL)
         {
@@ -166,6 +163,9 @@ void TransmitTask_timeoutInterrupt()
         // Notify the App about member quit
         if (m2tp_onAnotherMemberQuitListener != NULL)
           m2tp_onAnotherMemberQuitListener(recipientAddress);
+
+        // Unregister recipient address
+        NetworkState_unassign(recipientAddress);
       }
     }
   }

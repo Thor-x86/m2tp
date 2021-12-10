@@ -280,9 +280,6 @@ void TrafficTask_timeoutInterrupt()
   // Is currently peer-to-peer turn?
   if (TrafficTask_currentTurn < 128)
   {
-    // Mark current address as unassigned
-    NetworkState_unassign(TrafficTask_currentTurn);
-
     // Create packet content for announcement
     packet_content_AnnouncementQuit content;
     content.address = TrafficTask_currentTurn;
@@ -298,6 +295,9 @@ void TrafficTask_timeoutInterrupt()
     // Notify to App about member quit
     if (m2tp_onAnotherMemberQuitListener != NULL)
       m2tp_onAnotherMemberQuitListener(TrafficTask_currentTurn);
+
+    // Mark current address as unassigned
+    NetworkState_unassign(TrafficTask_currentTurn);
   }
 
   TrafficTask_continueBatch();
